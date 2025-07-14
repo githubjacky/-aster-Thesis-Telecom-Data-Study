@@ -1,0 +1,16 @@
+% !TeX root = ../main.tex
+
+\chapter{Discussion}
+\section{Summary}
+
+\section{Limitations}
+A notable limitation in utilizing CDRs for home/work location inference and mobility pattern analysis is the inherent sampling bias present in the data. CDRs only capture spatial information at discrete moments when individuals initiate or receive telecommunications, thereby providing an incomplete representation of their complete spatial-temporal trajectory. This selective sampling characteristic potentially introduces bias into our inference methodologies. However, according to empirical investigations by \cite{ranjan2012call} and \cite{zhao2016understanding}, while movement entropy estimates may exhibit either upward or downward bias depending on context, metrics such as radius of gyration and home/work location inferences demonstrate robust reliability. By extension, we posit that eccentricity measurements remain relatively unbiased, as they share fundamental characteristics with radius of gyration—specifically, both metrics aim to capture the geographical shape defined by the visited locations. Furthermore, the mobile communication network features we derive are specifically designed to quantify distinct contact behaviors, rendering them methodologically appropriate for our analytical framework despite the aforementioned sampling considerations.
+
+Another limitation is people, especially younger generations, have recently started to use social media more frequently and make fewer phone calls (\cite{garrett2023linking}), which may deteriorate the quality of utilizing CDRs for home/work location inference and mobility pattern analysis.
+In fact, there is a growing body of research attempting to leverage geolocated posts on various social media platforms, such as Facebook (\cite{sahai2022social}), Twitter (\cite{zagheni2014inferring}, \cite{hawelka2014geo}, \cite{jurdak2015understanding}, \cite{luo2016explore}), and Weibo(\cite{cui2018social}, \cite{ebrahimpour2020analyzing}), to study migration and human mobility patterns.
+Nevertheless, we still believe CDRs have their own advantages.
+First, in developing countries where network infrastructures are not well-developed, people still rely on phone calls to communicate with their family and friends.
+Second, people often use social media to share their travel experiences, resulting in important locations inferred from geolocated posts that potentially yield systematic biases. As stated in \cite{armstrong2021challenges}, utilizing tweets to infer migration populations yields high misclassification rates.
+Finally, mobile communication is a more fundamental contact behavior, potentially leading to higher coverage of different age groups and reducing income bias due to unequal access to the internet, as Facebook users are often located in high-income regions in India (\cite{sahai2022social}).
+
+\section{Future Work}
