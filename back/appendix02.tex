@@ -1,0 +1,222 @@
+% !TeX root = ../main.tex
+
+\appendix{B}{Event-Centered Trends Across Outcomes and Treatments}
+\label{appendix_event_centered_trends}
+
+In this section of appendix, we attach all outcomes' mean trajectories over time across two groups of features: mobility and mobile communication network features, and two types of treatments: residential shift and smartphone adoption. These plots should serve as the motivation to discuss the treatment effects as we can clearly observe the substantial and sudden changes after the exposure to treatments across treated groups. Besides, they also validate the plausibility of applying the DiD framework as through examining the outcome trends, where the comparison is made to the reference period, $g-\delta-1$,
+we can see nearly identical unconditional trends between the treated and control groups most of the time. The trends we refer heavily here are computed through the re-centering scheme on each sample average outcome $\hat{\mathbb{E}}[Y_{i, m} \mid G_{i, g} = 1]$ for cohort $\mathcal{G}_g$ given $\delta$:
+$$
+\tilde{Y}_{m}(g)
+=
+\hat{\mathbb{E}}[Y_{i, m} \mid G_{i, g} = 1]
+-
+\hat{\mathbb{E}}[Y_{i, g-\delta-1} \mid G_{i, g} = 1]
+$$
+where $g \in \{4, 5, 6, 7\}$ or is equal to $\infty$ while calculating the control group's outcome trends. Therefore, by comparing $\tilde{Y}_{m}(g)$ to $\tilde{Y}_{m}(\infty)$ for all $m < g-\delta-1$, we can assess on how likely parallel trends hold in the pre-treatment periods.
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Residential Shift on Outgoing and Incoming Total Duration}
+\vspace{0.3cm}
+
+\textbf{(a) Outgoing Total Duration}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/out_total_duration.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Incoming Total Duration}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/in_total_duration.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_residential_shift_on_total_duration}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Residential Shift on Outgoing and Incoming Contact Distance}
+\vspace{0.3cm}
+
+\textbf{(a) Outgoing Contact Distance}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/mean_outgoing_contact_distance}
+
+\vspace{0.3cm}
+\textbf{(b) Incoming Contact Distance}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/mean_incoming_contact_distance.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_residential_shift_on_incoming_contact_distance}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Residential Shift on Outgoing and Incoming Contact Entropy}
+\vspace{0.3cm}
+
+\textbf{(a) Outgoing Contact Entropy}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/out_entropy.svg}
+
+
+\vspace{0.3cm}
+\textbf{(b) Incoming Contact Entropy}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/in_entropy.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_residential_shift_on_outgoing_incoming_social_entropy}
+\end{figure}
+
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Residential Shift on Temporal-Size-Weighted and Count-Weighted Radius of Gyration}
+\vspace{0.3cm}
+
+\textbf{(a) Temporal-Size-Weighted Radius of Gyration}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/temporal_size_rg.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Count-Weighted Radius of Gyration}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/count_rg.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_radius_of_gyration}
+\end{figure}
+
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Residential Shift on Temporal-Size-Weighted and Count-Weighted Movement Entropy}
+\vspace{0.3cm}
+
+\textbf{(a) Temporal-Size-Weighted Movement Entropy}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/temporal_size_entropy.svg}
+
+\vspace{0.3cm}
+\textbf{(a) Count-Weighted Movement Entropy}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/count_entropy.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_movement_entropy}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Residential Shift on Temporal-Size-Weighted and Count-Weighted Eccentricity}
+\vspace{0.3cm}
+
+\textbf{(a) Temporal-Size-Weighted Eccentricity}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/temporal_size_ecc_original.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Count-Weighted Eccentricity}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/count_ecc_original.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_eccentricity}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Smartphone Adoption on Outgoing and Incoming Total Duration}
+\vspace{0.3cm}
+
+\textbf{(a) Outgoing Total Duration}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/out_total_duration.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Incoming Total Duration}\\
+\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/in_total_duration.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_smartphone_adoption_on_outgoing_incoming_total_duration}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Smartphone Adoption on Outgoing and Incoming Contact Distance}
+\vspace{0.3cm}
+
+
+\textbf{(a) Outgoing Contact Distance}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/mean_outgoing_contact_distance}
+
+\vspace{0.3cm}
+\textbf{(b) Incoming Contact Distance}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/mean_incoming_contact_distance.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_smartphone_adoption_on_incoming_contact_distance}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Smartphone Adoption on Outgoing and Incoming Contact Entropy}
+\vspace{0.3cm}
+
+\textbf{(a) Outgoing Contact Entropy}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/out_entropy.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Incoming Contact Entropy}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/in_entropy.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_smartphone_adoption_on_outgoing_incoming_contact_entropy}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Smartphone Adoption on Temporal-Size-Weighted and Count-Weighted Radius of Gyration}
+\vspace{0.3cm}
+
+\textbf{(a) Temporal-Size-Weighted Radius of Gyration}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/temporal_size_rg.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Count-Weighted Radius of Gyration}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/count_rg.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_radius_of_gyration}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Smartphone Adoption on Temporal-Size-Weighted and Count-Weighted Movement Entropy}
+\vspace{0.3cm}
+
+\textbf{(a) Temporal-Size-Weighted Movement Entropy}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/temporal_size_entropy.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Count-Weighted Movement Entropy}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/count_entropy.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_movement_entropy}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\centering
+\caption{The Effect of Smartphone Adoption on Temporal-Size-Weighted and Count-Weighted Eccentricity}
+\vspace{0.3cm}
+
+\textbf{(a) Temporal-Size-Weighted Eccentricity}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/temporal_size_ecc_original.svg}
+
+\vspace{0.3cm}
+\textbf{(b) Count-Weighted Eccentricity}\\
+\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/count_ecc_original.svg}
+
+% \caption*{Notes: .}
+\label{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_eccentricity}
+\end{figure}

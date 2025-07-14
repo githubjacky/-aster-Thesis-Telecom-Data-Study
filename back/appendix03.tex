@@ -1,0 +1,92 @@
+% !TeX root = ../main.tex
+
+\appendix{C}{Complete Results of Event Studies}
+\label{complete_event_study_callaway}
+
+Here we present the full estimation results. We discuss the effects of residential shift and smartphone adoption on mobile communication networks and mobility features. Due to the limited space, we abbreivate part of the variables' names as follows: ``out'' indicates the outgoing direction of mobile communication from which communication features are derived. ``dura'' represents the total duration of all phone calls in a month (measured in minutes). ``cd'' is the abbreviation for contact distance, which is the average geographical distance between phone users and their friends (measured in kilometers). ``entr'' stands for entropy and there are two types of entropy: out ce (outgoing contact entropy) and ts. me (temporal-size-weighted movement entropy), which quantify the unpredictabiity of mobile contats and visited locations, respectively. ``ts.'' is the short form of temporal-size-weighted, indicating the mobility features are computed through temporal-size-based weights rather than count-based ones. ``rg'' is the abbreviation for radius of gyration (measured in kilometers), which quantifies how large a user's activity area is. ``ecc'' is the eccentricity, measuring the ratio of the first and second principal components of users' two-dimensional variance-covariance matrix of spatial distribution.
+
+\clearpage\newpage
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{2.3}
+\setlength{\tabcolsep}{2.7mm}{}
+\centering
+\small
+\caption{The Effects of Residential Shifts Identified by Employing \cite{callaway2021difference}}
+
+\begin{tabular}{l c c c c c c}
+\hline
+ & out dura & out cd & out ce & ts. rg & ts. me & ts. ecc \\
+\hline
+ATT(-3)            & $0.95$        & $-2.77$       & $-0.01$       & $1.45$        & $-0.01$       & $-0.02$       \\
+                   & $(1.86)$      & $(1.50)$      & $(0.01)$      & $(0.92)$      & $(0.01)$      & $(0.01)$      \\
+ATT(-2)            & $$            & $$            & $$            & $$            & $$            & $$            \\
+ATT(-1)            & $0.75$        & $1.42$        & $0.03^{**}$   & $6.40^{***}$  & $0.07^{***}$  & $0.07^{***}$  \\
+                   & $(1.81)$      & $(1.73)$      & $(0.01)$      & $(1.11)$      & $(0.01)$      & $(0.01)$      \\
+ATT(0)             & $19.18^{***}$ & $13.45^{***}$ & $0.10^{***}$  & $36.57^{***}$ & $0.32^{***}$  & $0.32^{***}$  \\
+                   & $(2.12)$      & $(2.91)$      & $(0.01)$      & $(1.54)$      & $(0.01)$      & $(0.01)$      \\
+ATT(1)             & $3.15$        & $6.15$        & $0.03^{*}$    & $3.62^{**}$   & $0.06^{***}$  & $0.06^{***}$  \\
+                   & $(2.32)$      & $(3.40)$      & $(0.01)$      & $(1.21)$      & $(0.02)$      & $(0.02)$      \\
+ATT(2)             & $-2.23$       & $3.09$        & $-0.02$       & $0.37$        & $-0.04^{**}$  & $-0.05^{**}$  \\
+                   & $(2.34)$      & $(3.32)$      & $(0.01)$      & $(1.05)$      & $(0.02)$      & $(0.02)$      \\
+ATT(3)             & $-5.11^{*}$   & $-1.27$       & $-0.04^{***}$ & $-0.22$       & $-0.06^{***}$ & $-0.08^{***}$ \\
+                   & $(2.47)$      & $(3.08)$      & $(0.01)$      & $(1.00)$      & $(0.01)$      & $(0.02)$      \\
+\hline
+Num.\ users         & $292739$   & $292739$   & $292739$   & $292739$   & $292739$   & $292739$   \\
+Num.\ anticipation & $1$        & $1$        & $1$        & $1$        & $1$        & $1$        \\
+\hline
+\multicolumn{7}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}}
+\end{tabular}
+
+\label{tab:res_callaway2021_mobile_communication_network_features}%
+\end{table}%
+
+% \vspace{-2em}
+% \begin{singlespace}
+% \begin{footnotesize}
+% \noindent Notes: As the number of anticipation is equal to 1, the referenced event time is -2, which is two months prior to the residential shift.
+% \end{footnotesize}
+% \end{singlespace}
+
+
+\clearpage\newpage
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{2.5}
+\setlength{\tabcolsep}{3.6mm}{}
+\centering
+\small
+\caption{The Effects of Smartphone Adoption Identified by Employing \cite{callaway2021difference}}
+
+\begin{tabular}{l c c c c c c}
+\hline
+ & out dura & out cd & out ce & ts. rg & ts. me & ts. ecc \\
+\hline
+ATT(-3)            & $0.76^{*}$    & $0.12$       & $0.01^{***}$ & $0.06$       & $0.01^{***}$ & $0.02^{***}$ \\
+                   & $(0.38)$      & $(0.19)$     & $(0.00)$     & $(0.23)$     & $(0.00)$     & $(0.00)$     \\
+ATT(-2)            & $0.16$        & $0.26$       & $0.01^{**}$  & $-0.25$      & $0.00$       & $0.01^{*}$   \\
+                   & $(0.37)$      & $(0.16)$     & $(0.00)$     & $(0.20)$     & $(0.00)$     & $(0.00)$     \\
+ATT(-1)            & $0.00$        & $0.00$       & $0.00$       & $0.00$       & $0.00$       & $0.00$       \\
+                   & $$            & $$           & $$           & $$           & $$           & $$           \\
+ATT(0)             & $3.99^{***}$  & $0.56^{**}$  & $0.06^{***}$ & $1.44^{***}$ & $0.10^{***}$ & $0.10^{***}$ \\
+                   & $(0.38)$      & $(0.18)$     & $(0.00)$     & $(0.23)$     & $(0.00)$     & $(0.00)$     \\
+ATT(1)             & $10.96^{***}$ & $1.26^{***}$ & $0.10^{***}$ & $2.51^{***}$ & $0.14^{***}$ & $0.17^{***}$ \\
+                   & $(0.47)$      & $(0.20)$     & $(0.00)$     & $(0.25)$     & $(0.00)$     & $(0.01)$     \\
+ATT(2)             & $9.40^{***}$  & $1.15^{***}$ & $0.09^{***}$ & $2.15^{***}$ & $0.12^{***}$ & $0.14^{***}$ \\
+                   & $(0.50)$      & $(0.22)$     & $(0.00)$     & $(0.23)$     & $(0.00)$     & $(0.00)$     \\
+ATT(3)             & $9.42^{***}$  & $1.29^{***}$ & $0.09^{***}$ & $1.95^{***}$ & $0.11^{***}$ & $0.13^{***}$ \\
+                   & $(0.52)$      & $(0.25)$     & $(0.00)$     & $(0.24)$     & $(0.00)$     & $(0.01)$     \\
+\hline
+Num.\ users         & $91446$    & $91446$   & $91446$   & $91446$   & $91446$   & $91446$   \\
+Num.\ anticipation & $0$        & $0$       & $0$       & $0$       & $0$       & $0$       \\
+\hline
+\multicolumn{7}{l}{\scriptsize{$^{***}p<0.001$; $^{**}p<0.01$; $^{*}p<0.05$}}
+\end{tabular}
+
+\label{tab:res_callaway2021_mobility_features}%
+\end{table}%
+
+% \vspace{-2em}
+% \begin{singlespace}
+% \begin{footnotesize}
+% \noindent Notes: As the number of anticipation is equal to 0, the referenced event time is 0, which is the time of the smartphone adoption.
+% \end{footnotesize}
+% \end{singlespace}

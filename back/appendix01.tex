@@ -1,0 +1,17 @@
+% !TeX root = ../main.tex
+
+\appendix{A}{Complexity Analysis}
+\label{complexity_analysis}
+
+\begin{theorem}
+For the algorithm \ref{home_cluster}, where each user $i \in V$ has a nighttime cluster set $C^{\text{night}}_i$ with $|C^{\text{night}}_i|$ elements, the time complexity is $O\left(\sum_{i \in V} |C^{\text{night}}_i|^2\right)$ and the space complexity is $O\left(\sum_{i \in V} |C^{\text{night}}_i|\right)$.
+\end{theorem}
+
+\begin{proof}
+For the time complexity, consider the worst case scenario where for all user $i$, all nighttime clusters are temporally non-overlapping with one another. The algorithm will iterate for
+$$
+1+2+\ldots+(|C^{\text{night}}_i|-1) = \frac{|C^{\text{night}}_i|(|C^{\text{night}}_i|-1)}{2} = O(|C^{\text{night}}_i|^2)
+$$
+times for each user $i$. Aggregating over all users gives the total time complexity of $O\left(\sum_{i \in V} |C^{\text{night}}_i|^2\right)$.
+For the space complexity, under the worst case scenario, the size of $C^{\text{home}}_i$ is identical to $|C^{\text{night}}_i|$ for each user $i$. Therefore, the total space required is $O\left(\sum_{i \in V} |C^{\text{night}}_i|\right)$.
+\end{proof}

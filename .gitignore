@@ -1,0 +1,192 @@
+.DS_Store
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.fls
+*.fdb_latexmk
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.nlo
+*.nls
+*.out
+*.toc
+*.synctex.gz
+*.synctex(busy)
+*.pdfsync
+*.alg
+*.loa
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.run.xml
+
+# Bibliography tool files
+*.bib.bak
+*.bib.sav
+
+# Build tool files
+*.makefile
+*.fls
+*.figlist
+*.makefile
+*.fls_latexmk
+
+# Hyperref
+*.hd
+
+# Knitr
+*-concordance.tex
+*.tikz
+*-tikzDictionary
+
+# Listings
+*.lol
+
+# Makeidx
+*.idx
+*.ilg
+*.ind
+*.ist
+
+# Minitoc
+*.maf
+*.mlf
+*.mlt
+*.mtc[0-9]*
+*.slf[0-9]*
+*.slt[0-9]*
+*.stc[0-9]*
+
+# Minted
+_minted*
+*.pyg
+
+# Nomencl
+*.acn
+*.acr
+*.glg
+*.glo
+*.gls
+*.glsdefs
+*.lzo
+*.nlo
+*.nls
+*.slg
+*.slo
+*.sls
+
+# Pax
+*.pax
+
+# PdfPages
+*.pdfpc
+
+# Sagetex
+*.sagetex.sage
+*.sagetex.py
+*.sagetex.scmd
+
+# Scrwfile
+*.wrt
+
+# Sympy
+*.upa
+*.upb
+
+# TikZ & PGF
+*.auxlock
+*.figlist
+*.makefile
+*.fls_latexmk
+*.dpth
+*.md5
+*.auxlock
+
+# Todonotes
+*.tdo
+
+# Xindy
+*.xdy
+
+# WinEdt
+*.bak
+*.sav
+
+# Word count
+*.sum
+*.wc
+
+# Xmpincl
+*.xmpi
+
+# xindy
+*.xdy
+
+# xypic precompiled matrices
+*.xyc
+
+# endfloat
+*.ttt
+*.fff
+
+# Latexian
+TSWLatexianTemp*
+
+# Texpad
+.texpadtmp
+
+# LyX
+*.lyx~
+
+# Kile
+*.kile
+
+# gummi
+.*.swp
+
+# KBibTeX
+*~[0-9]*
+
+# auto folder when using emacs and auctex
+./auto/*
+*.el
+
+# expex forward references with \gathertags
+*-tags.tex
+
+# standalone packages
+*.sta
+
+# Makeindex
+*.xdy
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor backup files
+*~
+*.swp
+*.swo
+*#
+
+# Temporary files
+*.tmp
+*.temp

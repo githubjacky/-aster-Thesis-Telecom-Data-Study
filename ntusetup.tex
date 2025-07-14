@@ -1,0 +1,68 @@
+% !TeX root = ./main.tex
+
+% --------------------------------------------------
+% 資訊設定（Information Configs）
+% --------------------------------------------------
+
+\ntusetup{
+  university*   = {National Taiwan University},
+  university    = {國立臺灣大學},
+  college       = {社會科學院},
+  college*      = {College of Social Sciences},
+  institute     = {經濟學系},
+  institute*    = {Department of Economics}, % 請確認您的科系為Department of xxx或Institute of xxx
+  title         = {電信數據之時空分析：居住地遷移與智慧型手機使用對移動行為與通訊模式之影響},
+  title*        = {Spatio-temporal Analysis of Telecommunications Data: Effects of Residential Shifts and Smartphone Adoption on Mobility Patterns and Communication Behavior},
+  author        = {葉秀軒},
+  author*       = {Hsiu-Hsuan Yeh},
+  ID            = {R12323011},
+  advisor       = {謝志昇},
+  advisor*      = {Chih-Sheng Hsieh},
+  date          = {2025-07-31},         % 若註解掉，則預設為當天
+  oral-date     = {2025-07-25},         % 若註解掉，則預設為當天
+  DOI           = {10.5566/NTU2025XXXXX},
+  keywords      = {時空分析, 電信網路, 居住地遷移, 智能手機採用, 移動行為, 通訊模式},
+  keywords*     = {Spatial-Temporal Analysis, Telecommunications, Residential shifts, Smartphone adoption, Mobility Patterns, Communication Behavior},
+}
+
+% --------------------------------------------------
+% 加載套件（Include Packages）
+% --------------------------------------------------
+
+\usepackage[sort&compress]{natbib}      % 參考文獻
+\usepackage{amsmath, amsthm, amssymb}   % 數學環境
+% \usepackage{ulem, CJKulem}              % 下劃線、雙下劃線與波浪紋效果
+\usepackage[normalem]{ulem}
+\usepackage{booktabs}                   % 改善表格設置
+\usepackage{multirow}                   % 合併儲存格
+\usepackage{diagbox}                    % 插入表格反斜線
+\usepackage{array}                      % 調整表格高度
+\usepackage{longtable}                  % 支援跨頁長表格
+\usepackage{paralist}                   % 列表環境
+
+
+\usepackage{lipsum}                     % 英文亂字
+\usepackage{zhlipsum}                   % 中文亂字
+
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{hyperref}
+\usepackage{tabularray}
+\usepackage{siunitx}
+\usepackage{svg}
+
+% --------------------------------------------------
+% 套件設定（Packages Settings）
+% --------------------------------------------------
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{definition}
+\newtheorem{function}{Function}[section]
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+
+\svgsetup{inkscapelatex=false}

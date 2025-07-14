@@ -1,0 +1,7 @@
+# Master's Thesis
+This is my master's thesis from the Economics Department at National Taiwan University. The topic is: Spatio-temporal Analysis of Telecommunications Data: Effects of Residential Shifts and Smartphone Adoption on Mobility Patterns and Communication Behavior. Chinese version of the topic: 電信數據之時空分析:居住地遷移與智慧型手機使用 對移動行為與通訊模式之影響
+
+
+---
+### Acknowledgements
+This LaTeX document is modified based on this [template](https://github.com/Hsins/NTU-Thesis-LaTeX-Template), copyright © 2017-present Hsins.
