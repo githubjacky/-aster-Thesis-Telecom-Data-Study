@@ -1,0 +1,184 @@
+%% Creator: Inkscape 1.4.2 (ebf0e940, 2025-05-08), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'in_total_duration_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{682.5bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.8)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{in_total_duration_svg-tex.pdf}}%
+    \put(0.04450549,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.09441895,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.1427223,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.19263575,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.2409391,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.29085255,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.34076601,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.38584913,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.43576259,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.48406593,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{in_total_duration_svg-tex.pdf}}%
+    \put(0.26428571,0.41483516){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{in_total_duration_svg-tex.pdf}}%
+    \put(0.03681319,0.44450549){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−6\end{tabular}}}}%
+    \put(0.03681319,0.47503053){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−4\end{tabular}}}}%
+    \put(0.03681319,0.50555556){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−2\end{tabular}}}}%
+    \put(0.03681319,0.53608058){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0\end{tabular}}}}%
+    \put(0.03681319,0.56660562){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2\end{tabular}}}}%
+    \put(0.03681319,0.59713065){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}4\end{tabular}}}}%
+    \put(0.03681319,0.62765568){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}6\end{tabular}}}}%
+    \put(0.03681319,0.65818071){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}8\end{tabular}}}}%
+    \put(0.03681319,0.68870574){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}10\end{tabular}}}}%
+    \put(0.03681319,0.71923077){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}12\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{in_total_duration_svg-tex.pdf}}%
+    \put(0.0176908,0.58516484){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{in_total_duration_svg-tex.pdf}}%
+    \put(0.06153846,0.74697802){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{in_total_duration_svg-tex.pdf}}%
+    \put(0.15714286,0.74697802){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.04395604,0.76483516){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{in_total_duration_svg-tex.pdf}}%
+    \put(0.26373626,0.78241758){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 4 (2013-11)}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{in_total_duration_svg-tex.pdf}}%
+    \put(0.55,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.59991346,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.6482168,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.69813025,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.7464336,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.79634705,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.84626052,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.89134364,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.9412571,0.43131868){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.98956044,0.43131868){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{in_total_duration_svg-tex.pdf}}%
+    \put(0.76978022,0.41483516){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{in_total_duration_svg-tex.pdf}}%
+    \put(0.54230769,0.44450549){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−4\end{tabular}}}}%
+    \put(0.54230769,0.47884615){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−2\end{tabular}}}}%
+    \put(0.54230769,0.51318681){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0\end{tabular}}}}%
+    \put(0.54230769,0.54752747){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2\end{tabular}}}}%
+    \put(0.54230769,0.58186813){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}4\end{tabular}}}}%
+    \put(0.54230769,0.61620879){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}6\end{tabular}}}}%
+    \put(0.54230769,0.65054945){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}8\end{tabular}}}}%
+    \put(0.54230769,0.68489011){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}10\end{tabular}}}}%
+    \put(0.54230769,0.71923077){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}12\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{in_total_duration_svg-tex.pdf}}%
+    \put(0.52318531,0.58516484){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{in_total_duration_svg-tex.pdf}}%
+    \put(0.56703297,0.74697802){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{in_total_duration_svg-tex.pdf}}%
+    \put(0.66263736,0.74697802){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.54945055,0.76483516){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{in_total_duration_svg-tex.pdf}}%
+    \put(0.76923077,0.78241758){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 5 (2013-12)}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{in_total_duration_svg-tex.pdf}}%
+    \put(0.04450549,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.09441895,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.1427223,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.19263575,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.2409391,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.29085255,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.34076601,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.38584913,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.43576259,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.48406593,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{in_total_duration_svg-tex.pdf}}%
+    \put(0.26428571,0.00824176){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{in_total_duration_svg-tex.pdf}}%
+    \put(0.03681319,0.03791209){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0\end{tabular}}}}%
+    \put(0.03681319,0.08017752){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2\end{tabular}}}}%
+    \put(0.03681319,0.12244295){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}4\end{tabular}}}}%
+    \put(0.03681319,0.16470837){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}6\end{tabular}}}}%
+    \put(0.03681319,0.2069738){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}8\end{tabular}}}}%
+    \put(0.03681319,0.24923922){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}10\end{tabular}}}}%
+    \put(0.03681319,0.29150465){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}12\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{in_total_duration_svg-tex.pdf}}%
+    \put(0.01799665,0.17857143){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{in_total_duration_svg-tex.pdf}}%
+    \put(0.06153846,0.34258242){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{in_total_duration_svg-tex.pdf}}%
+    \put(0.15714286,0.34258242){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.04395604,0.36043956){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{in_total_duration_svg-tex.pdf}}%
+    \put(0.26373626,0.37802198){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 6 (2014-01)}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{in_total_duration_svg-tex.pdf}}%
+    \put(0.55,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.59991346,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.6482168,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.69813025,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.7464336,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.79634705,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.84626052,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.89134364,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.9412571,0.02472527){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.98956044,0.02472527){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{in_total_duration_svg-tex.pdf}}%
+    \put(0.76978022,0.00824176){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{in_total_duration_svg-tex.pdf}}%
+    \put(0.54230769,0.03791209){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−6\end{tabular}}}}%
+    \put(0.54230769,0.07225275){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−4\end{tabular}}}}%
+    \put(0.54230769,0.10659341){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−2\end{tabular}}}}%
+    \put(0.54230769,0.14093407){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0\end{tabular}}}}%
+    \put(0.54230769,0.17527473){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2\end{tabular}}}}%
+    \put(0.54230769,0.20961538){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}4\end{tabular}}}}%
+    \put(0.54230769,0.24395604){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}6\end{tabular}}}}%
+    \put(0.54230769,0.2782967){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}8\end{tabular}}}}%
+    \put(0.54230769,0.31263736){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}10\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{in_total_duration_svg-tex.pdf}}%
+    \put(0.52318531,0.17857143){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{in_total_duration_svg-tex.pdf}}%
+    \put(0.56703297,0.34038462){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{in_total_duration_svg-tex.pdf}}%
+    \put(0.66263736,0.34038462){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.54945055,0.35824176){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{in_total_duration_svg-tex.pdf}}%
+    \put(0.76923077,0.37582418){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 7 (2014-02)}\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

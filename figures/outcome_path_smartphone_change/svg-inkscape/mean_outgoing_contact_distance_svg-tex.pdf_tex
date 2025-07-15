@@ -1,0 +1,180 @@
+%% Creator: Inkscape 1.4.2 (ebf0e940, 2025-05-08), www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'mean_outgoing_contact_distance_svg-tex.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{694.5bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.78401728)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.05237581,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.10142683,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.14889556,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.19794658,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.24541531,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.29446633,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.34351735,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.3878215,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.43687253,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.48434125,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.26835853,0.40550756){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.04481641,0.44591433){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−0.5\end{tabular}}}}%
+    \put(0.04481641,0.50215983){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.0\end{tabular}}}}%
+    \put(0.04481641,0.55840532){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.5\end{tabular}}}}%
+    \put(0.04481641,0.61465083){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.0\end{tabular}}}}%
+    \put(0.04481641,0.67089633){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.01701813,0.57289417){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.06911447,0.73191145){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.16306695,0.73191145){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.05183585,0.74946004){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=7]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.26781857,0.76673866){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 4 (2013-11)}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=8]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.55777538,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.6068264,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.65429513,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.70334614,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.75081488,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.7998659,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.84891692,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.89322107,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.9422721,0.42170626){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.98974082,0.42170626){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=9]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.7737581,0.40550756){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=10]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.55021598,0.43466523){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−0.4\end{tabular}}}}%
+    \put(0.55021598,0.46466283){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−0.2\end{tabular}}}}%
+    \put(0.55021598,0.49466043){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.0\end{tabular}}}}%
+    \put(0.55021598,0.52465802){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.2\end{tabular}}}}%
+    \put(0.55021598,0.55465563){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.4\end{tabular}}}}%
+    \put(0.55021598,0.58465323){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.6\end{tabular}}}}%
+    \put(0.55021598,0.61465083){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.8\end{tabular}}}}%
+    \put(0.55021598,0.64464843){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.0\end{tabular}}}}%
+    \put(0.55021598,0.67464603){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.2\end{tabular}}}}%
+    \put(0.55021598,0.70464363){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.4\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=11]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.5224177,0.57289417){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=12]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.57451404,0.73191145){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=13]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.66846652,0.73191145){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.55723542,0.74946004){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=14]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.77321814,0.76673866){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 5 (2013-12)}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=15]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.05237581,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.10142683,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.14889556,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.19794658,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.24541531,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.29446633,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.34351735,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.3878215,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.43687253,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.48434125,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=16]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.26835853,0.00809935){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=17]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.04481641,0.03725702){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.0\end{tabular}}}}%
+    \put(0.04481641,0.06425486){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.2\end{tabular}}}}%
+    \put(0.04481641,0.0912527){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.4\end{tabular}}}}%
+    \put(0.04481641,0.11825054){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.6\end{tabular}}}}%
+    \put(0.04481641,0.14524838){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.8\end{tabular}}}}%
+    \put(0.04481641,0.17224622){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.0\end{tabular}}}}%
+    \put(0.04481641,0.19924406){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.2\end{tabular}}}}%
+    \put(0.04481641,0.2262419){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.4\end{tabular}}}}%
+    \put(0.04481641,0.25323974){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.6\end{tabular}}}}%
+    \put(0.04481641,0.28023758){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.8\end{tabular}}}}%
+    \put(0.04481641,0.30723542){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2.0\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=18]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.02332466,0.17548596){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=19]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.06911447,0.33450324){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=20]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.16306695,0.33450324){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.05183585,0.35205184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=21]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.26781857,0.36933045){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 6 (2014-01)}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=22]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.55777538,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}2013-08\end{tabular}}}}%
+    \put(0.6068264,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-09\end{tabular}}}}%
+    \put(0.65429513,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-10\end{tabular}}}}%
+    \put(0.70334614,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-11\end{tabular}}}}%
+    \put(0.75081488,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2013-12\end{tabular}}}}%
+    \put(0.7998659,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-01\end{tabular}}}}%
+    \put(0.84891692,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-02\end{tabular}}}}%
+    \put(0.89322107,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-03\end{tabular}}}}%
+    \put(0.9422721,0.02429806){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}2014-04\end{tabular}}}}%
+    \put(0.98974082,0.02429806){\color[rgb]{0,0,0}\transparent{0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}2014-05\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=23]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.7737581,0.00809935){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Month}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=24]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.55021598,0.07100432){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}−0.5\end{tabular}}}}%
+    \put(0.55021598,0.12724982){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.0\end{tabular}}}}%
+    \put(0.55021598,0.18349532){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}0.5\end{tabular}}}}%
+    \put(0.55021598,0.23974082){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.0\end{tabular}}}}%
+    \put(0.55021598,0.29598632){\color[rgb]{0,0,0}\makebox(0,0)[rt]{\lineheight{1.25}\smash{\begin{tabular}[t]{r}1.5\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=25]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.5224177,0.17548596){\color[rgb]{0,0,0}\rotatebox{90}{\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{(centered) outcome}\end{tabular}}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=26]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.57451404,0.33450324){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}never-treated\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=27]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.66846652,0.33450324){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}treated\end{tabular}}}}%
+    \put(0.55723542,0.35205184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\textbf{Group}\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=28]{mean_outgoing_contact_distance_svg-tex.pdf}}%
+    \put(0.77321814,0.36933045){\color[rgb]{0,0,0}\makebox(0,0)[t]{\lineheight{1.25}\smash{\begin{tabular}[t]{c}\textbf{Treatment-Timing Cohort: 7 (2014-02)}\end{tabular}}}}%
+  \end{picture}%
+\endgroup%

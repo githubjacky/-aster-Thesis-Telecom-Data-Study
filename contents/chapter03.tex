@@ -3,7 +3,7 @@
 \chapter{Data and Methods}
 \section{Datasets}
 \begin{table}[htbp]
-\vspace{0.3cm}
+% \vspace{0.3cm}
 \renewcommand{\arraystretch}{1.6}
 \setlength{\tabcolsep}{1.9mm}{}
 \centering
@@ -29,7 +29,7 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \label{tab:example_cdr}
 \end{table}
 
-\vspace{-3em}
+\vspace{-2em}
 \begin{singlespace}
 \begin{footnotesize}
 \noindent Notes: All phone numbers are anonymized. Cell IDs are the IDs of the telecom base stations handling call events for client numbers, which are either calling numbers or called numbers. We have a dataset which records the geographical coordinates of cell IDs.
@@ -37,37 +37,11 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \end{singlespace}
 
 
-\vspace{0.3cm}
-\begin{figure}[h!]
-\centering
-\caption{Comparison of Mobility Feature Values}
-\vspace{0.1cm}
-
-\includegraphics[width=1\textwidth]{figures/rg_compare.png}
-\includegraphics[width=1\textwidth]{figures/entropy_compare.png}
-\includegraphics[width=1\textwidth]{figures/ecc_compare.png}
-
-\vspace{0.1cm}
-\caption*{Notes:  For radius of gyration and eccentricity, we visualize daily movement trajectories of four phone users throughout August 2013. Regarding entropy, we examine the distribution of telecom base station usage for two phone users during the same period, where the y-axis (p) represents the proportion of total days on which each base station was activated, calculated as the number of days a station served calls divided by the total number of such days across all stations.}
-\label{fig:mobility}
-\end{figure}
-
-\vspace{0.3cm}
-\begin{figure}[h!]
-\centering
-\caption{Visualization of Our Proposed Two-Staged Residential Location Estimation}
-\vspace{0.1cm}
-
-\includegraphics[width=1\textwidth]{figures/cluster_res.png}
-
-\vspace{0.1cm}
-\caption*{Notes:  This figure demonstrates one of the phone user's mobility patterns. The upper plot's x and y axis represent the longitude and latitude, respectively. The lower plot shows the temporal span of each cluster where the x axis represents the timestamp and the y axis represents the cluster index. The point is colored by the cluster index.}
-\label{fig:cluster}
-\end{figure}
 
 
 
-We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc. By joining CDRs with coordinates data on cell IDs, and then grouping by user phone numbers, we can obtain the daily history of movement trajectories of each phone user from August 2013 to May 2014. User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in our analysis. When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
+
+We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc. By joining CDRs with coordinates data on cell IDs, and then grouping by user phone numbers, we can obtain the daily history of movement trajectories of each phone user from August 2013 to May 2014. User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis. When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
 
 The cleaning of CDRs involves removing records where (i) either the calling or called number is not mobile phone numbers, (ii) either the start or end time is not valid timestamps, and (iii) the duration of calls is less than or equal to 0. For user profile data, we remove client numbers in profile data whose ID card numbers are not in the correct specification. After the cleaning, we have 0.5 to 0.6 billion call records per month and 348,241 client numbers whose profile features are available in each month.
 
@@ -112,7 +86,6 @@ T^{\text{night}}_{i, b} :=
 $$
 \end{definition}
 
-\pagebreak
 \begin{definition}[A Subset of Telecom Base Stations Connected to a User during Nighttime]
 A subset $B^{\text{night}}_i \subset B$ of telecom base stations connected to a user $i \in V$ during nighttime is defined as:
 \begin{align*}
@@ -200,7 +173,7 @@ $$
 $$
 \end{definition}
 
-The second stage of the residential place estimation is to apply the temporal filtering trick, aiming at obtaining the home clusters, which contains a user's home locations. As mentioned in the introduction, eligible home clusters should be those that service the calls on the most number of days during a time period. Moreover, people might change their home locations during the sample period, and the home clusters afterward should also satisfy the definition of home clusters and the pre-moving period shouldn't overlap with the post-moving period.
+The second stage of the residential place estimation is to apply the temporal filtering trick, aiming at obtaining home clusters, which contains a user's home locations. Eligible home clusters should be those that service the calls on the most number of days during a time period. Moreover, people might change their home locations during the sample period, and the home clusters afterward should also satisfy the definition of home clusters and the pre-moving period shouldn't overlap with the post-moving period, which is exactly the meaning of non-overlappness.
 
 Before defining the overlap, we need to define objects associated to two distinct clusters that can be identified to be overlapping with each other. The object is the service time intervals, which are continuous time intervals starting from the first time that a cluster services calls and ending at the last time that a cluster services calls.
 
@@ -223,6 +196,9 @@ Consider two nighttime clusters, $C^{\text{night}}_{i, 1}, C^{\text{night}}_{i, 
 \end{definition}
 
 With the definition of overlap, our temporal filtering trick is a sequential process, where we first sort the clusters in $C^{\text{night}}_i$ in descending order by the temporal sizes defined by $\mu(\mathcal{T}^{\text{night}}_{i, k})$ where $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, and then we iteratively select the cluster to be the home cluster that is not temporally overlap with any of the pre-selected home clusters. Note that the first home cluster is the cluster with the largest temporal size. The algorithm is shown in Algorithm \ref{home_cluster} and the complexity analysis is in Appendix A. Note that at the last step of the algorithm, the home clusters' start times of service time intervals are well-defined based on the corresponding nighttime clusters.
+
+Our purpose of the seconod stage temporal filtering is to keep those clusters that are temporal representative. Let us elaborate more on the definition of a representative cluster. We define a cluster to be representative if the temporal spans associated with each cluster are non-overlapping. An example can be found in Figure \ref{fig:cluster} where the 0-th cluster (black) doesn't temporally overlap with the 1-st cluster (green) in the lower plot. Therefore, each home cluster should correspond to a separate life period where the person lived in a particular location. Moreover, the identified home clusters are temporally sequential and mutually exclusive--when one residential period ends, the next begins, with no overlap between them. This somehow defines the temporal clusters and creates a clear timeline of residential history where each home cluster represents a distinct "home era" in chronological order.
+
 
 \begin{algorithm}[h!]
     \renewcommand{\algorithmicrequire}{\textbf{Input:}}
@@ -263,17 +239,39 @@ With the definition of overlap, our temporal filtering trick is a sequential pro
 
 Given the home clusters, we can define the home locations as the centroids of clusters, computed by the weighted average of the locations of the base stations in the cluster, where the weights are the temporal sizes.
 
-\clearpage\newpage
 \begin{definition}[A User's Home Location]
 For a user $i \in V$, the $l$-th home location $(r_c)^{\text{home}}_{i, l}$ is defined by the weighted average over locations $\{\text{loc}(b)\}_{b \in C^{\text{home}}_{i, l}}$ of telecom base stations that are contained in the $l$-th home cluster $C^{\text{home}}_{i, l}$ where the weights are defined based on the temporal sizes $\{w^{\text{night}}_{i, b}\}_{b \in C^{\text{home}}_{i, l}} \subset w^\text{night}_i$. Below is the formula:
 $$
-(r_c)^{\text{home}}_{i, l} =
+(r_c)^{\text{home}}_{i, l}
+=
 \sum_{b \in C^{\text{home}}_{i, l}}
-\tilde{w}^{\text{night}}_{i, b} \text{loc}(b)
+    \frac{
+        w^{\text{night}}_{i, b}
+    }{
+        \sum_{b \in C^{\text{home}}_{i, l}}
+            w^{\text{night}}_{i, b}
+    }
+    \text{loc}(b)
 $$
-where $\tilde{w}^{\text{night}}_{i, b} = \frac{w^{\text{night}}_{i, b}}{\sum_{b \in C^{\text{home}}_{i, l}} w^{\text{night}}_{i, b}}$.
 \end{definition}
 
+\clearpage\newpage
+Figure~\ref{fig:cluster} visualizes a user's estimated home locations and demonstrates that our estimation goal is to color geographic points such that points with the same color belong to the same cluster.
+The clusters represent spatial-temporal patterns in user mobility, where each cluster corresponds to a geographically separated residential area with a non-overlapping temporal window.
+
+\begin{figure}[h!]
+\vspace{0.3cm}
+\centering
+\caption{Visualization of Our Proposed Two-Staged Residential Location Estimation}
+
+\includegraphics[width=1\textwidth]{figures/cluster_res.png}
+
+\vspace{0.1cm}
+\caption*{Notes:  This figure demonstrates one of the phone user's mobility patterns. The upper plot's x and y axis represent the longitude and latitude, respectively. The lower plot shows the temporal span of each cluster where the x axis represents the timestamp and the y axis represents the cluster index. The point is colored by the cluster index.}
+\label{fig:cluster}
+\end{figure}
+
+\clearpage\newpage
 \section{Identification of Residential Shift and Its Timing}\label{sec:identification_of_residential_shift}
 Residential shift is identified if a user's home location changes.
 % As we aim to assess whether the residential shift will affect individuals' mobility and mobile communication patterns, and if effects are confirmed, how they evolve over time, the difference-in-differences (DiD) framework is appropriate in that we can recover the average treatment effect on the treated (ATT) for each post-treatment period under the parallel trend assumption.  Note that the treatment refers to the residential shift. ATT aims at quantifying the difference between the observed outcome of the treatment group and the potential outcome if they have never been treated. ATT aligns with our research questions in that the effect of residential shift functions on migrants' mobility and mobile communication patterns, potentially causing them to deviate from those associated with the case where migrants have never migrated.
@@ -295,9 +293,10 @@ We require migrants to have only relocated once because among users who have mul
 
 Longer distance migration should be more likely to have substantial impacts on mobility and mobile communication patterns so we restrict our discussions on inter-prefecture migrants. As Table \ref{tab:migration_sample} demonstrates, we don't lose too many migrants by restricting the definition of migrants to those crossing prefectures.
 
+\clearpage\newpage
 \begin{table}[htbp]
-\vspace{0.2cm}
-\renewcommand{\arraystretch}{1.6}
+% \vspace{0.2cm}
+\renewcommand{\arraystretch}{1.5}
 \setlength{\tabcolsep}{4mm}{}
 \centering
 \small
@@ -317,11 +316,13 @@ Mar. 2014 & 594 & 443 & 74.58 & 118.48 & 148.91 & 125.68 \\
 Apr. 2014 & 675 & 519 & 76.89 & 129.55 & 160.28 & 123.72 \\
 May 2014 & 1520 & 1222 & 80.39 & 127.37 & 151.29 & 118.78 \\
 \hline
+
 \end{tabular}
 \label{tab:migration_sample}%
+
 \end{table}%
 
-\vspace{-2.5em}
+\vspace{-3em}
 \begin{singlespace}
 \begin{footnotesize}
 \noindent Notes: The column all represents the count of migrants and migration distance are computed on the phone users who satisfy the first requirement of migrants. Therefore, they don't necessarily change their home locations to another prefecture. The column, inter-pref., means statistics are computed on the phone users who satisfy the first and second requirement of migrants. Moreover, the unit of distance is in kilometers.
@@ -516,8 +517,10 @@ and
 = \frac{w_{i,j,m}}{\sum_{k \in V^{\text{out}}_{i,m}} w_{i,k,m}}
 \end{equation}
 with $w_{i,j,m}$ being the weight of edge from user $i$ to user $j$ in month $m$.
-Note that the weight is defined as the total call duration, which is a common practice in the literature of studying social interactions embedded in CDRs.
+Note that the weight is defined as the total call duration rather than number of phone calls.
 \end{definition}
+
+Employing call duration as weights for social ties is not a common practice, and \cite{eagle2010network} and \cite{pappalardo2016analytical} defined contact entropy based on the number of phone calls. Nevertheless, as previously mentioned, we recognize that due to routing mechanisms, phone calls might change their served base station, thereby generating multiple call records when actually only a single call is taking place.
 
 \begin{figure}[h!]
 \centering
@@ -552,7 +555,6 @@ where $V^{\text{out}}_{i, m}$ and $\hat{p}_{i, j, m}$ is defined in Equation~\re
 \nameref{appendix_event_centered_trends} demonstrates time series for two groups of features, showing the mean for the treated group against that of the untreated group, with all data points subtracted from the mean in the reference period. This allows us to better examine the outcome trends in both pre-treatment and post-treatment periods.
 
 
-\clearpage\newpage
 \subsection{Human Mobility Features}
 Numerous studies have used CDRs to analyze human mobility patterns. We largely follow the literature in constructing mobility features but determine the weight of a telecom base station for a phone user by temporal size (see Equation~\ref{eq:temporal_size}) rather than call count, which corrects distortion caused by routing mechanisms. We use notations similar to those in Section~\ref{sec:notations} to avoid redundant redefinition.
 
@@ -590,7 +592,22 @@ To make spatial statistical analysis meaningful, we employ the Azimuthal Equidis
 This projection ensures that Euclidean distances from the projection center to any point correspond to actual geographic distances from the geographic centroid.
 This makes variance-covariance matrices computed on the projected coordinates geographically interpretable, as they accurately reflect the spatial spread of locations around their geographic center. Besides, we denote $L_{i, m}$, $(l_{i, m})_b$, and $(r_c)_{i, m}$ as the projected location matrix, the projected coordinates of a telecom base station, and the projected centroid, respectively.
 
+\begin{figure}[b!]
+% \vspace{1cm}
+\centering
+\caption{Comparison of Mobility Feature Values}
+
+\includegraphics[scale=0.3]{figures/rg_compare.png}
+\includegraphics[scale=0.3]{figures/entropy_compare.png}
+\includegraphics[scale=0.3]{figures/ecc_compare.png}
+
+\vspace{0.1cm}
+\caption*{Notes:  For radius of gyration and eccentricity, we visualize daily movement trajectories of four phone users throughout August 2013. Regarding entropy, we examine the distribution of telecom base station usage for two phone users during the same period, where the y-axis (p) represents the proportion of total days on which each base station was activated, calculated as the number of days a station served calls divided by the total number of such days across all stations.}
+\label{fig:mobility}
+\end{figure}
+
 After completing the preliminary setup, we can now construct mobility features that aim to measure: (i) how large the activity area is (radius of gyration), (ii) how unpredictable spatial movement patterns are (movement entropy), and (iii) to what extent the activity area spreads in an elliptical shape (eccentricity), which indicates whether a user visits locations primarily along a fixed direction.
+See Figure~\ref{fig:mobility} for a comprehensive understanding of what these metrics actually mean.
 
 \begin{definition}[Radius of Gyration]
 The radius of gyration $(r_g)_{i, m}$ for user $i$ in month $m$ is defined by:
@@ -639,6 +656,7 @@ if $\hat{p}_{i, m, b} = \hat{p}^{\mu}_{i, m, b}$, else:
     1
 }.
 \]
+We haven't seen this correction applied in previous studies, but we believe it's necessary for small sample (phone users who have limited CDRs) to apply Bessel's correction since $(r_c)_{i, m}$ is the sample mean.
 
 \begin{definition}[Movement Entropy]
 The movement entropy $me_{i, m}$, where $me$ stands for movement entropy, for user $i$ in month $m$ is defined by:
@@ -655,7 +673,6 @@ me_{i, m}
 \]
 \end{definition}
 
-\clearpage\newpage
 \begin{definition}[Eccentricity]
 Given $\hat{\Sigma}_{i, m}$ is the sample variance-covariance matrix of $L_{i, m}$, eccentricity $ecc_{i, m}$, where $ecc$ stands for eccentricity, for user $i$ in month $m$ is defined as:
 \[
@@ -665,11 +682,11 @@ ecc_{i, m}
     1
     -
     \left(
-        \frac{\lambda_{1}}{\lambda_{2}}
+        \frac{\lambda_{i, m, 1}}{\lambda_{i, m, 2}}
     \right)^2
 }
 \]
-where $\lambda_{1}$ is the major eigenvalue of $\hat{\Sigma}_{i, m}$ and $\lambda_{2}$ is the minor one.
+where $\lambda_{i, m, 1}$ is the major eigenvalue of $\hat{\Sigma}_{i, m}$ and $\lambda_{i, m, 2}$ is the minor one.
 \end{definition}
 
 The sample variance-covariance matrix $\hat{\Sigma}_{i, m}$ is constructed in two steps.
@@ -694,6 +711,8 @@ Then, the sample variance-covariance matrix is defined by:
 \]
 where $\text{Diag}(\hat{p}_{i, m})$ is a diagonal matrix with the probability weights $\hat{p}_{i, m}$ on its diagonal, and $\kappa_{i, m}$ is the bias-correction factor.
 This $2\times2$ matrix captures the spatial dispersion pattern, with eigenvalues determining the major and minor axes of the elliptical distribution.
+
+
 
 \clearpage\newpage
 \section{Empirical Strategy}
