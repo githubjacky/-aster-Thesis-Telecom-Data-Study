@@ -2,6 +2,10 @@
 
 \chapter{Discussion}
 \section{Summary}
+In this study, our methodological contributions rely on the incorporation of routing mechanisms.
+Specifically, we redesign the home location estimation approach, residential shift identification, and human mobility and mobile communication network features that are commonly used when utilizing CDRs to analyze these behaviors.
+Our work follows the data mining philosophy and provides numerous valuable insights.
+Moreover, we present a new research topic that derives treatments from CDRs or user profile information and examines the dynamics of treatment effects on two common behaviors, going beyond conventional correlation studies utilizing CDRs.
 
 \section{Limitations}
 A notable limitation in utilizing CDRs for home/work location inference and mobility pattern analysis is the inherent sampling bias present in the data.
@@ -20,3 +24,8 @@ Second, people often use social media to share their travel experiences, resulti
 Finally, mobile communication is a more fundamental contact behavior, potentially leading to higher coverage of different age groups and reducing income bias due to unequal access to the internet, as Facebook users are often located in high-income regions in India (\cite{sahai2022social}).
 
 \section{Future Work}
+The main goal of this paper is to quantify the effects of residential shifts and smartphone adoption on behavioral features.
+We apply the estimation method proposed by \cite{callaway2021difference} and rely on the parallel trends assumption to identify treatment effects that are robust to heterogeneous treatment effects across time and treatment-timing groups.
+However, we acknowledge that we did not rigorously test for endogeneity, as both treatments are self-selected.
+For example, although we include multiple treatment-timing groups, our short-term sample periods cannot fully avoid contemporaneous factors at the annual level that affect treatment adoption and outcomes simultaneously.
+Future research should consider instrumental variable approaches to address these endogeneity concerns more rigorously.
