@@ -36,11 +36,6 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \end{footnotesize}
 \end{singlespace}
 
-
-
-
-
-
 We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc. By joining CDRs with coordinates data on cell IDs, and then grouping by user phone numbers, we can obtain the daily history of movement trajectories of each phone user from August 2013 to May 2014. User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis. When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
 
 The cleaning of CDRs involves removing records where (i) either the calling or called number is not mobile phone numbers, (ii) either the start or end time is not valid timestamps, and (iii) the duration of calls is less than or equal to 0. For user profile data, we remove client numbers in profile data whose ID card numbers are not in the correct specification. After the cleaning, we have 0.5 to 0.6 billion call records per month and 348,241 client numbers whose profile features are available in each month.
@@ -143,6 +138,7 @@ C^{\text{night}}_i := \{
 \end{align*}
 \end{definition}
 
+Note that we use \href{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html}{scikit-learn}'s implementation of DBSCAN to obtain the cluster ID for each telecom station $b \in B^{\text{night}}_{i}$.
 
 \section{Estimation of Residential Location}\label{sec:estimation_of_residential_location}
 \begin{figure}[h!]
@@ -160,14 +156,15 @@ C^{\text{night}}_i := \{
 This section aims at introducing how phone users' home locations are estimated, and Figure~\ref{fig:pipeline_home_location} presents all the steps for completing the task. After the procedure of spatial clustering, we can zoom out the level of spatial analysis from locations to clusters so the two issues arising from the routing mechanism are now resolved. Therefore, we define the new notations for both subsets of CDRs and timestamps based on $C^\text{night}_i$, which previously defined while considering $B^\text{night}_i$.
 
 \begin{definition}[A User's Nighttime Call Records Serviced by a Nighttime Cluster]
-For a cluster $C^{\text{night}}_{i, k}$ in $C^{\text{night}}_i$, a set of call records serviced by $C^{\text{night}}_{i, k}$ is defined as:
+For a cluster $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, a set of call records serviced by $C^{\text{night}}_{i, k}$ is defined as:
 $$
 \mathcal{R}^{\text{night}}_{i, k} := \bigcup_{b \in C^{\text{night}}_{i, k}} R^{\text{night}}_{i, b}.
 $$
 \end{definition}
 
+\clearpage\newpage
 \begin{definition}[A Set of Timestamps of a User's Nighttime Call Records Serviced by A Nighttime Cluster]
-For a cluster $C^{\text{night}}_{i, k}$ in $C^{\text{night}}_i$, the timestamps of $\mathcal{R}^{\text{night}}_{i, k}$ is defined as:
+For a cluster $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, the timestamps of $\mathcal{R}^{\text{night}}_{i, k}$ is defined as:
 $$
 \mathcal{T}^{\text{night}}_{i, k} := \bigcup_{b \in C^{\text{night}}_{i, k}} T^{\text{night}}_{i, b}.
 $$
@@ -262,7 +259,7 @@ The clusters represent spatial-temporal patterns in user mobility, where each cl
 \begin{figure}[h!]
 \vspace{0.3cm}
 \centering
-\caption{Visualization of Our Proposed Two-Staged Residential Location Estimation}
+\caption{Visualization of Proposed Two-Staged Home Locations Estimation}
 
 \includegraphics[width=1\textwidth]{figures/cluster_res.png}
 
@@ -352,7 +349,7 @@ Furthermore, they own slightly better phone devices and a higher fraction of the
 \setlength{\tabcolsep}{1mm}{}
 \centering
 \small
-\caption{Comparison of Non-Migrant and Migrant Statistics}
+\caption{Balance of Pre-Treatment (Residential Shifts) Covariates}
 
 \begin{tabular}{lcccc} \hline
 Variable & Non-Migrant & Migrant & Difference & p-value \\ \hline
@@ -424,7 +421,7 @@ The above figure shows the counts of smartphone adopters for each month. General
 \setlength{\tabcolsep}{1.1mm}{}
 \centering
 \small
-\caption{Comparison of Smartphone Adopters to Non-Smartphone Users Statistics}
+\caption{Balance of Pre-Treatment (Smartphone Adoption) Covariates}
 \begin{tabular}{lcccc} \hline
 Variable & Non-Changers & Changers & Difference & p-value \\ \hline
 \textit{Panel A: Smartphone Adopters, Any} \\
@@ -577,12 +574,32 @@ in contrast to the traditional approach:
 \begin{equation}
 \hat{p}^{T}_{i, m, b}
 =
-\frac{\lvert T_{i, m, b} \rvert}{\sum_{b' \in B_{i, m}} \lvert T_{i, m, b'} \rvert}.
+\frac{\lvert T_{i, m, b} \rvert}{\sum_{b' \in B_{i, m}} \lvert T_{i, m, b'} \rvert},
 \end{equation}
-Note that in the following text, we will operate on the empirical probability vector $\hat{p}_{i, m} \in \mathbb{R}^{\lvert B_{i, m} \rvert}$, where each entry $\hat{p}_{i, m, b}$ corresponds to the empirical probability of base station $b \in B_{i, m}$ and can be computed using either the temporal size approach ($\hat{p}^{\mu}_{i, m, b}$) or the traditional call count approach ($\hat{p}^{T}_{i, m, b}$).
+which is based on the count of call events.
+
+Note that mobility features constructed using the temporal-size-based sample probability $\hat{p}^\mu_{i, m, b}$ will be named with the prefix "temporal-size-weighted," while those that depend on count-based sample probability $\hat{p}^T_{i, m, b}$ will be named with the prefix "count-weighted."
+For instance, count-weighted eccentricity versus temporal-size-weighted eccentricity.
+
+In the following text, we will operate on the empirical probability vector $\hat{p}_{i, m} \in \mathbb{R}^{\lvert B_{i, m} \rvert}$, where each entry $\hat{p}_{i, m, b}$ corresponds to the empirical probability of base station $b \in B_{i, m}$ and can be computed using either the temporal size approach ($\hat{p}^{\mu}_{i, m, b}$) or the traditional call count approach ($\hat{p}^{T}_{i, m, b}$).
+
+\clearpage\newpage
+\begin{figure}[ht!]
+% \vspace{1cm}
+\centering
+\caption{Comparison of Mobility Feature Values}
+
+\includegraphics[scale=0.35]{figures/rg_compare.png}
+\includegraphics[scale=0.35]{figures/entropy_compare.png}
+\includegraphics[scale=0.35]{figures/ecc_compare.png}
+
+\vspace{0.1cm}
+\caption*{Notes:  For radius of gyration and eccentricity, we visualize daily movement trajectories of four phone users throughout August 2013. Regarding entropy, we examine the distribution of telecom base station usage for two phone users during the same period, where the y-axis (p) represents the proportion of total days on which each base station was activated, calculated as the number of days a station served calls divided by the total number of such days across all stations.}
+\label{fig:mobility}
+\end{figure}
 
 Geographic distance (geodesic distance) on the Earth's surface differs from Euclidean distance calculated directly from longitude-latitude coordinates, as the former accounts for spherical geometry while the latter assumes a flat coordinate space.
-To make spatial statistical analysis meaningful, we employ the Azimuthal Equidistant (AEQD) projection centered at the geographic mean of locations $(r_c)^{\text{geo}}_{i, m}$, which is given by:
+To make spatial statistical analysis meaningful, we employ the Azimuthal Equidistant (AEQD) projection\footnote{The projection is obtained through the Python package \href{https://github.com/pyproj4/pyproj}{pyproj}.} centered at the geographic mean $(r_c)^{\text{geo}}_{i, m}$ of locations, which is given by:
 \begin{equation}
 (r_c)^{\text{geo}}_{i, m}
 =
@@ -592,22 +609,9 @@ To make spatial statistical analysis meaningful, we employ the Azimuthal Equidis
 This projection ensures that Euclidean distances from the projection center to any point correspond to actual geographic distances from the geographic centroid.
 This makes variance-covariance matrices computed on the projected coordinates geographically interpretable, as they accurately reflect the spatial spread of locations around their geographic center. Besides, we denote $L_{i, m}$, $(l_{i, m})_b$, and $(r_c)_{i, m}$ as the projected location matrix, the projected coordinates of a telecom base station, and the projected centroid, respectively.
 
-\begin{figure}[b!]
-% \vspace{1cm}
-\centering
-\caption{Comparison of Mobility Feature Values}
-
-\includegraphics[scale=0.3]{figures/rg_compare.png}
-\includegraphics[scale=0.3]{figures/entropy_compare.png}
-\includegraphics[scale=0.3]{figures/ecc_compare.png}
-
-\vspace{0.1cm}
-\caption*{Notes:  For radius of gyration and eccentricity, we visualize daily movement trajectories of four phone users throughout August 2013. Regarding entropy, we examine the distribution of telecom base station usage for two phone users during the same period, where the y-axis (p) represents the proportion of total days on which each base station was activated, calculated as the number of days a station served calls divided by the total number of such days across all stations.}
-\label{fig:mobility}
-\end{figure}
-
 After completing the preliminary setup, we can now construct mobility features that aim to measure: (i) how large the activity area is (radius of gyration), (ii) how unpredictable spatial movement patterns are (movement entropy), and (iii) to what extent the activity area spreads in an elliptical shape (eccentricity), which indicates whether a user visits locations primarily along a fixed direction.
 See Figure~\ref{fig:mobility} for a comprehensive understanding of what these metrics actually mean.
+
 
 \begin{definition}[Radius of Gyration]
 The radius of gyration $(r_g)_{i, m}$ for user $i$ in month $m$ is defined by:
@@ -615,49 +619,17 @@ The radius of gyration $(r_g)_{i, m}$ for user $i$ in month $m$ is defined by:
 (r_g)_{i, m}
 =
 \sqrt{
-    \kappa_{i, m}
     \sum_{ b \in B_{i, m}}
     \hat{p}_{i, m, b} \cdot \lVert (l_{i, m})_b - (r_c)_{i, m} \rVert^2
-},
+}.
 \]
-where $\kappa_{i, m}$ is the bias-correction factor.
 \end{definition}
 
 
-Note that:
-\[
-\kappa_{i, m}
-=
-\frac{
-\sum_{b \in B_{i, m}}
-    \mu(T_{i, m, b})
-}{
-\left (
-    \sum_{b \in B_{i, m}}
-        \mu(T_{i, m, b})
-\right )
--
-1
-}
-\]
-if $\hat{p}_{i, m, b} = \hat{p}^{\mu}_{i, m, b}$, else:
-\[
-\kappa_{i, m}
-=
-\frac{
-    \sum_{b \in B_{i, m}}
-        \lvert T_{i, m, b} \rvert
-}{
-    \left (
-        \sum_{b \in B_{i, m}}
-            \lvert T_{i, m, b} \rvert
-    \right )
-    -
-    1
-}.
-\]
-We haven't seen this correction applied in previous studies, but we believe it's necessary for small sample (phone users who have limited CDRs) to apply Bessel's correction since $(r_c)_{i, m}$ is the sample mean.
+Notably, it takes the form of a root-mean-square distance, as it's borrowed from physics, and the intuition is that we are thinking of users as orbiting around the center of mass $(r_c)_{i, m}$.
 
+
+\clearpage\newpage
 \begin{definition}[Movement Entropy]
 The movement entropy $me_{i, m}$, where $me$ stands for movement entropy, for user $i$ in month $m$ is defined by:
 \[
@@ -672,6 +644,7 @@ me_{i, m}
 }.
 \]
 \end{definition}
+
 
 \begin{definition}[Eccentricity]
 Given $\hat{\Sigma}_{i, m}$ is the sample variance-covariance matrix of $L_{i, m}$, eccentricity $ecc_{i, m}$, where $ecc$ stands for eccentricity, for user $i$ in month $m$ is defined as:
@@ -709,8 +682,22 @@ Then, the sample variance-covariance matrix is defined by:
     \tilde{L}_{i, m}
 )
 \]
-where $\text{Diag}(\hat{p}_{i, m})$ is a diagonal matrix with the probability weights $\hat{p}_{i, m}$ on its diagonal, and $\kappa_{i, m}$ is the bias-correction factor.
-This $2\times2$ matrix captures the spatial dispersion pattern, with eigenvalues determining the major and minor axes of the elliptical distribution.
+where $\text{Diag}(\hat{p}_{i, m})$ is the diagonal matrix with the probability weights $\hat{p}_{i, m}$ on its diagonal, and $\kappa_{i, m}$ is the bias-correction factor, where
+\[
+\kappa_{i, m} =
+\begin{cases}
+\frac{
+\sum_{b \in B_{i, m}} \mu(T_{i, m, b})
+}{
+\left( \sum_{b \in B_{i, m}} \mu(T_{i, m, b}) \right) - 1
+} & \text{if } \hat{p}_{i, m, b} = \hat{p}^{\mu}_{i, m, b}, \\[0.5em]
+\frac{
+\sum_{b \in B_{i, m}} |T_{i, m, b}|
+}{
+\left( \sum_{b \in B_{i, m}} |T_{i, m, b}| \right) - 1
+} & \text{otherwise}.
+\end{cases}
+\]
 
 
 
