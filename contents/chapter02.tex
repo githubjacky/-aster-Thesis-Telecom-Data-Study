@@ -1,7 +1,8 @@
 % !TeX root = ../main.tex
 \chapter{Literature Review}
-\section{Residential Shift and Internal Migration}
+\section{Residential Shift and Internal Migration}\label{sec:2_residential_shift_and_internal_migration}
 CDRs is a collection of geotagged phone call records (Table~\ref{tab:example_cdr}) over a period of time.
+Although the observation units are phone numbers rather than actual phone users, we will proceed to use phone users as the sample units since, on average, people have 1.2 phone devices.
 By looking at individual level, we can trace phone users' geographical appearances with temporal dimension.
 Based on the spatial patterns distributed on the map, we can estimate their significant locations, such as their residential coordinates and workplace location.
 Besides, the temporal dimension offers a particularly exciting opportunity: we can identify events of residential shifts, depicting migration flows that were previously impossible to capture at such scale and precision through traditional census-based survey.
@@ -15,8 +16,9 @@ This strand of literature often involves modeling migration decisions (\cite{hun
 % <explaining our contribution> <note that what we have done differently will be elaborated in other section>
 Our CDRs are collected from Sichuan province, China, and the sample periods covers from August 2013 to May 2014. In China, most of the discussion on internal migration is concentrated on the rural-urban migration on the prefecture level with the reason of finding better jobs or seeking education opportunities. Nonetheless, we don't stress on any particular context of internal migration and focus on the detection of residential shifts and their influences on human behaviors.
 
-We make the contribution in a methodological sense by identifying large-scale inter-prefecture migration flows through novel data sources. Specifically, we employ CDRs and develop a systematic pipeline with two stages to identify people changing their residential locations, revealing the internal migration flows across prefectures. Furthermore, we identify effects of residential shift on human mobility and mobile communication patterns through a staggered DiD design designed by \cite{callaway2021difference}.
-
+One of our methodological contributions is identifying large-scale inter-prefecture migration flows through novel data sources.
+Specifically, we employ CDRs and develop a systematic pipeline with two stages to identify individuals changing their residential locations, revealing the internal migration flows across prefectures.
+% Furthermore, we identify effects of residential shift on human mobility and mobile communication patterns through a staggered DiD design designed by \cite{callaway2021difference}.
 Utilizing CDRs to identify internal migration flow has several advantages. First, CDRs capture mobility patterns for virtually all mobile phone users in a region, including populations often underrepresented in conventional surveys such as transient residents, undocumented individuals, and those reluctant to participate in formal governmental data collection. Second, CDRs provide continuous temporal coverage rather than the periodic snapshots offered by censuses, enabling the detection of short-term or seasonal relocations. Third, this approach is also cost-effective compared to the large amount of money and human resources devoted to completing a census, as telecommunication companies automatically collect these phone records for billing purposes.
 
 % \section{Mobility and Mobile Communication Features}
@@ -27,15 +29,12 @@ Utilizing CDRs to identify internal migration flow has several advantages. First
 % A higher contact distance suggests that a person frequently interacts with others who live far away, which may indicate broader social ties, long-distance relationships, or mobility patterns such as migration or commuting, and as mentioned previously, it shows a significant change after a residential shift.
 % Therefore, we reckon that the contact distance is a good indicator of community integration, providing useful policy implications.
 
-\section{Home Location Estimation through CDRs}
+\section{Home Location Estimation through CDRs}\label{sec:2_home_location_estimation_through_cdrs}
 % A critical preliminary step for identifying residential shifts is estimating phone users' home coordinates.
-% It is important to clarify that the coordinates attached to each phone call record don't precisely represent the exact geographical position of either the caller or callee. Rather, they are the coordinates of the telecom base station handling the call, which serve as a spatial approximation for the phone user's position while initiating or receiving phone calls.
-% The approximation is not always accurate due to the routing mechanism, aiming to balance traffic among surrounding telecom base stations.
+It is important to clarify that the coordinates attached to each phone call record don't precisely represent the exact geographical position of either the caller or callee.
+Rather, they are the coordinates of the telecom base station handling the call, which serve as a spatial approximation for the phone user's position while initiating or receiving phone calls.
+The approximation is not always accurate due to the aforementioned routing mechanism.
 
-
-% The routing mechanism brings about two concerns when it comes to estimating residential locations.
-% First, the telecom bases station handling a call event may not always be the closest one (\cite{yuan2012correlating}).
-% Second, even if a user initiates or receives calls at the same place, e.g., at home, the telecom base station serving the call may vary from time to time.
 Most of the studies estimate home locations through CDRs by selecting the locations of the telecom base station that handles the call events most frequently over the whole sample period (\cite{cho2011friendship}, \cite{phithakkitnukoon2012socio}), weekly (\cite{referral_effect_2023aer}), or monthly (\cite{phithakkitnukoon2022inferring}) from the nighttime call records.
 
 
@@ -43,21 +42,34 @@ This simple approach seems to be acceptable for people who have a large amount o
 % The upper plot of Figure \ref{fig:cluster} visualizes the spatial clustering results where there are four clusters identified and colored by the cluster index.
 
 
-DBSCAN's flexibility has made it a popular choice for analyzing spatial patterns (\cite{yang2014identifying}, \cite{shi2014density}, \cite{dominguez2017sensing}) and mobile communication behaviors (\cite{karahoca2006comparing}, \cite{jabbar2020fraud}). We inherit this idea, including it in our two-staged approach, which carries the specific goal of identifying residential shifts. Our approach makes this identification feasible by incorporating temporal information following the spatial clustering process. Even more recent developments in significant location inference (\cite{tongsinoot2017exploring}, \cite{luo2020research}) don't explicitly consider the situation where people might change their residential locations.
+DBSCAN's flexibility has made it a popular choice for analyzing spatial patterns (\cite{yang2014identifying}, \cite{shi2014density}, \cite{dominguez2017sensing}) and mobile communication behaviors (\cite{karahoca2006comparing}, \cite{jabbar2020fraud}).
+We inherit this idea, including it in our two-staged approach, which carries the specific goal of identifying residential shifts.
+Our approach makes this identification feasible by incorporating temporal information following the spatial clustering process.
+Even more recent developments in significant location inference (\cite{tongsinoot2017exploring}, \cite{luo2020research}) don't explicitly consider the situation where people might change their residential locations.
 
 
-In the second stage, we implement an extremely simple temporal filtering technique to remove unrepresentative clusters possibly caused by temporary visits or anomalous cases. The remaining clusters are well-representative home clusters, the centers of which are identified as home locations.
+% In the second stage, we implement an extremely simple temporal filtering technique to remove unrepresentative clusters possibly caused by temporary visits or anomalous cases. The remaining clusters are well-representative home clusters, the centers of which are identified as home locations.
 
 
-\section{Detection of Residential Shift through CDRs}
-Several studies have already taken advantage of CDRs to identify residential relocation. Although most of the works on home location inference are not designed for detecting home location shifts in that they often estimate one location over the whole sample period. However, we can still apply these approaches on multiple fixed-size time window (\cite{blumenstock2012inferring}, \cite{phithakkitnukoon2022inferring}, \cite{blumenstock2025migration}), e.g., daily, weekly, or monthly, or between two time periods (\cite{lai2019exploring}, \cite{dias2022framework}) and if more than one home location is found, we can consider it as a residential shift. \cite{phithakkitnukoon2022inferring} is the case where they apply the simple approach on each month to detect residential shifts while \cite{dias2022framework} adopt \cite{isaacman2011identifying}'s home location estimation method on January to March 2013 and July to September 2013, respectively. This strategy for inferring residential shift requires several predefined parameters, such as the minimum time span of each residential location to exclude short-term visits or distance threshold to define the separation of two home locations. Hence, a heavy procedure of sensitive analysis is required to select the appropriate parameters.
+\section{Detection of Residential Shifts through CDRs}\label{sec:2_detection_of_residential_shifts_through_cdrs}
+Several studies have already taken advantage of CDRs to identify residential relocation.
+Although most of the works on home location inference are not designed for detecting home location shifts in that they often estimate one location over the whole sample period.
+However, we can still apply these approaches on multiple fixed-size time window (\cite{blumenstock2012inferring}, \cite{phithakkitnukoon2022inferring}, \cite{blumenstock2025migration}), e.g., daily, weekly, or monthly, or between two time periods (\cite{lai2019exploring}, \cite{dias2022framework}) and if more than one home location is found, we can consider it as a residential shift.
+\cite{phithakkitnukoon2022inferring} is the case where they apply the simple approach on each month to detect residential shifts while \cite{dias2022framework} adopt \cite{isaacman2011identifying}'s home location estimation method on January to March 2013 and July to September 2013, respectively.
+This strategy for inferring residential shift requires several predefined parameters, such as the minimum time span of each residential location to exclude short-term visits or distance threshold to define the separation of two home locations.
+Hence, a heavy procedure of sensitive analysis is required to select the appropriate parameters.
 
-\cite{buchel2020calling} also utilize CDRs to identify residential shift and benefits from high-quality data billing addresses, making residential estimation extremely precise and identification of migrants is simply based on whether individuals change their residential locations. However, as such data is not available in most scenarios, thereby failing to be widely applicable.
+\cite{buchel2020calling} also utilize CDRs to identify residential shift and benefits from high-quality data billing addresses, making residential estimation extremely precise and identification of migrants is simply based on whether individuals change their residential locations.
+However, as such data is not available in most scenarios, thereby failing to be widely applicable.
 
-\cite{chi2020general} is a closely related work. They abandon the first stage by clustering coordinates of telecom base stations if they are in the same administrative district. Furthermore, they apply clustering algorithm on time axis for a district to identify contiguous segments and further merge segments if no other segments from the other district are found. At the last step, they allow the overlapping of segments from different districts to form home locations at different periods. Our two-stage approach not only provides finer spatial resolution but also is simpler and more rigorous. It is simpler due to the removal of temporal clustering and segment merging, and more rigorous due to the prohibition of overlapping segments from different districts.
+\cite{chi2020general} is a closely related work.
+They abandon the first stage by clustering coordinates of telecom base stations if they are in the same administrative district.
+Furthermore, they apply clustering algorithm on time axis for a district to identify contiguous segments and further merge segments if no other segments from the other district are found.
+At the last step, they allow the overlapping of segments from different districts to form home locations at different periods.
+Our two-stage approach not only provides finer spatial resolution but also is simpler and more rigorous. It is simpler due to the removal of temporal clustering and segment merging, and more rigorous due to the prohibition of overlapping segments from different districts.
 
 Our approach stands out for being universal, efficient, and comprehensive.
 It relies solely on CDRs, requiring no additional information.
-There is only one parameter—the maximum distance between two points—which can be reasonably set between 5 to 10 km based on the average service range of telecom base stations.
+There is only one parameter—the maximum distance between two points—which can be reasonably set between 5 to 20 km based on the average service range of telecom base stations.
 Moreover, since we follow the literature on internal migration in China and focus on inter-prefecture migration flows, sensitivity analysis of this hyperparameter is unnecessary.
 Furthermore, we simply unveil inherent spatial-temporal patterns through unsupervised learning.

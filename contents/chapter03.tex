@@ -36,9 +36,13 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \end{footnotesize}
 \end{singlespace}
 
-We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc. By joining CDRs with coordinates data on cell IDs, and then grouping by user phone numbers, we can obtain the daily history of movement trajectories of each phone user from August 2013 to May 2014. User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis. When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
+We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc.
+By joining CDRs with coordinates data on cell IDs, and then grouping by user phone numbers, we can obtain the daily history of movement trajectories of each phone user from August 2013 to May 2014.
+User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis.
+When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
 
-The cleaning of CDRs involves removing records where (i) either the calling or called number is not mobile phone numbers, (ii) either the start or end time is not valid timestamps, and (iii) the duration of calls is less than or equal to 0. For user profile data, we remove client numbers in profile data whose ID card numbers are not in the correct specification. After the cleaning, we have 0.5 to 0.6 billion call records per month and 348,241 client numbers whose profile features are available in each month.
+The cleaning of CDRs involves removing records where (i) either the calling or called number is not mobile phone numbers, (ii) either the start or end time is not valid timestamps, and (iii) the duration of calls is less than or equal to 0.
+For user profile data, we remove client numbers in profile data whose ID card numbers are not in the correct specification. After the cleaning, we have 0.5 to 0.6 billion call records per month and 348,241 client numbers whose profile features are available in each month.
 
 
 \section{Notations}\label{sec:notations}
@@ -47,7 +51,9 @@ Denote $V$ as a set of the phone users, $B$ as a set of telecom base stations an
 \begin{definition}[Call Detailed Records]
 CDRs denoted by $R$ is a collection of phone calls, which are 4-tuples, containing information of the caller, recipient, timestamp, and telecom base station that services the call. It's defined as:
 $$
-R := \{
+R
+:=
+\{
   (i, j, t, b) \in V \times V \times T \times B
   \mid
   i \text{ calls } j \text{ at timestamp } t \text{ and }
@@ -57,7 +63,8 @@ $$
 \end{definition}
 
 \begin{definition}[A User's Nighttime Call Records Serviced by a Telecom Base Station]
-Given CDRs $R$, we can filter call events that are either made or received by a user $i$ and serviced by a telecom base station $b$ during nighttime. Note that the definition of nighttime follows \cite{referral_effect_2023aer}. It's denoted by $R^{\text{night}}_{i, b}$ and defined as:
+Given CDRs $R$, we can filter call events that are either made or received by a user $i$ and serviced by a telecom base station $b$ during nighttime.
+Note that the definition of nighttime follows \cite{referral_effect_2023aer}. It's denoted by $R^{\text{night}}_{i, b}$ and defined as:
 \begin{align*}
 R^{\text{night}}_{i, b} := \{
     r \in R
@@ -326,9 +333,19 @@ May 2014 & 1520 & 1222 & 80.39 & 127.37 & 151.29 & 118.78 \\
 \end{footnotesize}
 \end{singlespace}
 
-The treatment timing varies across users who have once changed their residential locations, but we select those who migrate in the middle of the sample period, i.e., $g \in \{4,5,6,7\}$. For these users, we have higher confidence level to safely classify them as migrants in that the temporal sizes of the two home clusters are comparable. For example, if the residential shift takes place in September 2013, then the first cluster's temporal size is about a month while the second cluster's temporal size is very likely to be greater than a month with a maximum of 9 months. In this case, the two home clusters are obviously not comparable in terms of the temporal sizes, so we are less confident to classify this user as a migrant because the first cluster may be a short visit, and the first timestamp associated with the second home cluster might be even earlier, outside the sample period. Referring to Table \ref{tab:migration_sample}, it seems that there are many users relocating in the early and late period of the sample period, highlighting the importance to restrict the definition of migrants to those relocate in the middle of the sample period. Besides, restricting migrants to those who relocate in the middle of the sample period doesn't substantially distort the origin-destination distribution, as the KL-divergence is about 0.35, which is calculated by comparing the origin-destination distribution of inter-prefecture migrants who migrate in the middle of the sample period to that of migrants who migrate in all months.
+The treatment timing varies across users who have once changed their residential locations, but we select those who migrate in the middle of the sample period, i.e., $g \in \{4,5,6,7\}$.
+For these users, we have higher confidence level to safely classify them as migrants in that the temporal sizes of the two home clusters are comparable.
+For example, if the residential shift takes place in September 2013, then the first cluster's temporal size is about a month while the second cluster's temporal size is very likely to be greater than a month with a maximum of 9 months.
+In this case, the two home clusters are obviously not comparable in terms of the temporal sizes, so we are less confident to classify this user as a migrant because the first cluster may be a short visit, and the first timestamp associated with the second home cluster might be even earlier, outside the sample period.
+We call this kind of issue observation window bias, which results from the pre-determined observation time frame where the accumulation of information for inference is insufficient.
+Referring to Table \ref{tab:migration_sample}, it seems that there are many users relocating in the early and late period of the sample period, highlighting the importance to restrict the definition of migrants to those relocate in the middle of the sample period.
+Besides, restricting migrants to those who relocate in the middle of the sample period doesn't substantially distort the origin-destination distribution, as the KL-divergence is about 0.35, which is calculated by comparing the origin-destination distribution of inter-prefecture migrants who migrate in the middle of the sample period to that of migrants who migrate in all months.
 
-We can define some parameters to rule out users who have incomparable temporal sizes of home clusters, for example, requiring the temporal sizes of the home clusters or even the ratio between them to be greater than thresholds. Nonetheless, as aforementioned, it's not necessary to define such parameters. We can simply follow the patterns of the data and conduct restrictive sample selection to validate the robustness of the results. Moreover, even if these parameters are defined, they are not employed to reduce methodological error—like other existing methods to identify residential shift mentioned in section 1.5—rather, it's a decision on how much we should trust the patterns
+We can define some parameters to rule out users who have incomparable temporal sizes of home clusters, for example, requiring the temporal sizes of the home clusters or even the ratio between them to be greater than thresholds.
+Nonetheless, as aforementioned, it's not necessary to define such parameters.
+We can simply follow the patterns of the data and conduct restrictive sample selection to validate the robustness of the results.
+Moreover, even if these parameters are defined, they are not employed to reduce methodological error—like other existing methods to identify residential shift mentioned in Section~\ref{sec:2_residential_shift_and_internal_migration}.
+Rather, it's a decision on how much we should trust the patterns
 
 % \textbf{Q: What the difference between the complete migrant sample and subsample?}
 
@@ -341,10 +358,10 @@ The differences in demographic features compared to non-migrants are larger for 
 Examining Panel B more closely, as we define the treatment group for analysis as those who migrate across prefectures during the middle of the sample period.
 Compared to non-migrants, these migrants tend to be younger and have a higher probability of being male, with a lower likelihood of being born in Deyang city.
 Furthermore, they own slightly better phone devices and a higher fraction of them use smartphones.
-% but they have approximately the same number of phones as non-migrants.revealed by the data.
+Although the imbalance of pre-treatment covariates is significant, the scale of differences seems to be small.
 
 \begin{table}[htbp]
-\vspace{0.2cm}
+\vspace{0.3cm}
 \renewcommand{\arraystretch}{1.6}
 \setlength{\tabcolsep}{1mm}{}
 \centering
@@ -385,7 +402,9 @@ born in Deyang flag & 0.82 & 0.61 & -0.21 & 0.0 \\
 
 \clearpage\newpage
 \section{Detection of Smartphone Adoption}
-Aside from residential shifts, our user information data enables us to inspect the effects of other shift events, specifically upgrading to smartphones. Smartphones have abundant functionalities that facilitate mobile communication and better assist users in exploring unfamiliar environments through GPS technology, potentially altering smartphone adopters' mobility patterns. To study the smartphone-adoption shift, we define the treated and untreated units as follows.
+Aside from residential shifts, our user information data enables us to inspect the effects of other shift events, specifically upgrading to smartphones.
+Smartphones have abundant functionalities that facilitate mobile communication and better assist users in exploring unfamiliar environments through GPS technology, potentially altering smartphone adopters' mobility patterns.
+To study the smartphone-adoption shift, we define the treated and untreated units as follows.
 
 \begin{definition}[Smartphone Adopters]\label{def:smartphone_adopter}
 A phone user $i \in V$ is a smartphone adopter associated with group $\mathcal{G}_g$ if user $i$ (i) changes from a non-smartphone device to a smartphone model, (ii) is not observed to switch back to non-smartphone devices throughout the sample periods, and (iii) the adoption event occurs in month $g \in \{4,5,6,7\} \subset \mathcal{M}$, where these months represent the middle of the sample period.
@@ -456,6 +475,8 @@ Panel A includes users who switch to smartphones during early sample periods, bu
 The definition of "changers" in Panel B of Table~\ref{tab:non_changer_changer_comparison} corresponds to our  formal definition of smartphone adopters presented in Definition~\ref{def:smartphone_adopter}.
 We can see that smartphone adopters are slightly younger, marginally more likely to be born outside Deyang prefecture (by approximately 2\%), and own more expensive non-smartphone phone devices (before adoption) compared to non-smartphone users.
 Besides, the age composition of the two groups shows no significant difference.
+Similar to the situation in residential shifts, the imbalance seems to be not obvious.
+
 
 \clearpage\newpage
 \section{Construction of Outcome Variables}
@@ -704,46 +725,98 @@ where $\text{Diag}(\hat{p}_{i, m})$ is the diagonal matrix with the probability 
 \clearpage\newpage
 \section{Empirical Strategy}
 In this section, we introduce the concept of potential outcome framework and the average treatment effect on the treated (ATT) to formalize our research question.
-As a straightforward and ideal definition, ATT provides clear guidance on what should be estimated.
-Moreover, our empirical strategy to estimate ATT is through the extended Difference-in-Differences (DiD) design.
-Subsequently, we elaborate on what estimation approach we adopt and the corresponding motivations.
-The estimation approach comes with various possible setups, and we explain which are the most suitable for us.
+As a straightforward and ideal definition, ATT provides clear guidance on what should be estimated, and it could be obtained through the DiD design.
+We will elaborate on what specific estimation approach we adopt and the corresponding motivations in this section.
+Moreover, the estimation approach comes with various possible setups, and we explain which are the most suitable for us.
 
 % \textbf{Q: What empirical strategy do you use? Why do you use it?}
 
-As we are interested in the effects of residential shifts and smartphone adoption on human mobility patterns and mobile communication behaviors, we formalize our research questions as follows: What are the magnitudes of differences in mobility and communication behaviors for individuals who receive these treatments compared to a counterfactual scenario where they never experienced them?
-We define treatments as either residential shifts or smartphone adoption events. Given that many individuals in our sample receive the treatment, it is natural to focus on average treatment effects rather than individual-level effects. Moreover, since our primary interest lies in understanding how these life events specifically impact those who experience them---addressing the counterfactual question "what would have happened if they had not been treated?"---we focus on ATT as our primary causal parameter of interest.
-Furthermore, examining how ATT evolves over time provides an additional dimension for analysis, and given these motivations, DiD with the design of multiple periods (also known as the event study) is an ideal econometric approach for examining both the ATT and its temporal dynamics.
+As we are interested in the effects of residential shifts and smartphone adoption on human mobility patterns and mobile communication behaviors, we formalize our research questions as follows: what are the magnitudes of differences in mobility and communication behaviors for individuals who receive these treatments compared to a counterfactual scenario where they never experienced them?
+The magnitudes of differences are so-called treatment effects, and treatments in this study are either residential shifts or smartphone adoption events. Given that many individuals in our sample receive the treatment, it is natural to focus on average treatment effects rather than individual-level effects.
+Moreover, since our primary interest lies in understanding how these life events specifically impact those who experience them---addressing the counterfactual question "what would have happened if they had not been treated?"---we focus on the treatment effects on the treated specifically as our primary causal parameter of interest.
+
+\clearpage\newpage
+ATT can be formalized as follows. Suppose a treatment occurs in period $t$. ATT is given by:
+\[
+ATT = \mathbb{E}[Y_{i, t} - Y_{i, t}(\infty) | D_i = 1]
+\]
+where \( D_i \) is a binary variable indicating whether an individual \( i \) is treated, $Y_{i, t}$ is the observed outcome in period $t$, and $Y_{i, t}(\infty)$ is the counterfactual untreated outcome. Examining how ATT evolves over time provides an additional dimension for analysis, and given these motivations, DiD with the design of multiple periods (also known as the event study) is an ideal econometric approach.
 
 % \textbf{For some of those who are not familiar with DiD, give a brief introduction}
 
 The intuition of DiD is that simply comparing treated and untreated units at a single point in time may be misleading because these groups might differ in unobservable ways. Similarly, comparing the same units before and after treatment might confound the treatment effect with general time trends that would have occurred regardless of treatment.
-
 DiD solves this problem by using a "double comparison." Suppose the treatment occurs in time period \( t \), and first, it compares the change in outcomes for the treated group over time:
 \[
 \mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
 \]
-where \( D_i \) is a binary variable indicating whether an individual \( i \) is treated. Second, it compares this change to the change observed in a control group over the same period:
+Second, it compares this change to the change observed in a control group over the same period:
 \[
 \mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
 -
 \mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 0]
 \]
-The key assumption is that, in the absence of treatment, both groups would have experienced the same time trend, where is called the parallel trends assumption (hereafter PTA).
-Under this assumption, any difference in the trends between the two groups can be attributed to the ATT.
+Besides, what makes the DiD design prevalent in empirical study is that it has good theoretical implication in that if we assume parallel trends in counterfactual untreated outcomes:
+\[
+\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 1]
+-
+\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 0],
+\]
+then the double comparison can recover ATT:
+\begin{align*}
+&\underbrace{
+    \mathbb{E}[Y_{i, t} - Y_{i, t}(\infty) | D_i = 1]
+}_{
+    ATT
+}
+\\
+&
+=
+\mathbb{E}[
+    Y_{i, t}
+    \mid D_i = 1
+]
+\\
+&\quad\quad
+-
+\underbrace{
+    (
+    \mathbb{E}[Y_{i, t-1}(\infty) \mid D_i = 1]
+    +
+    \mathbb{E}[Y_{i, t}(\infty)
+        - Y_{i, t-1}(\infty) \mid D_i = 1]
+    )
+}_{
+    =\mathbb{E}[Y_{i, t}(\infty) \mid D_i = 1]
+}
+\\
+&=
+\mathbb{E}[Y_{i, t} - Y_{i, t-1}(\infty) \mid D_i = 1]
+-
+\underbrace{\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 0]}_{\text{due to parallel trends}}
+\\
+&=
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
+-
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 0].
+\end{align*}
+Note that observed outcomes are equivalent to counterfactual untreated outcomes for all untreated units in both period $t-1$ and $t$, and the equivalence also holds for treated units at period $t-1$.
 
-Note that the above example represents the canonical \( 2 \times 2 \) DiD design, which involves exactly two groups and two time periods.
-To examine treatment effect dynamics across multiple time periods, we can generalize this approach by selecting a reference period, which is \( t-1 \) in the above example, and applying the DiD logic to estimate treatment effects for each subsequent period relative to the predefined reference period.
-Furthermore, the canonical \( 2 \times 2 \) setup assumes static treatment timing, where all treated units receive treatment simultaneously. However, our empirical setting are different in the sense that treatment units become treated at different periods. This variation in treatment timing introduces additional complexity, and several econometrics tools have proposed to address this issue.
+The above example represents the canonical \( 2 \times 2 \) DiD design, which involves exactly two groups and two time periods.
+To examine treatment effect dynamics over multiple periods, we generalize the double comparison approach by selecting a baseline reference period---which corresponds to \( t-1 \) in the $2 \times 2$ DiD case---and then applying the DiD methodology to estimate treatment effects for each subsequent period relative to this reference point.
+DiD with multiple periods is also called event study, and we use these terms interchangeably.
+Conventionally, practitioners will utilize the two-way fixed effects specification to facilitate the ATT estimation in each period. Furthermore, the canonical \( 2 \times 2 \) setup assumes static treatment timing, where all treated units receive treatment simultaneously. However, our empirical setting are different in the sense that treatment units become treated at different periods. This variation in treatment timing introduces additional complexity, and several econometrics tools have proposed to address this issue.
 
 % \textbf{Put the focus on the staggered DiD and provide a stylized fact by checking the outcomes' evolution paths}
 
-In the Definition \ref{def:migrants}, we include treatment units with staggered treatment adoption to avoid contemporaneous confounders, leading to a robust estimation.
+In the Definition~\ref{def:migrants} and ~\ref{def:smartphone_adopter}, we include treatment units with staggered treatment adoption to avoid contemporaneous confounders, leading to a robust estimation.
 However, the design of DiD with multiple periods and staggered treatment adoption, through two-way fixed effect specification may be biased due to the forbidden comparison (this term also used by \cite{roth2023s} and \cite{de2023two}). That is, comparing the latter treated units to the early treated units, in the context of time-variant treatment effects (\cite{goodman2021difference}, \cite{sun2021estimating}, \cite{baker2022much}).
 Through inspecting how mobility and mobile communication features evolve after residential shift (see Figure from \ref{fig:effect_of_residential_shift_on_total_duration} to \ref{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_eccentricity}) and smartphone adoption (see Figure from \ref{fig:effect_of_smartphone_adoption_on_outgoing_incoming_total_duration} to \ref{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_eccentricity}), we can observe the non-static treatment effect dynamics, resulting in the inapplicability of two-way fixed effects models.
 
 Consequently, we follow the estimation approach proposed by \cite{callaway2021difference}, which estimates the ATT dynamics for each treatment-timing cohort independently with the valid control group, thereby avoiding the issue of forbidden comparison.
-Note that aside from \cite{callaway2021difference}, many other econometric tools have been proposed to solve the issue as to the forbidden comparison, and \cite{roth2023s} and \cite{de2023two} both provide comprehensive introduction and briefly summarize the differences across various approaches.
+They name the ATT specific to a period and treatment-timing cohort as group-time ATT where the group is defined as the treatment-timing cohort.
+Therefore, in the following text, "groups" refers to treatment-timing cohorts while "cohorts" aside from groups, the control units are included as a single cohort.
+
+Aside from \cite{callaway2021difference}, many other econometric tools have been proposed to solve the issue as to the forbidden comparison, and \cite{roth2023s} and \cite{de2023two} both provide comprehensive introduction and briefly summarize the differences across various approaches.
 We choose \cite{callaway2021difference} over other alternatives as it's considered to be more flexible in (i) the selection of valid control units, (ii) the aggregation of estimated treatment effects across cohorts and periods, and (iii) the assumption on parallel trends.
 
 % \begin{equation}
@@ -753,21 +826,22 @@ We choose \cite{callaway2021difference} over other alternatives as it's consider
 
 % \textbf{Q: What's the summary of your empirical strategy? Any suggestions from the authors who propose this idea? Do you follow? Why or why not?}
 
-\cite{callaway2021difference} name the ATT specific to a period and treatment-timing cohort as group-time ATT where the group is defined as the treatment-timing cohort.
-Therefore, in the following text, "groups" refers to treatment-timing cohorts while "cohorts" aside from groups, the control units are included as a single cohort.
 
 As mentioned, the key point of dealing with the time-variant treatment effects with staggered treatment adoption is to employ valid control units.
 \cite{callaway2021difference} is flexible in the selection of valid control units in the sense that they allow either the never-treated units or the not-yet-treated units to be control units depending on the practitioners' need. However, others' control units (e.g., \cite{sun2021estimating} and \cite{borusyak2024revisiting}) encompass of both never-treated and not-yet treated units, and don't have the freedom to choose either of them. Despite flexible, \cite{callaway2021difference} suggest employing the early-treated samples as the comparison only if the never-treated units are unavailable or limited in size. In our situation where only a small fraction of samples decides to change their homes or start using smartphones, never-treated samples are quite suitable as the comparison.
 
 \cite{callaway2021difference} aim at estimating ATT for each group and period, and therefore, researcher has the full customizability to aggregate them across groups and periods to obtain a summary ATT.
-Additionally, they incorporate covariates on which PTA conditions, which should be reasonable when the unconditional PTA is violated because groups differ in observable characteristics that affect outcome trends.
+Additionally, they incorporate covariates on which the parallel trends assumption (hereafter PTA) conditions, which should be reasonable when the unconditional PTA is violated because groups differ in observable characteristics that affect outcome trends.
 Nevertheless, conditional PTA introduces additional layer of complexity for estimation, so we will first start from the unconditional version for estimation, and if we clearly see the patterns of violation, we will move to incorporate the pre-treatment covariates, adopting the conditional PTA.
-
-Furthermore, the anticipation is allowed, which is particularly useful when discussing the impacts of residential shift as mobility or mobile communication features might start to change prior to the actual relocation timing due to exploring potential neighborhoods, researching local amenities, or establishing new social connections. Lastly, given the non-parametric nature of \cite{callaway2021difference}'s approach, the inference is done through a bootstrap process to obtain confidence intervals.
+Furthermore, the anticipation is allowed, which is particularly useful when discussing the impacts of residential shift as mobility or mobile communication features might start to change prior to the actual relocation timing.
+% due to exploring potential neighborhoods, researching local amenities, or establishing new social connections.
 
 \section{Group-Time ATT}
-Before introducing the group-time ATT, we need to set up the potential outcome framework first to let the ATT have a clearer definition.
-Since we include treatment units with four different treatment timings and if treatment effects are effective and heterogeneous across treatment-timing cohorts, we can observe five different aggregated outcome paths as shown in previous section. Therefore, for each user $i$, in each month $m \in \mathcal{M}$, there will be 5 potential outcomes: $Y_{i, m}(\infty)$, $Y_{i, m}(4)$, $Y_{i, m}(5)$, $Y_{i, m}(6)$, and $Y_{i, m}(7)$. $Y_{i, m}(\infty)$ is the potential outcome in month $m$ for user $i$ if $i$ has never received the treatment throughout the sample period. In our case, phone users are considered to be treated if they either relocation or switch to smartphone. $Y_{i, m}(g)$ where $g \in \{4,5,6,7\}$ is the potential outcome in month $m$ for user $i$ if $i$ is treated in month $g$ ($i \in \mathcal{G}_g$). For each user $i$ and month $m$, only 1 potential outcome can be realized, becoming observable. Hence, the connection between potential outcomes and the observed outcome $Y_{i, m}$ is established (\cite{callaway2021difference}, \cite{sun2021estimating}) as follows:
+Before introducing the group-time ATT, we need to set up the potential outcome framework first to let it have a clear definition.
+Since we include treatment units with four different treatment timings ($\{4,5,6,7\} \subset \mathcal{M}$), for each user $i$, in each month $m \in \mathcal{M}$, there will be 5 potential outcomes: $Y_{i, m}(\infty)$, $Y_{i, m}(4)$, $Y_{i, m}(5)$, $Y_{i, m}(6)$, and $Y_{i, m}(7)$. $Y_{i, m}(\infty)$ is the potential outcome in month $m$ for user $i$ if $i$ has never received the treatment throughout the sample period.
+$Y_{i, m}(g)$ where $g \in \{4,5,6,7\} \subset \mathcal{M}$ is the potential outcome in month $m$ for user $i$ if $i$ is treated in month $g$ (i.e., $i \in \mathcal{G}_g$).
+For each user $i$ and month $m$, only 1 potential outcome can be realized, becoming observable.
+Hence, the connection between potential outcomes and the observed outcome $Y_{i, m}$ is established (\cite{callaway2021difference}, \cite{sun2021estimating}) as follows:
 \begin{equation}\label{eq:observed_outcome}
 Y_{i, m}
 = Y_{i, m}(\infty)
@@ -794,17 +868,16 @@ G_{i, \infty} =
 \end{cases}
 $$
 
-Anticipation is a critical topic when estimating the ATT as it determines which pre-treatment period is considered as the reference to correctly assess treatment effects. Let $\delta$ be the number of anticipation months, and for cohort $\mathcal{G}_g$, $g-\delta$ becomes the cutoff value (note that if $\delta=0$, the cutoff value is $g$, which returns to the conventional setting) and treatment effect dynamics are inspected for each month $m >= g-\delta$, as treatment effects are expected to let $Y_{i, m}(g)$ deviate from $Y_{i, m}(\infty)$ starting at any timing $m$ after $g-\delta$. This also implies:
+Anticipation is a critical topic when estimating the ATT as it determines which pre-treatment period is considered as the reference to correctly assess treatment effects. Let $\delta$ be the number of anticipation months, and for cohort $\mathcal{G}_g$, $g-\delta$ becomes the cutoff value (note that if $\delta=0$, the cutoff value is $g$, which returns to the conventional setting) and treatment effect dynamics are inspected for each month $m \geq g-\delta$, as treatment effects are expected to let $Y_{i, m}(g)$ deviate from $Y_{i, m}(\infty)$ starting at any timing $m$ after $g-\delta$. This also implies:
 \begin{equation}\label{eq:equivalence_potential_outcome}
     Y_{i, m}(g) = Y_{i, m}(\infty)
 \end{equation}
-for all $i \in \mathcal{G}_g$ and $m < g - \delta$ (modified from the Assumption 5 in \cite{roth2023s}). If we jointly consider the equation \ref{eq:observed_outcome} and \ref{eq:equivalence_potential_outcome}, we can further derive:
+for all $i \in \mathcal{G}_g$ and $m < g - \delta$ (modified from the Assumption 5 in \cite{roth2023s}). If we jointly consider the Equation~\ref{eq:observed_outcome} and~\ref{eq:equivalence_potential_outcome}, we can further derive:
 \begin{equation}\label{eq:equivalence_observed_outcome_pretreatment}
     Y_{i, m} = Y_{i, m}(g) = Y_{i, m}(\infty)
 \end{equation}
 for all $i \in \mathcal{G}_g$ and $m < g - \delta$.
-
-With these potential outcome notations, it's time to define the ATT, which discusses the effects of a treatment in the counterfactual sense.
+With these potential outcome notations, it's time to define the group-time ATT, which is ATT for a specific treatment-timing group in a specific priod.
 
 \begin{definition}[Group-Time ATT]\label{def:ATTgt}
 The ATT specific to treatment-timing cohort $\mathcal{G}_g$ in month $m \in \mathcal{M}$ is defined as:
@@ -849,7 +922,7 @@ Given the number of anticipation months $\delta$, for each $\mathcal{G}_g$ where
 \end{equation}
 \end{definition}
 
-That is, for all group $\mathcal{G}_g$ and month $m \geq g-\delta$, the trend in the counterfactual outcome of never-treated measured between month $m$ and $m-1$ should be expectedly identical between group $\mathcal{G}_g$ and the never-treated cohort $\mathcal{G}_{\infty}$ for all $\mathcal{G}_g$.
+That is, for all group $\mathcal{G}_g$ and month $m \geq g-\delta$, the trend in the counterfactual untreated outcome measured between month $m$ and $m-1$ should be expectedly identical between group $\mathcal{G}_g$ and the never-treated cohort $\mathcal{G}_{\infty}$ for all $\mathcal{G}_g$.
 It's an assumption as objects in the equality are potential outcomes $Y_{i, m}(\infty)$, which are clearly unobservable in the post-treatment periods for all $\mathcal{G}_g$. As mentioned, we will impose the unconditional PTA first, and switch to the conditional version if needed.
 % For the derivation of how the conditional PTA can facilitate the estimation of ATT, please refer to the original paper or quickly scan through \nameref{pta_att}, which provides a short introduction based on my personal understanding.
 % \cite{callaway2021difference} claim that the conditional PTA is more realistic as the unconditional PTA can be easily violated if the outcome trend is determined by covariates:
@@ -901,14 +974,22 @@ With equation \ref{eq:parallel_trend_general}, $\mathbb{E}[Y_{i, m}(\infty) \mid
 \mathbb{E}[Y_{i, g-\delta-1} \mid G_{i, g} = 1]
 \nonumber \\
 &\quad\quad
-+\mathbb{E}[Y_{i, m} \mid G_{i, \infty} = 1]
-- \mathbb{E}[Y_{i, g-\delta-1} \mid G_{i, \infty} = 1]
++
+\underbrace{
+    \mathbb{E}[Y_{i, m}(\infty) \mid G_{i, \infty} = 1]
+    -
+    \mathbb{E}[Y_{i, g-\delta-1}(\infty) \mid G_{i, \infty} = 1]
+}_{
+\text{due to parallel trends}
+}
 \nonumber \\
 &=
 \mathbb{E}[Y_{i, g-\delta-1} \mid G_{i, g} = 1]
 +
-\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1],
+\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1].
 \end{align}
+
+\clearpage\newpage
 Then, group-time ATT can be derived by:
 \begin{align} \label{eq:att_gt_full}
 ATT(g, m)
@@ -937,9 +1018,10 @@ ATT(g, m)
 &=
 \mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, g} = 1]
 -
-\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1]
+\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1].
 \end{align}
 By Equation \ref{eq:att_gt_full}, we can simply estimate $ATT(g, m)$ through its sample analogue. The simplicity credits to the unconditional PTA, and for how to incorporate conditional PTA, please refer to \cite{callaway2021difference}.
+Note that statistical inference relies on the bootstrap procedure for standard error estimation.
 
 % Through this equation, we can see that $\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, g} = 1]$ can be estimated through the sample analogue but $\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid X_i, G_{i, \infty} = 1]$ needs additional estimation, which is the identification strategy of the outcome regression.
 % The performance of such estimation is not guaranteed, so \cite{abadie2005semiparametric} proposed a sample weighting scheme based on the inverse probability weighting (IPW) to avoid this estimation.
@@ -953,9 +1035,13 @@ By Equation \ref{eq:att_gt_full}, we can simply estimate $ATT(g, m)$ through its
 % \textbf{Q: Given its importance, can we test the PTA?}
 
 It is important to note that PTA is extremely crucial for identification, as the ATT becomes unidentifiable without it. This raises the question whether there exists a method to test this assumption.
-Typically, the assumption's plausibility is evaluated in the pre-treatment periods in an event study design. As in pre-treatment periods, the potential outcome of the never-treated $Y_{i, m}(\infty)$ is observable for all user $i$, and if the PTA holds in the pre-treatment periods, it might be relatively reasonable to claim that the parallel trend might also hold in post-treatment periods.
+Typically, the assumption's plausibility is evaluated in the pre-treatment periods in an event study design.
+As in pre-treatment periods, the potential outcome of the never-treated $Y_{i, m}(\infty)$ is observable for all user $i$, and if the PTA holds in the pre-treatment periods, it might be relatively reasonable to claim that the parallel trend might also hold in post-treatment periods.
 
-That's the reason why we plot the treated group's trajectories of mean outcomes centered at the reference period $g-\delta-1$, along with those of the control group. If in the pre-treatment periods, the treated group's trajectory highly overlaps with the control group's trajectory, it will be reasonable to claim that the parallel trend assumption holds in the pre-treatment periods. In all figures in \nameref{appendix_event_centered_trends}, we can see that the treated group's re-centered mean outcomes' trajectories highly overlaps with those associated to the control group's trajectory in the pre-treatment periods while with few exceptions occurring only in a particular treatment-timing cohort for some outcomes, which generally confirms the plausibility of parallel trend in pre-treatment periods.
+That's the reason why we plot the treated group's trajectories of mean outcomes centered at the reference period $g-\delta-1$, along with those of the control group.
+% If in the pre-treatment periods, the treated group's trajectory highly overlaps with the control group's trajectory, it will be reasonable to claim that the parallel trend assumption holds in the pre-treatment periods.
+In all figures in \nameref{appendix_event_centered_trends}, we can see that the treated group's re-centered mean outcomes' trajectories highly overlaps with those associated to the control group's trajectory in the pre-treatment periods.
+However, exceptions occur in specific treatment-timing cohorts for certain outcomes, raising some concerns about the plausibility of the PTA.
 
 Moreover, given that the treatment is not confounded, and anticipation effects are correctly accounted for, if PTA holds, the estimated ATT in pre-treatment periods should be statistically insignificant.
 The intuition is that the treatment shouldn't take effects during pre-treatment periods and under PTA, treated units' outcome changes should be identical to the comparison group's changes over the same periods, yielding insignificant ATT estimation.
