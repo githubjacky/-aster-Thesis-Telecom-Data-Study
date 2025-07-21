@@ -2,7 +2,6 @@
 \chapter{Introduction}
 We employ call detailed records (CDRs) to study human mobility patterns and mobile communication behavior.
 Individuals move and interact with others on a daily basis, and CDRs record mobility and communication behaviors at nearly the individual level---that is, observation units are phone numbers rather than actual phone users---facilitating flexible aggregations across multiple hierarchies based on practitioners' needs for answering various research questions.
-
 Macro patterns of mobility and communication behaviors revealed in CDRs can provide significant policy implications across multiple domains.
 For instance, mobility patterns derived from CDRs can inform urban transportation planning by revealing commuting flows (\cite{phithakkitnukoon2012socio}) and peak travel times (\cite{tongsinoot2017exploring}), enabling policymakers to optimize public transit routes and schedules.
 During public health emergencies, CDR mobility data can help design targeted lockdowns by estimating transmission flows (\cite{wesolowski2016connecting}) or identifying high-risk  residential neighborhoods for restrictions while keeping essential services and supply chains operational.
@@ -12,14 +11,14 @@ We summarize mobility and mobile communication behaviors using six features, wit
 For mobility, we curate radius of gyration (\cite{gonzalez2008understanding}, \cite{ranjan2012call}, \cite{pappalardo2015returners}), movement entropy (\cite{eagle2010network}, \cite{song2010limits}, \cite{pappalardo2016analytical}) and eccentricity (\cite{yuan2012correlating}, \cite{zhao2019effect}), which seeks to measure the spatial dispersion of travel, the diversity of human movement, and how closely the spatial distribution of locations resembles an ellipse, respectively.
 To characterize mobile communication patterns, we construct total call duration, contact entropy (\cite{eagle2010network}, \cite{pappalardo2016analytical}), and contact distance, which quantify the differentials in relationship intensities across contacts, the diversity of mobile interactions, and the spatial reach of social interactions, respectively.
 
-While we did not invent these features, we improved them by incorporating a routing mechanism that is prevalent in the telecommunication industry and aims to balance traffic among surrounding telecom base stations.
-Two issues arise with the routing mechanism.
+While we did not invent these features, we improved them by incorporating the load sharing mechanism that is prevalent in the telecommunication industry, containing two components: load balancing (\cite{ayesha2019user}) and handover (\cite{marquez2011overview}).
+Two issues arise with the load sharing mechanism.
 First, the telecom base station handling a call event may not always be the closest one to the user (\cite{yuan2012correlating}).
-Second, even if a user initiates or receives calls at the same location, such as at home, the telecom base station serving the call may vary.
-
-Ignoring the routing mechanism can introduce biases when inferring significant locations for individuals and the intensities of social ties characterized by mobile communication.
-Therefore, we make methodological contributions by proposing that the randomness of social interactions should be modeled using relative call duration rather than the number of calls, and that the randomness of location visits---approximated by telecom base station coordinates---should be modeled using the relative number of days a particular base station handles calls rather than the total number of call events it processes.
-Besides, we apply DBSCAN, a machine learning clustering algorithm, to gather adjacent coordinates, aiming at robust estimation of home locations.
+% That is, even if a user initiates or receives calls at the same location, such as at home, the telecom base station serving the call may vary.
+Second, a single call communication can generate multiple call records due to the change of telecom base station processing that call.
+Ignoring the load sharing mechanism can introduce biases when inferring users' significant locations based on the staying frequency and the intensities of social ties characterized by mobile communication.
+Therefore, we make methodological contributions by proposing that the randomness of mobile interactions should be modeled using relative call duration rather than the number of calls, and that the randomness of location stays should be modeled using the relative number of days a particular base station handles calls rather than the total number of call events it processes.
+Besides, we also apply DBSCAN, a machine learning clustering algorithm, to mitigate localization errors (\cite{ayesha2019user}), thereby improving the robustness of home location estimation.
 
 CDRs are already heavily utilized in human mobility research (\cite{gonzalez2008understanding}, \cite{song2010limits}, \cite{wesolowski2016connecting}) and social network analysis (\cite{onnela2007structure}, \cite{cho2011friendship}, \cite{referral_effect_2023aer}).
 However, the majority of research focuses on modeling statistical properties of these behavioral features or examining correlations between social networks and mobility.
@@ -37,7 +36,6 @@ The estimation results help interpret anomalous events when using CDRs to monito
 Moreover, our work also suggests that policy awareness should increase regarding the need for mobile and transportation infrastructure when significant population displacement or mobile technology updates occur.
 Examples of population displacement include refugee resettlement programs (e.g., around 1 million Syrian refugees who fled civil war and resettled in Germany during 2015-2016), natural disaster relocations (e.g., about 15 million people resettled within China following the 2008 Wenchuan earthquake), or environmental displacement due to industrial pollution (e.g., 833 families relocated from Love Canal, New York during 1978-1980 due to toxic chemical contamination).
 Mobile technology updates contain network infrastructure upgrades (2G to 3G to 4G to 5G), and GPS-enabled services adoption.
-
 
 The remaining content is structured as follows. Chapter two provides a literature review on internal migration and estimating home locations and identifying residential shifts through CDRs.
 Chapter three introduces our data sources, how we identify residential shifts and smartphone adoption, and how various behavioral features are constructed.

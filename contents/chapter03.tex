@@ -41,7 +41,7 @@ By joining CDRs with coordinates data on cell IDs, and then grouping by user pho
 User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis.
 When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
 
-The cleaning of CDRs involves removing records where (i) either the calling or called number is not mobile phone numbers, (ii) either the start or end time is not valid timestamps, and (iii) the duration of calls is less than or equal to 0.
+The cleaning of CDRs involves removing records where (i) both the calling or called number is not mobile phone numbers, (ii) both the start or end time is not valid timestamps, and (iii) the duration of calls is less than or equal to 0.
 For user profile data, we remove client numbers in profile data whose ID card numbers are not in the correct specification. After the cleaning, we have 0.5 to 0.6 billion call records per month and 348,241 client numbers whose profile features are available in each month.
 
 
@@ -66,11 +66,19 @@ $$
 Given CDRs $R$, we can filter call events that are either made or received by a user $i$ and serviced by a telecom base station $b$ during nighttime.
 Note that the definition of nighttime follows \cite{referral_effect_2023aer}. It's denoted by $R^{\text{night}}_{i, b}$ and defined as:
 \begin{align*}
-R^{\text{night}}_{i, b} := \{
+R^{\text{night}}_{i, b}
+:=
+\{
     r \in R
     \mid
-    &\text{there exists } t \in T \text{ where } t \geq \text{10 p.m.} \text{ and } t \leq \text{7 a.m.} \\
-    &\quad \text{and } j \in V \text{ such that } r \in \{(i, j, b, t), (j, i, b, t) \}
+    &\text{ there exists }
+        t \in T \text{ where }
+            t \geq \text{10 p.m.}
+            \text{ and } t \leq \text{7 a.m.} \\
+    &\quad \text{and }
+        j \in V
+    \text{ such that }
+        r \in \{(i, j, b, t), (j, i, b, t) \}
  \}.
 \end{align*}
 \end{definition}
@@ -82,8 +90,11 @@ T^{\text{night}}_{i, b} :=
 \{
     t \in T
     \mid
-    \text{there exists } j \in V
-    \text{such that either } (i, j, t, b) \text{ or } (j, i, t, b) \in R^{\text{night}}_{i, b}
+    \text{there exists }
+        j \in V
+    \text{ such that }
+        \text{either } (i, j, t, b)
+        \text{ or } (j, i, t, b) \in R^{\text{night}}_{i, b}
 \}.
 $$
 \end{definition}
@@ -94,18 +105,140 @@ A subset $B^{\text{night}}_i \subset B$ of telecom base stations connected to a 
 B^{\text{night}}_i := \{
     b \in B
     \mid
-    &\text{there exists } j \in V \text{ and } t \in T \\
+    &\text{ there exists } j \in V \text{ and } t \in T \\
     &\quad \text{such that either } (i, j, t, b) \text{ or } (j, i, t, b) \in R^{\text{night}}_{i, b}
 \}.
 \end{align*}
 \end{definition}
 
-\section{Spatial Clustering}
-Recall that our estimation of residential locations consists of two stages and the first stage is to run the spatial clustering algorithm to aggregate the appearance patterns geographically during nighttime. A user $i$'s locations during nighttime are approximated by $B^{\text{night}}_i$, on which the clustering algorithm, DBSCAN, is applied. To be precise, location refers to an injective function $loc: B \rightarrow \mathbb{R}^2$ which maps each base station $b \in B$ to its geographic coordinates $loc(b) = (lon_b, lat_b)$ where $lon_b$ and $lat_b$ represent the longitude and latitude of telecom base station $b$, respectively. Our choice of DBSCAN is based on the fact that it does not require predefining number of clusters, unlike K-means, offering greater flexibility in identifying natural clusters within the data like CDRs.
 
-Before applying DBSCAN, we need to decide the weight for each location $b \in B^{\text{night}}_i$, and we follow the idea of defining the weight of a base station as the number of days on which it services call records for user $i$ rather than the number of calls, which is borrowed from \cite{isaacman2011identifying} while they applied the clustering algorithm designed by \cite{hartigan1975clustering}. They argue that this approach can reduce the influence of base stations that were only used for a few days but had a burst of events on those days—for example, during a temporary vacation, people might make a lot of phone calls to share their experiences with their contacts. To enable this definition of weights for telecom base stations, we define a measure named as the temporal size over a set of timestamps that computes the number of unique days spanned by these timestamps. With the temporal size measure, the weight of a base station $b \in B^{\text{night}}_i$ is defined as the share of the temporal size related to $b$ to the aggregate temporal size across all $b \in B^{\text{night}}_i$.
+\section{Home Location Estimation}\label{sec:estimation_of_residential_location}
+\begin{figure}[h!]
+\centering
+\caption{Pipeline for Estimating A Phone User's Home Locations}
+\vspace{0.1cm}
 
-\begin{function}[A Measure of Temporal Size of a Set of Timestamps]
+\includegraphics[scale=0.088]{figures/pipeline_home_locations.png}
+
+
+% \caption*{Notes: .}
+\label{fig:pipeline_home_location}
+\end{figure}
+
+% (Introduction)
+This section aims at introducing how phone users' home locations are estimated, and Figure~\ref{fig:pipeline_home_location} presents all the steps for completing the task.
+Before directly diving into how our proposed estimation works, we provide a brief preliminary introduction to the issues and limitations of using CDRs to locate user locations, which motivates the use of spatial clustering.
+
+% (Basic terminology and load sharing concept)
+To establish our terminology, we use "call event" to refer to mobile communication established through a single phone call.
+However, a call event can generate multiple call records due to changes in telecom base stations resulting from load sharing mechanisms.
+We term this mismatch between call events and call records the "load sharing effect" (\cite{ayesha2019user}).
+Throughout this text, we use the terms "telecom base station", "telecom station", and "base station" interchangeably, all referring to the mobile infrastructure that routes phone calls.
+
+% (Load sharing mechanisms and redefinition)
+The load sharing mechanism is triggered under two primary circumstances: when there is a need to balance traffic among adjacent base stations (load balancing) or when a phone user moves across different service areas of base stations (handover).
+We redefine the "load sharing" concept introduced in \cite{ayesha2019user}, as their definition appears more similar to "load balancing".
+We propose that "load sharing" should encompass a broader scope, including the sharing mechanisms observed in handover scenarios. Since our analysis focuses on non-sequential mobility patterns---prioritizing spatial characteristics of where users stay or visit rather than temporal movement sequences---the load balancing aspect becomes particularly relevant.
+
+% (Load balancing effect and location terminology)
+A direct way to characterize the load balancing is that the telecom station handling a call record is not necessarily the closest one to the actual location where the call event occurs.
+It is important to note that "locations" refer to geographic coordinates throughout this text.
+Specifically, stay locations refer to the exact location where a call event is initiated.
+This location is unobservable and differs from all locations of base stations associated with the call records relevant to that call event.
+We refer to the base station locations as "observed locations," which serve as spatial approximations of the true stay locations.
+Multiple observed locations can be associated with a single stay location through two mechanisms: (i) load balancing (as discussed above) and (ii) repeated usage patterns, where users frequently make calls from the same stay location, generating multiple observed locations that correspond to the same underlying stay location.
+
+% (Reconstruction challenge and spatial clustering motivation)
+From an analytical standpoint, characterizing the mobility behavior revealed in CDRs requires reconstructing stay locations from observed locations.
+This reconstruction challenge, combined with our focus on spatial characteristics rather than sequential movement patterns, naturally motivates the application of spatial clustering techniques to group nearby observed locations.
+
+% (Transition toward home location estimation)
+Home location estimation represents a specific application of stay location reconstruction, where we focus on identifying residential places using exclusively nighttime call records.
+During nighttime hours, users may have multiple stay locations, and spatial clustering allows us to identify observed locations that form nighttime clusters around potential home location candidates.
+The challenge then becomes filtering true "home clusters" from the broader set of nighttime clusters, which we accomplish through a temporal filtering scheme introduced in Section~\ref{sec:temporal_filtering}.
+Our proposed approach therefore operates in two stages: spatial pattern aggregation followed by temporal filtering.
+
+
+\subsection{Spatial Clustering}\label{sec:spatial_clustering}
+% (Reasons for the Choice of DBSCAN)
+Our choice of spatial clustering algorithm is DBSCAN and we apply DBSCAN to each phone user over a set of observed locations.\footnote{We apply \href{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html}{scikit-learn}'s implementation of DBSCAN to each phone user.}
+As mentioned, observed locations refer to base station coordinates and connect to an injective function $\text{loc}: B \rightarrow \mathbb{R}^2$ which maps each base station $b \in B$ to its geographic coordinates $\text{loc}(b) = (lon_b, lat_b)$ where $lon_b$ and $lat_b$ represent the longitude and latitude of telecom base station $b$, respectively.
+Our choice of DBSCAN is based on the fact that it does not require predefining the number of clusters, unlike K-means, offering greater flexibility in identifying natural clusters of observed locations that correspond to underlying stay locations.
+
+% (Formally Motivating the Application of Spatial Clustering)
+Recall that multiple observed locations can be associated with a single stay location through two mechanisms: (i) load balancing effects where the handling base station is not the closest to the call records and (ii) repeated usage patterns where users frequently make calls from the same stay location.
+Spatial clustering leverages this relationship by grouping nearby observed locations that likely correspond to the same underlying stay location.
+For nighttime clusters specifically, each cluster represents a set of observed locations that corresponds to a single home location candidate (the unobservable true stay location).
+
+
+\begin{definition}[A Nighttime Cluster for a User]
+The $k$-th nighttime cluster $C^{\text{night}}_{i, k}$ is obtained through the application of DBSCAN, and defined by:
+\begin{align*}
+C^{\text{night}}_{i, k}
+:=
+\{
+    b \in B^{\text{night}}_i
+    \mid
+    &\text{ for all }
+        b_m, b_n \in C^{\text{night}}_{i, k}
+        \text{ where }
+            m \neq n, \\
+    &\quad
+        (\text{loc}(b_m), \text{loc}(b_n))
+        \text{ satisfy DBSCAN clustering}
+\}
+\end{align*}
+\end{definition}
+
+
+Note that, we set the two parameters of DBSCAN: \textit{min\_samples} and \textit{eps} to 1 and 5 (km), respectively.
+Besides, we further denote $C^{\text{night}}_{i} = \{ C^{\text{night}}_{i, 1}, C^{\text{night}}_{i, 2}, \dots \}$ as a set of nighttime clusters for user $i$.
+
+% (short reasons for the assignments of parameters)
+A home location candidate may be associated with varying numbers of observed locations.
+While most cases involve multiple observed locations forming a cluster around the home location candidate, it is possible that only a single observed location is associated with a home location candidate, particularly in areas with sparse base station coverage.
+To account for this case, we set the \textit{min\_samples} parameter to one.
+Another parameter, \textit{eps}, which defines the maximum distance for two observed locations to be considered neighbors within a cluster, is set to 5~km with distances calculated using Vincenty's formulae.
+This parameter choice is motivated by the heterogeneous nature of effective service radii of base stations across our study regions.
+
+% (connect eps to effective service redii)
+Since effective service radii provide informative insights into the neighboring distances between consecutive base stations, they serve as appropriate prior knowledge for determining the \textit{eps} value.
+Theoretically, neighboring distances should be less than the sum of two consecutive base stations' effective service radii.
+Therefore, \textit{eps} should be greater than the maximum of all neighboring distances approximated by the sum of consecutive base stations' effective service radii but shouldn't be excessively large, as an overly large value might cause the algorithm to incorrectly merge two distinct clusters into one.
+Nevertheless, we believe that individuals will stay at home most of the time, so the distance between clusters should be relatively large to mitigate the issue of misidentification of clusters.
+
+% (explanation of the determination on our study areas' service redii)
+Our study regions including Deyang, Chongqing, and other prefectures in Sichuan Province encompass diverse geographic regions, including urban, suburban, and rural areas, and typically, the service radii in urban areas is smaller than those in rural areas (\cite{zreikat2004comparative}).
+\cite{zhou2024cell} provides an overview of recent research that utilizes CDRs to locate individuals' positions across various regions, including a particular discussion on spatial resolution, which is partially related to base stations' service radii.
+The overview states that the average service radius in urban regions (Shanghai, Nanjing, and Guiyang) is less than 1 km, while our study regions have much more complicated compositions.
+Therefore, the 5 km threshold represents an aggressive lower bound, which aims to account for the larger service radii characteristic of rural and suburban regions while maintaining meaningful spatial clustering in dense urban regions.
+Besides, choosing a relatively large \textit{eps} value addresses a key trade-off: while smaller values would reduce localization accuracy in rural regions, larger values risk merging distinct urban clusters.
+However, this risk can be potentially mitigated because individuals spend most time at home locations, and our weighted-average estimation across telecom stations (based on usage frequency) ensures that wrongly-included stations receive low weights in the final home estimation.
+
+
+\subsection{Temporal Filtering}\label{sec:temporal_filtering}
+After the procedure of spatial clustering, we can zoom out the level of spatial analysis from locations to clusters so the issues arising from the load sharing mechanism are now resolved. Therefore, we define the new notations for both subsets of CDRs and timestamps based on $C^\text{night}_i$, which previously defined while considering $B^\text{night}_i$.
+
+
+\begin{definition}[A User's Nighttime Call Records Serviced by a Nighttime Cluster]
+For a cluster $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, a set of call records serviced by $C^{\text{night}}_{i, k}$ is defined as:
+$$
+\mathcal{R}^{\text{night}}_{i, k} := \bigcup_{b \in C^{\text{night}}_{i, k}} R^{\text{night}}_{i, b}.
+$$
+\end{definition}
+
+
+\begin{definition}[A Set of Timestamps of a User's Nighttime Call Records Serviced by A Nighttime Cluster]
+For a cluster $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, the timestamps of $\mathcal{R}^{\text{night}}_{i, k}$ is defined as:
+$$
+\mathcal{T}^{\text{night}}_{i, k} := \bigcup_{b \in C^{\text{night}}_{i, k}} T^{\text{night}}_{i, b}.
+$$
+\end{definition}
+
+The second stage of the residential place estimation is to apply the temporal filtering trick, aiming at obtaining home clusters from a set of nighttime clusters, which contains a user's home locations.
+Furthermore, the purpose is to keep those clusters that are temporal representative, and the first home cluster is intuitively assigned to the one that serve calls on the most number of days, which we name as the measure of "temporal size".
+
+\begin{function}[A Measure of Temporal Size of a Set of Timestamps]\label{def:temporal_size}
 The measure of temporal size of a subset $\tilde{T} \subset T$ of timestamps is defined as a measure  $\mu: 2^T \rightarrow \mathbb{N}$ where
 \begin{equation}\label{eq:temporal_size}
 \mu(\tilde{T}) =
@@ -119,68 +252,17 @@ The measure of temporal size of a subset $\tilde{T} \subset T$ of timestamps is 
 \end{equation}
 \end{function}
 
-\label{def:temporal_size}
-\begin{definition}[Telecom Base Station's Weight for a Client]
-For a user $i \in V$ the weight for telecom base station $b \in B_i$ is defined as:
-\[
-w_i^{\text{night}}
-:= \left\{
-    w^{\text{night}}_{i, b} \in \mathbb{R}
-    \mid
-    w^{\text{night}}_{i, b} = \frac{\mu(T^{\text{night}}_{i, b})}{\sum_{b \in B^\text{night}_i} \mu(T^{\text{night}}_{i, b})}, b \in B^{\text{night}}_i
-\right\}.
-\]
-\end{definition}
-
-Thereafter, the distance measure between two locations is defined as $d: \mathbb{R}^2 \rightarrow \mathbb{R}$, which utilizes the Vincenty's formulae to compute the geographic distance (km) between two locations. For a user $i \in V$, we run the DBSCAN over $(\{\text{loc}(b)\}_{b \in B^{\text{night}}_i}, w^{\text{night}}_i)$ to obtain a set $C^{\text{night}}_i$ of clusters.
-
-\begin{definition}[A Set of Nighttime Clusters of a Client]
-\begin{align*}
-C^{\text{night}}_i := \{
-    C^{\text{night}}_{i, k} \subset B^{\text{night}}_i
-    \mid
-    &\text{for all } b_m, b_n \in C^{\text{night}}_{i, k}, \text{ where } m \neq n, d(\text{loc}(b_m), \text{loc}(b_n)) \\
-    &\quad \text{meets DBSCAN neighbor criteria.}
-\}.
-\end{align*}
-\end{definition}
-
-Note that we use \href{https://scikit-learn.org/stable/modules/generated/sklearn.cluster.DBSCAN.html}{scikit-learn}'s implementation of DBSCAN to obtain the cluster ID for each telecom station $b \in B^{\text{night}}_{i}$.
-
-\section{Estimation of Residential Location}\label{sec:estimation_of_residential_location}
-\begin{figure}[h!]
-\centering
-\caption{Pipeline for Estimating A Phone User's Home Locations}
-\vspace{0.1cm}
-
-\includegraphics[scale=0.088]{figures/pipeline_home_locations.png}
+Let us elaborate more on the definition of a representative cluster.
+We define a cluster to be representative if the temporal spans associated with each cluster are non-overlapping.
+An example can be found in Figure \ref{fig:cluster} where the 0-th cluster (black) doesn't temporally overlap with the 1-st cluster (green) in the lower plot.
+Therefore, each home cluster should correspond to a separate life period where the person lived in a particular location. Moreover, the identified home clusters are temporally sequential and mutually exclusive--when one residential period ends, the next begins, with no overlap between them.
+This somehow defines the temporal clusters and creates a clear timeline of residential history where each home cluster represents a distinct "home era" in chronological order.
 
 
-% \caption*{Notes: .}
-\label{fig:pipeline_home_location}
-\end{figure}
-
-This section aims at introducing how phone users' home locations are estimated, and Figure~\ref{fig:pipeline_home_location} presents all the steps for completing the task. After the procedure of spatial clustering, we can zoom out the level of spatial analysis from locations to clusters so the two issues arising from the routing mechanism are now resolved. Therefore, we define the new notations for both subsets of CDRs and timestamps based on $C^\text{night}_i$, which previously defined while considering $B^\text{night}_i$.
-
-\begin{definition}[A User's Nighttime Call Records Serviced by a Nighttime Cluster]
-For a cluster $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, a set of call records serviced by $C^{\text{night}}_{i, k}$ is defined as:
-$$
-\mathcal{R}^{\text{night}}_{i, k} := \bigcup_{b \in C^{\text{night}}_{i, k}} R^{\text{night}}_{i, b}.
-$$
-\end{definition}
+Before defining the overlap, we need to define objects associated to two distinct clusters that can be identified to be overlapping with each other.
+The object is the service time intervals, which are continuous time intervals starting from the first time that a cluster services calls and ending at the last time that a cluster services calls.
 
 \clearpage\newpage
-\begin{definition}[A Set of Timestamps of a User's Nighttime Call Records Serviced by A Nighttime Cluster]
-For a cluster $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, the timestamps of $\mathcal{R}^{\text{night}}_{i, k}$ is defined as:
-$$
-\mathcal{T}^{\text{night}}_{i, k} := \bigcup_{b \in C^{\text{night}}_{i, k}} T^{\text{night}}_{i, b}.
-$$
-\end{definition}
-
-The second stage of the residential place estimation is to apply the temporal filtering trick, aiming at obtaining home clusters, which contains a user's home locations. Eligible home clusters should be those that service the calls on the most number of days during a time period. Moreover, people might change their home locations during the sample period, and the home clusters afterward should also satisfy the definition of home clusters and the pre-moving period shouldn't overlap with the post-moving period, which is exactly the meaning of non-overlappness.
-
-Before defining the overlap, we need to define objects associated to two distinct clusters that can be identified to be overlapping with each other. The object is the service time intervals, which are continuous time intervals starting from the first time that a cluster services calls and ending at the last time that a cluster services calls.
-
 \begin{function}[The First \& Last Timestamp of a Set of Timestamps]
 Consider a set of timestamps $\tilde{T} \subset T$, the first and the last timestamps of which can be obtained by the following functions.
 $$
@@ -199,69 +281,87 @@ A continuous time interval associated to a nighttime cluster $C^{\text{night}}_{
 Consider two nighttime clusters, $C^{\text{night}}_{i, 1}, C^{\text{night}}_{i, 2}$, they overlap with each other temporally means there exists $t \in T$ such that $t$ is in both service time intervals of $C^{\text{night}}_{i, 1}$ and $C^{\text{night}}_{i, 2}$.
 \end{definition}
 
+
 With the definition of overlap, our temporal filtering trick is a sequential process, where we first sort the clusters in $C^{\text{night}}_i$ in descending order by the temporal sizes defined by $\mu(\mathcal{T}^{\text{night}}_{i, k})$ where $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, and then we iteratively select the cluster to be the home cluster that is not temporally overlap with any of the pre-selected home clusters. Note that the first home cluster is the cluster with the largest temporal size. The algorithm is shown in Algorithm \ref{home_cluster} and the complexity analysis is in Appendix A. Note that at the last step of the algorithm, the home clusters' start times of service time intervals are well-defined based on the corresponding nighttime clusters.
 
-Our purpose of the seconod stage temporal filtering is to keep those clusters that are temporal representative. Let us elaborate more on the definition of a representative cluster. We define a cluster to be representative if the temporal spans associated with each cluster are non-overlapping. An example can be found in Figure \ref{fig:cluster} where the 0-th cluster (black) doesn't temporally overlap with the 1-st cluster (green) in the lower plot. Therefore, each home cluster should correspond to a separate life period where the person lived in a particular location. Moreover, the identified home clusters are temporally sequential and mutually exclusive--when one residential period ends, the next begins, with no overlap between them. This somehow defines the temporal clusters and creates a clear timeline of residential history where each home cluster represents a distinct "home era" in chronological order.
 
-
+\clearpage\newpage
 \begin{algorithm}[h!]
-    \renewcommand{\algorithmicrequire}{\textbf{Input:}}
-    \renewcommand{\algorithmicensure}{\textbf{Output:}}
-    \caption{Home Cluster Estimation}
-    \label{home_cluster}
-    \begin{algorithmic}[1]
-        \REQUIRE $C^\text{night}_i$
-        \ENSURE $C^\text{home}_i$
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+\caption{Home Cluster Estimation}
+\label{home_cluster}
+\begin{algorithmic}[1]
+    \REQUIRE $C^\text{night}_i$
+    \ENSURE $C^\text{home}_i$
 
-        \STATE $\text{candidates} \leftarrow$ sort $C^\text{night}_i$ in descending order by the temporal size
-        \STATE $C^\text{home}_i \leftarrow [\text{candidates}[1]]$
+    \STATE $\text{candidates} \leftarrow$ sort $C^\text{night}_i$ in descending order by the temporal size
+    \STATE $C^\text{home}_i \leftarrow [\text{candidates}[1]]$
+    \STATE
+
+    \FORALL {$j=2,\cdots,\text{length}(\text{candidates})$}
+        \STATE $\text{isolate} \gets \text{true}$
+        \STATE $\text{candidate} \gets \text{candidates}[j]$
         \STATE
 
-        \FORALL {$j=2,\cdots,\text{length}(\text{candidates})$}
-            \STATE $\text{isolate} \gets \text{true}$
-            \STATE $\text{candidate} \gets \text{candidates}[j]$
-            \STATE
-
-            \FORALL {$k=1,\cdots,\text{length}(C^\text{home}_i)$}
-                \IF {$\text{candidate}$ temporally overlaps with $C^\text{home}_i[k]$}
-                    \STATE $\text{isolate} \gets \text{false}$
-                    \STATE \textbf{break}
-                \ENDIF
-            \ENDFOR
-            \STATE
-
-            \IF {$\text{isolate} = \text{true}$ and the temporal size of candidate $> 2$}
-                \STATE insert $\text{candidate}$ into $C^\text{home}_i$
+        \FORALL {$k=1,\cdots,\text{length}(C^\text{home}_i)$}
+            \IF {$\text{candidate}$ temporally overlaps with $C^\text{home}_i[k]$}
+                \STATE $\text{isolate} \gets \text{false}$
+                \STATE \textbf{break}
             \ENDIF
         \ENDFOR
         \STATE
 
-        \STATE sort $C^\text{home}_i$ in ascending order by the start time of service time interval
-        \STATE \textbf{return} $C^\text{home}_i$
-    \end{algorithmic}
+        \IF {$\text{isolate} = \text{true}$ and the temporal size of candidate $> 2$}
+            \STATE insert $\text{candidate}$ into $C^\text{home}_i$
+        \ENDIF
+    \ENDFOR
+    \STATE
+
+    \STATE sort $C^\text{home}_i$ in ascending order by the start time of service time interval
+    \STATE \textbf{return} $C^\text{home}_i$
+\end{algorithmic}
 \end{algorithm}
 
-Given the home clusters, we can define the home locations as the centroids of clusters, computed by the weighted average of the locations of the base stations in the cluster, where the weights are the temporal sizes.
 
+Given the home clusters, we can define the home locations as the centroids of clusters, computed by the weighted average of the locations of the base stations in the cluster, where the weights are the temporal sizes.
+\cite{isaacman2011identifying} also adopt this weight definition while they applied the clustering algorithm designed by \cite{hartigan1975clustering}.
+They argue that using the number of days instead of the number of calls can reduce the influence of base stations that were only used for a few days but had a burst of activity on those days.
+For example, during a temporary vacation, people might make many phone calls to share their experiences with their contacts.
+
+
+\clearpage\newpage
 \begin{definition}[A User's Home Location]
-For a user $i \in V$, the $l$-th home location $(r_c)^{\text{home}}_{i, l}$ is defined by the weighted average over locations $\{\text{loc}(b)\}_{b \in C^{\text{home}}_{i, l}}$ of telecom base stations that are contained in the $l$-th home cluster $C^{\text{home}}_{i, l}$ where the weights are defined based on the temporal sizes $\{w^{\text{night}}_{i, b}\}_{b \in C^{\text{home}}_{i, l}} \subset w^\text{night}_i$. Below is the formula:
-$$
+For a user $i \in V$, the $l$-th home location $(r_c)^{\text{home}}_{i, l}$ is defined by the weighted average over locations $\{\text{loc}(b)\}_{b \in C^{\text{home}}_{i, l}}$ of telecom base stations that are contained in the $l$-th home cluster $C^{\text{home}}_{i, l}$ where the weights are defined based on the temporal sizes.
+\[
 (r_c)^{\text{home}}_{i, l}
 =
 \sum_{b \in C^{\text{home}}_{i, l}}
     \frac{
-        w^{\text{night}}_{i, b}
+        \mu(T^{\text{night}}_{i, b})
     }{
         \sum_{b \in C^{\text{home}}_{i, l}}
-            w^{\text{night}}_{i, b}
+            \mu(T^{\text{night}}_{i, b})
     }
     \text{loc}(b)
-$$
+\]
+% where
+% \[
+% w^{\text{night}}_{i, b}
+% =
+% \frac{
+%     \mu(T^{\text{night}}_{i, b})
+% }{
+%     \sum_{b \in B^\text{night}_i}
+%         \mu(T^{\text{night}}_{i, b})
+% }.
+% \]
 \end{definition}
 
-\clearpage\newpage
+
 Figure~\ref{fig:cluster} visualizes a user's estimated home locations and demonstrates that our estimation goal is to color geographic points such that points with the same color belong to the same cluster.
 The clusters represent spatial-temporal patterns in user mobility, where each cluster corresponds to a geographically separated residential area with a non-overlapping temporal window.
+
 
 \begin{figure}[h!]
 \vspace{0.3cm}
@@ -274,6 +374,7 @@ The clusters represent spatial-temporal patterns in user mobility, where each cl
 \caption*{Notes:  This figure demonstrates one of the phone user's mobility patterns. The upper plot's x and y axis represent the longitude and latitude, respectively. The lower plot shows the temporal span of each cluster where the x axis represents the timestamp and the y axis represents the cluster index. The point is colored by the cluster index.}
 \label{fig:cluster}
 \end{figure}
+
 
 \clearpage\newpage
 \section{Identification of Residential Shift and Its Timing}\label{sec:identification_of_residential_shift}
@@ -538,7 +639,7 @@ with $w_{i,j,m}$ being the weight of edge from user $i$ to user $j$ in month $m$
 Note that the weight is defined as the total call duration rather than number of phone calls.
 \end{definition}
 
-Employing call duration as weights for social ties is not a common practice, and \cite{eagle2010network} and \cite{pappalardo2016analytical} defined contact entropy based on the number of phone calls. Nevertheless, as previously mentioned, we recognize that due to routing mechanisms, phone calls might change their served base station, thereby generating multiple call records when actually only a single call is taking place.
+Employing call duration as weights for social ties is not a common practice, and \cite{eagle2010network} and \cite{pappalardo2016analytical} defined contact entropy based on the number of phone calls. Nevertheless, as previously mentioned, we recognize that due to load sharing mechanisms, phone calls might change their served base station, thereby generating multiple call records when actually only a single call is taking place.
 
 \begin{figure}[h!]
 \centering
@@ -574,7 +675,7 @@ where $V^{\text{out}}_{i, m}$ and $\hat{p}_{i, j, m}$ is defined in Equation~\re
 
 
 \subsection{Human Mobility Features}
-Numerous studies have used CDRs to analyze human mobility patterns. We largely follow the literature in constructing mobility features but determine the weight of a telecom base station for a phone user by temporal size (see Equation~\ref{eq:temporal_size}) rather than call count, which corrects distortion caused by routing mechanisms. We use notations similar to those in Section~\ref{sec:notations} to avoid redundant redefinition.
+Numerous studies have used CDRs to analyze human mobility patterns. We largely follow the literature in constructing mobility features but determine the weight of a telecom base station for a phone user by temporal size (see Equation~\ref{eq:temporal_size}) rather than call count, which corrects distortion caused by load sharing mechanisms. We use notations similar to those in Section~\ref{sec:notations} to avoid redundant redefinition.
 
 There are two key differences. First, we now use CDRs from weekdays, including both daytime and nighttime records. Second, we add a monthly dimension, constructing features on a monthly basis. For example, $B_{i, m} \subset B$ denotes the collection of telecom base stations that handled calls for user $i$ in month $m$, $R_{i, m, b} \subset R$ represents call records that are related to user $i$ in month $m$ and associated with base station $b \in B_{i, m}$, and $T_{i, m, b} \subset T$ denotes timestamps connected to $R_{i, m, b}$.
 

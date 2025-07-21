@@ -33,19 +33,20 @@ Utilizing CDRs to identify internal migration flow has several advantages. First
 % A critical preliminary step for identifying residential shifts is estimating phone users' home coordinates.
 It is important to clarify that the coordinates attached to each phone call record don't precisely represent the exact geographical position of either the caller or callee.
 Rather, they are the coordinates of the telecom base station handling the call, which serve as a spatial approximation for the phone user's position while initiating or receiving phone calls.
-The approximation is not always accurate due to the aforementioned routing mechanism.
+The approximation is not always accurate due to the load balancing mechanism.
 
 Most of the studies estimate home locations through CDRs by selecting the locations of the telecom base station that handles the call events most frequently over the whole sample period (\cite{cho2011friendship}, \cite{phithakkitnukoon2012socio}), weekly (\cite{referral_effect_2023aer}), or monthly (\cite{phithakkitnukoon2022inferring}) from the nighttime call records.
-
-
-This simple approach seems to be acceptable for people who have a large amount of phone call records. However, for those who have limited observations of call events, the simple approach is not reliable. A more robust approach would be running a spatial clustering algorithm over a set of telecom base stations' locations (\cite{isaacman2011identifying}, \cite{yang2014identifying}). As mentioned, our estimation strategy of residential location encompasses two stages, and the first stage recognizes the clustered patterns and leverage DBSCAN (\cite{ester1996density}), a renowned machine learning algorithm in the clustering domain, to uncover them. For the angle of clustering, what the clustering's goal is to recognize the neighbors of each point.
+This simple approach seems to be acceptable for people who have a large amount of phone call records. However, for those who have limited observations of call events, the simple approach is not reliable.
+A more robust approach would be running a spatial clustering algorithm over a set of telecom base stations' locations (\cite{isaacman2011identifying}, \cite{yang2014identifying}, \cite{ayesha2019user}).
+As mentioned, our estimation strategy of residential location encompasses two stages, and the first stage recognizes the clustered patterns and leverage DBSCAN (\cite{ester1996density}), a renowned machine learning algorithm in the clustering domain, to uncover them. Note that \cite{ayesha2019user} also leveraged DBSCAN to estimate home locations.
+% For the angle of clustering, what the clustering's goal is to recognize the neighbors of each point.
 % The upper plot of Figure \ref{fig:cluster} visualizes the spatial clustering results where there are four clusters identified and colored by the cluster index.
 
 
 DBSCAN's flexibility has made it a popular choice for analyzing spatial patterns (\cite{yang2014identifying}, \cite{shi2014density}, \cite{dominguez2017sensing}) and mobile communication behaviors (\cite{karahoca2006comparing}, \cite{jabbar2020fraud}).
 We inherit this idea, including it in our two-staged approach, which carries the specific goal of identifying residential shifts.
 Our approach makes this identification feasible by incorporating temporal information following the spatial clustering process.
-Even more recent developments in significant location inference (\cite{tongsinoot2017exploring}, \cite{luo2020research}) don't explicitly consider the situation where people might change their residential locations.
+Even more recent developments in significant location inference (\cite{tongsinoot2017exploring}, \cite{luo2020research}) don't explicitly consider the situation where people might change their home locations.
 
 
 % In the second stage, we implement an extremely simple temporal filtering technique to remove unrepresentative clusters possibly caused by temporary visits or anomalous cases. The remaining clusters are well-representative home clusters, the centers of which are identified as home locations.
@@ -63,13 +64,15 @@ Hence, a heavy procedure of sensitive analysis is required to select the appropr
 However, as such data is not available in most scenarios, thereby failing to be widely applicable.
 
 \cite{chi2020general} is a closely related work.
-They abandon the first stage by clustering coordinates of telecom base stations if they are in the same administrative district.
-Furthermore, they apply clustering algorithm on time axis for a district to identify contiguous segments and further merge segments if no other segments from the other district are found.
-At the last step, they allow the overlapping of segments from different districts to form home locations at different periods.
-Our two-stage approach not only provides finer spatial resolution but also is simpler and more rigorous. It is simpler due to the removal of temporal clustering and segment merging, and more rigorous due to the prohibition of overlapping segments from different districts.
+They abandon the first stage by clustering coordinates of telecom base stations if they are in the same administrative district (e.g., prefectures in China).
+Furthermore, they apply the clustering algorithm on time axis for each district to identify contiguous time segments and further merge segments tailored to a particular district if no other segments from the other district are found in the same time window defined by the target merging segments.
+At the last step, they allow for overlap between segments from different districts to form home locations at different periods.
+
+Our two-stage approach provides fine spatial resolution through first-stage spatial clustering, though this isn't strictly necessary for cross-district migration flows.
+The second stage uses temporal filtering---simpler than temporal clustering---that identifies home clusters by assuming the largest cluster is most likely to be one of the "home" clusters as people won't change their home locations too often.
+However, their second stage may be more robust as it allows for overlap between clusters.
 
 Our approach stands out for being universal, efficient, and comprehensive.
 It relies solely on CDRs, requiring no additional information.
-There is only one parameter—the maximum distance between two points—which can be reasonably set between 5 to 20 km based on the average service range of telecom base stations.
-Moreover, since we follow the literature on internal migration in China and focus on inter-prefecture migration flows, sensitivity analysis of this hyperparameter is unnecessary.
-Furthermore, we simply unveil inherent spatial-temporal patterns through unsupervised learning.
+There is only one parameter: the maximum distance between two locations to be considered neighbors, and since we follow the literature on internal migration in China by focusing on the inter-prefecture migration flows, sensitivity analysis of this parameter is not strictly necessary.
+Furthermore, we unveil inherent spatial-temporal patterns by utilizing the unsupervised clustering algorithm and maximally exploiting the full range of temporal information.
