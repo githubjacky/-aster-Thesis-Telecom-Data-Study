@@ -37,7 +37,8 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \end{singlespace}
 
 We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc.
-By joining CDRs with coordinates data on cell IDs, and then grouping by user phone numbers, we can obtain the daily history of movement trajectories of each phone user from August 2013 to May 2014.
+Call records are located in Sichuan province, China, and the majority of them are located in Deyang prefecture.
+By joining call records with coordinate data on cell IDs and then grouping by user phone numbers, we can obtain the daily movement trajectory history of each phone user from August 2013 to May 2014.
 User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis.
 When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
 
@@ -262,7 +263,6 @@ This somehow defines the temporal clusters and creates a clear timeline of resid
 Before defining the overlap, we need to define objects associated to two distinct clusters that can be identified to be overlapping with each other.
 The object is the service time intervals, which are continuous time intervals starting from the first time that a cluster services calls and ending at the last time that a cluster services calls.
 
-\clearpage\newpage
 \begin{function}[The First \& Last Timestamp of a Set of Timestamps]
 Consider a set of timestamps $\tilde{T} \subset T$, the first and the last timestamps of which can be obtained by the following functions.
 $$
@@ -285,7 +285,6 @@ Consider two nighttime clusters, $C^{\text{night}}_{i, 1}, C^{\text{night}}_{i, 
 With the definition of overlap, our temporal filtering trick is a sequential process, where we first sort the clusters in $C^{\text{night}}_i$ in descending order by the temporal sizes defined by $\mu(\mathcal{T}^{\text{night}}_{i, k})$ where $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, and then we iteratively select the cluster to be the home cluster that is not temporally overlap with any of the pre-selected home clusters. Note that the first home cluster is the cluster with the largest temporal size. The algorithm is shown in Algorithm \ref{home_cluster} and the complexity analysis is in Appendix A. Note that at the last step of the algorithm, the home clusters' start times of service time intervals are well-defined based on the corresponding nighttime clusters.
 
 
-\clearpage\newpage
 \begin{algorithm}[h!]
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -330,7 +329,6 @@ They argue that using the number of days instead of the number of calls can redu
 For example, during a temporary vacation, people might make many phone calls to share their experiences with their contacts.
 
 
-\clearpage\newpage
 \begin{definition}[A User's Home Location]
 For a user $i \in V$, the $l$-th home location $(r_c)^{\text{home}}_{i, l}$ is defined by the weighted average over locations $\{\text{loc}(b)\}_{b \in C^{\text{home}}_{i, l}}$ of telecom base stations that are contained in the $l$-th home cluster $C^{\text{home}}_{i, l}$ where the weights are defined based on the temporal sizes.
 \[
@@ -368,7 +366,7 @@ The clusters represent spatial-temporal patterns in user mobility, where each cl
 \centering
 \caption{Visualization of Proposed Two-Staged Home Locations Estimation}
 
-\includegraphics[width=1\textwidth]{figures/cluster_res.png}
+\includegraphics[scale=0.17]{figures/cluster_res.png}
 
 \vspace{0.1cm}
 \caption*{Notes:  This figure demonstrates one of the phone user's mobility patterns. The upper plot's x and y axis represent the longitude and latitude, respectively. The lower plot shows the temporal span of each cluster where the x axis represents the timestamp and the y axis represents the cluster index. The point is colored by the cluster index.}
