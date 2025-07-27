@@ -719,15 +719,15 @@ In the following text, we will operate on the empirical probability vector $\hat
 \end{figure}
 
 Geographic distance (geodesic distance) on the Earth's surface differs from Euclidean distance calculated directly from longitude-latitude coordinates, as the former accounts for spherical geometry while the latter assumes a flat coordinate space.
-To make spatial statistical analysis meaningful, we employ the Azimuthal Equidistant (AEQD) projection\footnote{The projection is obtained through the Python package \href{https://github.com/pyproj4/pyproj}{pyproj}.} centered at the geographic mean $(r_c)^{\text{geo}}_{i, m}$ of locations, which is given by:
+To make spatial statistical analysis meaningful, we employ the Azimuthal Equidistant (AEQD) projection\footnote{The projection is obtained through the Python package \href{https://github.com/pyproj4/pyproj}{pyproj}. We choose AEQD over UTM to ensure that the Euclidean distance from any location contained in a location matrix to the centroid equals the geodesic distance. While UTM provides approximately correct Euclidean distances for all locations, we only require accuracy for distances to the centroid. Additionally, UTM zones are limited to 6° of longitude, but Sichuan spans approximately 11.6°, which would require multiple zones and result in non-uniform projections across users. Note that with AEQD using individual projection centers, all users' results are expressed in the same units (kilometers), ensuring comparability.} centered at the geographic mean $(r_c)^{\text{geo}}_{i, m}$ of locations, which is given by:
 \begin{equation}
 (r_c)^{\text{geo}}_{i, m}
 =
 (L^{\text{geo}}_{i, m})^{'} \hat{p}_{i, m}
 \in \mathbb{R}^2.
 \end{equation}
-This projection ensures that Euclidean distances from the projection center to any point correspond to actual geographic distances from the geographic centroid.
-This makes variance-covariance matrices computed on the projected coordinates geographically interpretable, as they accurately reflect the spatial spread of locations around their geographic center. Besides, we denote $L_{i, m}$, $(l_{i, m})_b$, and $(r_c)_{i, m}$ as the projected location matrix, the projected coordinates of a telecom base station, and the projected centroid, respectively.
+% This projection ensures that Euclidean distances from the projection center to any point correspond to actual geographic distances from the geographic centroid.
+This projection makes variance-covariance matrices computed on the projected coordinates geographically interpretable, as they accurately reflect the spatial spread of locations around the centroid. Besides, we denote $L_{i, m}$, $(l_{i, m})_b$, and $(r_c)_{i, m}$ as the projected location matrix, coordinates of a telecom base station $b$, and the centroid, respectively.
 
 After completing the preliminary setup, we can now construct mobility features that aim to measure: (i) how large the activity area is (radius of gyration), (ii) how unpredictable spatial movement patterns are (movement entropy), and (iii) to what extent the activity area spreads in an elliptical shape (eccentricity), which indicates whether a user visits locations primarily along a fixed direction.
 See Figure~\ref{fig:mobility} for a comprehensive understanding of what these metrics actually mean.
