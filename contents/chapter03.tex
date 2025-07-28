@@ -384,11 +384,11 @@ At first thought, we can define the migration timing as (i) the date of the last
 
 We are discussing treatment effect dynamics on a monthly level from August 2013 to May 2014. Therefore, to establish clean notations, we index the monthly periods from integer 1 to 10 where August 2013 corresponds to $1$, September 2013 corresponds to $2$, and so on. Furthermore, we denote $\mathcal{M} := \{1, \cdots, 10\}$ as the set of monthly periods after indexing. Below we define the treatment group consisting of four subgroups $\{ \mathcal{G}_g \}_{g=4,5,6,7}$ as migrants who relocate in different months $g$ and define the never-treated group $\mathcal{G}_{\infty}$ as non-migrants. We utilize the symbol $\infty$ to indicate a non-migrant will relocate in the far-away future, i.e., infinity period (\cite{sun2021estimating}, \cite{borusyak2024revisiting}).
 
-\begin{definition}[Migrants]\label{def:migrants}
+\begin{definition}[Migrant]\label{def:migrants}
 A phone user $i \in V$ is a migrant associated with the group $\mathcal{G}_g$ if (i) user $i$ only changes home locations once during the sample period, (ii) the two home locations are in different prefectures, and (iii) the migration event occurs in month $g \in \{4,5,6,7\} \subset \mathcal{M}$.
 \end{definition}
 
-\begin{definition}[Non-Migrants]
+\begin{definition}[Non-Migrant]
 A phone user $i \in V$ is a non-migrant associated with the group $\mathcal{G}_{\infty}$ if $i$ doesn't change the home locations throughout the sample period.
 \end{definition}
 
@@ -508,7 +508,7 @@ Aside from residential shifts, our user information data enables us to inspect t
 Smartphones have abundant functionalities that facilitate mobile communication and better assist users in exploring unfamiliar environments through GPS technology, potentially altering smartphone adopters' mobility patterns.
 To study the smartphone-adoption shift, we define the treated and untreated units as follows.
 
-\begin{definition}[Smartphone Adopters]\label{def:smartphone_adopter}
+\begin{definition}[Smartphone Adopter]\label{def:smartphone_adopter}
 A phone user $i \in V$ is a smartphone adopter associated with group $\mathcal{G}_g$ if user $i$ (i) changes from a non-smartphone device to a smartphone model, (ii) is not observed to switch back to non-smartphone devices throughout the sample periods, and (iii) the adoption event occurs in month $g \in \{4,5,6,7\} \subset \mathcal{M}$, where these months represent the middle of the sample period.
 \end{definition}
 
@@ -516,7 +516,7 @@ This definition rules out phone users who have multiple cellphones, and constant
 As defining migrants, we require the events to happen in the middle of the sample period to confirm the reliability of the adoption event, avoiding the observation window bias.
 Besides, there are also more periods left for us to inspect the ATT dynamics.
 
-\begin{definition}[Non-Smartphone Users]
+\begin{definition}[Non-Smartphone User]
 A phone user $i \in V$ is a non-smartphone user associated with group $\mathcal{G}_{\infty}$ if user $i$ consistently uses non-smartphone devices throughout the sample periods.
 \end{definition}
 
@@ -538,6 +538,17 @@ We reuse the notations: \( \mathcal{G}_g \) and \( \mathcal{G}_{\infty} \) to de
 
 The above figure shows the counts of smartphone adopters for each month. Generally, there are few differences across months, except a notable increase in September 2013, owing to the observation window bias.
 
+% \clearpage\newpage
+Table~\ref{tab:non_changer_changer_comparison} shows that smartphone adopters who upgrade during middle periods are largely similar to those upgrading during any month of the sample period, with the exception of owning slightly less expensive devices.
+This pattern may result from observation window bias.
+Panel A includes users who switch to smartphones during early sample periods, but we lack sufficient observation periods to verify their consistent use of non-smartphone devices before adoption.
+
+The definition of "changers" in Panel B of Table~\ref{tab:non_changer_changer_comparison} corresponds to our  formal definition of smartphone adopters presented in Definition~\ref{def:smartphone_adopter}.
+We can see that smartphone adopters are slightly younger, marginally more likely to be born outside Deyang prefecture (by approximately 2\%), and own more expensive non-smartphone phone devices (before adoption) compared to non-smartphone users.
+Besides, the age composition of the two groups shows no significant difference.
+Similar to the situation in residential shifts, the imbalance seems to be not obvious.
+
+% \clearpage\newpage
 \begin{table}[htbp]
 \vspace{0.5cm}
 \renewcommand{\arraystretch}{1.6}
@@ -571,15 +582,7 @@ born in Deyang flag & 0.86 & 0.83 & -0.02 & 0.0 \\
 \end{singlespace}
 
 
-\clearpage\newpage
-Table~\ref{tab:non_changer_changer_comparison} shows that smartphone adopters who upgrade during middle periods are largely similar to those upgrading during any month of the sample period, with the exception of owning slightly less expensive devices.
-This pattern may result from observation window bias.
-Panel A includes users who switch to smartphones during early sample periods, but we lack sufficient observation periods to verify their consistent use of non-smartphone devices before adoption.
 
-The definition of "changers" in Panel B of Table~\ref{tab:non_changer_changer_comparison} corresponds to our  formal definition of smartphone adopters presented in Definition~\ref{def:smartphone_adopter}.
-We can see that smartphone adopters are slightly younger, marginally more likely to be born outside Deyang prefecture (by approximately 2\%), and own more expensive non-smartphone phone devices (before adoption) compared to non-smartphone users.
-Besides, the age composition of the two groups shows no significant difference.
-Similar to the situation in residential shifts, the imbalance seems to be not obvious.
 
 
 \clearpage\newpage
@@ -1052,15 +1055,15 @@ It's an assumption as objects in the equality are potential outcomes $Y_{i, m}(\
 
 The parallel trend assumption stated in Definition \ref{def:parallel_trend} is employed in the canonical $2 \times 2$ DiD design, and it's necessary to extend it for the multiple periods case, which is given by:
 \begin{equation}\label{eq:parallel_trend_general_first}
-\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid X_i, G_{i, g} = 1]
+\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid G_{i, g} = 1]
 =
-\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid X_i, G_{i, \infty} = 1],
+\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid G_{i, \infty} = 1],
 \end{equation}
 and it can be further simplified to:
 \begin{equation}\label{eq:parallel_trend_general}
-\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1} \mid X_i, G_{i, g} = 1]
+\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1} \mid G_{i, g} = 1]
 =
-\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid X_i, G_{i, \infty} = 1].
+\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1].
 \end{equation}
 Equation \ref{eq:parallel_trend_general_first} can be obtained from Equation \ref{eq:parallel_trend} by adding all parallel trend equality in post-treatment periods and by the end, $Y_{i, g-\delta-1}(\infty)$ appears, which is observable since $Y_{i, g-\delta-1}(\infty) = Y_{i, g-\delta-1}$. As mentioned in \cite{roth2023s}, for the ATT in the longer periods after treatment to be identifiable, a stronger assumption needs to be imposed.
 
