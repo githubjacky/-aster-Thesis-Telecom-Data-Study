@@ -1,222 +1,78 @@
 % !TeX root = ../main.tex
 
-\appendix{B}{Event-Centered Trends Across Outcomes and Treatments}
-\label{appendix_event_centered_trends}
+\appendix{B}{Preliminary of DiD Estimator}\label{sec:appendix_preliminary_did}
+In this section, we introduce the concept of potential outcome framework and the average treatment effect on the treated (ATT) to formalize our research question.
+As a straightforward and ideal definition, ATT provides clear guidance on what should be estimated, and it could be obtained through the DiD design.
+We will elaborate on what specific estimation approach we adopt and the corresponding motivations in this section.
+Moreover, the estimation approach comes with various possible setups, and we explain which are the most suitable for us.
 
-In this section of appendix, we attach all outcomes' mean trajectories over time across two groups of features: mobility and mobile communication network features, and two types of treatments: residential shift and smartphone adoption. These plots should serve as the motivation to discuss the treatment effects as we can clearly observe the substantial and sudden changes after the exposure to treatments across treated groups. Besides, they also validate the plausibility of applying the DiD framework as through examining the outcome trends, where the comparison is made to the reference period, $g-\delta-1$,
-we can see nearly identical unconditional trends between the treated and control groups most of the time. The trends we refer heavily here are computed through the re-centering scheme on each sample average outcome $\hat{\mathbb{E}}[Y_{i, m} \mid G_{i, g} = 1]$ for cohort $\mathcal{G}_g$ given $\delta$:
-$$
-\tilde{Y}_{m}(g)
-=
-\hat{\mathbb{E}}[Y_{i, m} \mid G_{i, g} = 1]
+% \textbf{Q: What empirical strategy do you use? Why do you use it?}
+
+As we are interested in the effects of residential shifts and smartphone adoption on human mobility patterns and mobile communication behaviors, we formalize our research questions as follows: what are the magnitudes of differences in mobility and communication behaviors for individuals who receive these treatments compared to a counterfactual scenario where they never experienced them?
+The magnitudes of differences are so-called treatment effects, and treatments in this study are either residential shifts or smartphone adoption events. Given that many individuals in our sample receive the treatment, it is natural to focus on average treatment effects rather than individual-level effects.
+Moreover, since our primary interest lies in understanding how these life events specifically impact those who experience them---addressing the counterfactual question "what would have happened if they had not been treated?"---we focus on the treatment effects on the treated specifically as our primary causal parameter of interest.
+
+ATT can be formalized as follows. Suppose a treatment occurs in period $t$. ATT is given by:
+\[
+ATT = \mathbb{E}[Y_{i, t} - Y_{i, t}(\infty) | D_i = 1]
+\]
+where \( D_i \) is a binary variable indicating whether an individual \( i \) is treated, $Y_{i, t}$ is the observed outcome in period $t$, and $Y_{i, t}(\infty)$ is the counterfactual untreated outcome. Examining how ATT evolves over time provides an additional dimension for analysis, and given these motivations, DiD with the design of multiple periods (also known as the event study) is an ideal econometric approach.
+
+% \textbf{For some of those who are not familiar with DiD, give a brief introduction}
+
+The intuition of DiD is that simply comparing treated and untreated units at a single point in time may be misleading because these groups might differ in unobservable ways. Similarly, comparing the same units before and after treatment might confound the treatment effect with general time trends that would have occurred regardless of treatment.
+DiD solves this problem by using a "double comparison." Suppose the treatment occurs in time period \( t \), and first, it compares the change in outcomes for the treated group over time:
+\[
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
+\]
+Second, it compares this change to the change observed in a control group over the same period:
+\[
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
 -
-\hat{\mathbb{E}}[Y_{i, g-\delta-1} \mid G_{i, g} = 1]
-$$
-where $g \in \{4, 5, 6, 7\}$ or is equal to $\infty$ while calculating the control group's outcome trends. Therefore, by comparing $\tilde{Y}_{m}(g)$ to $\tilde{Y}_{m}(\infty)$ for all $m < g-\delta-1$, we can assess on how likely parallel trends hold in the pre-treatment periods.
-
-\begin{figure}[ht!]
-\centering
-\caption{Total Duration by Treatment (Residential Shifts) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Outgoing Total Duration}\\
-\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/out_total_duration.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Incoming Total Duration}\\
-\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/in_total_duration.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_residential_shift_on_total_duration}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Contact Distance by Treatment (Residential Shifts) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Outgoing Contact Distance}\\
-\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/mean_outgoing_contact_distance}
-
-\vspace{0.3cm}
-\textbf{(b) Incoming Contact Distance}\\
-\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/mean_incoming_contact_distance.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_residential_shift_on_incoming_contact_distance}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Contact Entropy by Treatment (Residential Shifts) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Outgoing Contact Entropy}\\
-\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/out_entropy.svg}
-
-
-\vspace{0.3cm}
-\textbf{(b) Incoming Contact Entropy}\\
-\includesvg[scale=0.57, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/in_entropy.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_residential_shift_on_outgoing_incoming_social_entropy}
-\end{figure}
-
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Radius of Gyration by Treatment (Residential Shifts) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Temporal-Size-Weighted Radius of Gyration}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/temporal_size_rg.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Count-Weighted Radius of Gyration}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/count_rg.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_radius_of_gyration}
-\end{figure}
-
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Movement Entropy by Treatment (Residential Shifts) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Temporal-Size-Weighted Movement Entropy}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/temporal_size_entropy.svg}
-
-\vspace{0.3cm}
-\textbf{(a) Count-Weighted Movement Entropy}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/count_entropy.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_movement_entropy}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Eccentricity by Treatment (Residential Shifts) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Temporal-Size-Weighted Eccentricity}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/temporal_size_ecc_original.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Count-Weighted Eccentricity}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_residential_shift/count_ecc_original.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_residential_shift_on_temporal_size_weighted_count_weighted_eccentricity}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Total Duration by Treatment (Smartphone Adoption) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Outgoing Total Duration}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/out_total_duration.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Incoming Total Duration}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/in_total_duration.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_smartphone_adoption_on_outgoing_incoming_total_duration}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Contact Distance by Treatment (Smartphone Adoption) Status}
-\vspace{0.3cm}
-
-
-\textbf{(a) Outgoing Contact Distance}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/mean_outgoing_contact_distance}
-
-\vspace{0.3cm}
-\textbf{(b) Incoming Contact Distance}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/mean_incoming_contact_distance.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_smartphone_adoption_on_incoming_contact_distance}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Contact Entropy by Treatment (Smartphone Adoption) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Outgoing Contact Entropy}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/out_entropy.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Incoming Contact Entropy}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/in_entropy.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_smartphone_adoption_on_outgoing_incoming_contact_entropy}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Radius of Gyration by Treatment (Smartphone Adoption) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Temporal-Size-Weighted Radius of Gyration}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/temporal_size_rg.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Count-Weighted Radius of Gyration}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/count_rg.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_radius_of_gyration}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Movement Entropy by Treatment (Smartphone Adoption) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Temporal-Size-Weighted Movement Entropy}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/temporal_size_entropy.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Count-Weighted Movement Entropy}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/count_entropy.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_movement_entropy}
-\end{figure}
-
-
-\begin{figure}[ht!]
-\centering
-\caption{Eccentricity by Treatment (Smartphone Adoption) Status}
-\vspace{0.3cm}
-
-\textbf{(a) Temporal-Size-Weighted Eccentricity}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/temporal_size_ecc_original.svg}
-
-\vspace{0.3cm}
-\textbf{(b) Count-Weighted Eccentricity}\\
-\includesvg[scale=0.56, inkscapepath=svgsubdir]{figures/outcome_path_smartphone_change/count_ecc_original.svg}
-
-% \caption*{Notes: .}
-\label{fig:effect_of_smartphone_adoption_on_temporal_size_weighted_count_weighted_eccentricity}
-\end{figure}
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 0]
+\]
+Besides, what makes the DiD design prevalent in empirical study is that it has good theoretical implication in that if we assume parallel trends in counterfactual untreated outcomes:
+\[
+\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 1]
+-
+\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 0],
+\]
+then the double comparison can recover ATT:
+\begin{align*}
+&\underbrace{
+    \mathbb{E}[Y_{i, t} - Y_{i, t}(\infty) | D_i = 1]
+}_{
+    ATT
+}
+\\
+&
+=
+\mathbb{E}[
+    Y_{i, t}
+    \mid D_i = 1
+]
+\\
+&\quad\quad
+-
+\underbrace{
+    (
+    \mathbb{E}[Y_{i, t-1}(\infty) \mid D_i = 1]
+    +
+    \mathbb{E}[Y_{i, t}(\infty)
+        - Y_{i, t-1}(\infty) \mid D_i = 1]
+    )
+}_{
+    =\mathbb{E}[Y_{i, t}(\infty) \mid D_i = 1]
+}
+\\
+&=
+\mathbb{E}[Y_{i, t} - Y_{i, t-1}(\infty) \mid D_i = 1]
+-
+\underbrace{\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 0]}_{\text{due to parallel trends}}
+\\
+&=
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
+-
+\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 0].
+\end{align*}
+Note that observed outcomes are equivalent to counterfactual untreated outcomes for all untreated units in both period $t-1$ and $t$, and the equivalence also holds for treated units at period $t-1$.

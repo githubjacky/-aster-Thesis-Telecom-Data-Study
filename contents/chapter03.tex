@@ -37,8 +37,8 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \end{singlespace}
 
 We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc.
-Call records are located in Sichuan province, China, and the majority of them are located in Deyang prefecture.
-By joining call records with coordinate data on cell IDs and then grouping by user phone numbers, we can obtain the daily movement trajectory history of each phone user from August 2013 to May 2014.
+Call records are located in Sichuan Province, China, and the majority of them are located in Deyang Prefecture.
+By joining call records with coordinate data on cell IDs and then grouping by user phone numbers, we can obtain a set of geographic locations associated to each phone user from August 2013 to May 2014, which serve as the location approximation of users.
 User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis.
 When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
 
@@ -155,7 +155,7 @@ This reconstruction challenge, combined with our focus on spatial characteristic
 
 % (Transition toward home location estimation)
 Home location estimation represents a specific application of stay location reconstruction, where we focus on identifying residential places using exclusively nighttime call records.
-During nighttime hours, users may have multiple stay locations, and spatial clustering allows us to identify observed locations that form nighttime clusters around potential home location candidates.
+During nighttime hours, users may have multiple stay locations, and spatial clustering allows us to identify sets of observed locations that form nighttime clusters around potential home location candidates.
 The challenge then becomes filtering true "home clusters" from the broader set of nighttime clusters, which we accomplish through a temporal filtering scheme introduced in Section~\ref{sec:temporal_filtering}.
 Our proposed approach therefore operates in two stages: spatial pattern aggregation followed by temporal filtering.
 
@@ -192,30 +192,8 @@ C^{\text{night}}_{i, k}
 \end{definition}
 
 
-Note that, we set the two parameters of DBSCAN: \textit{min\_samples} and \textit{eps} to 1 and 5 (km), respectively.
+Note that, we set the two parameters of DBSCAN: \textit{min\_samples} and \textit{eps} to 1 and 5 (km), respectively. For the discussions on the parameter choices, please refer to the section of \nameref{sec:dbscan}.
 Besides, we further denote $C^{\text{night}}_{i} = \{ C^{\text{night}}_{i, 1}, C^{\text{night}}_{i, 2}, \dots \}$ as a set of nighttime clusters for user $i$.
-
-% (short reasons for the assignments of parameters)
-A home location candidate may be associated with varying numbers of observed locations.
-While most cases involve multiple observed locations forming a cluster around the home location candidate, it is possible that only a single observed location is associated with a home location candidate, particularly in areas with sparse base station coverage.
-To account for this case, we set the \textit{min\_samples} parameter to one.
-Another parameter, \textit{eps}, which defines the maximum distance for two observed locations to be considered neighbors within a cluster, is set to 5~km with distances calculated using Vincenty's formulae.
-This parameter choice is motivated by the heterogeneous nature of effective service radii of base stations across our study regions.
-
-% (connect eps to effective service redii)
-Since effective service radii provide informative insights into the neighboring distances between consecutive base stations, they serve as appropriate prior knowledge for determining the \textit{eps} value.
-Theoretically, neighboring distances should be less than the sum of two consecutive base stations' effective service radii.
-Therefore, \textit{eps} should be greater than the maximum of all neighboring distances approximated by the sum of consecutive base stations' effective service radii but shouldn't be excessively large, as an overly large value might cause the algorithm to incorrectly merge two distinct clusters into one.
-Nevertheless, we believe that individuals will stay at home most of the time, so the distance between clusters should be relatively large to mitigate the issue of misidentification of clusters.
-
-% (explanation of the determination on our study areas' service redii)
-Our study regions including Deyang, Chongqing, and other prefectures in Sichuan Province encompass diverse geographic regions, including urban, suburban, and rural areas, and typically, the service radii in urban areas is smaller than those in rural areas (\cite{zreikat2004comparative}).
-\cite{zhou2024cell} provides an overview of recent research that utilizes CDRs to locate individuals' positions across various regions, including a particular discussion on spatial resolution, which is partially related to base stations' service radii.
-The overview states that the average service radius in urban regions (Shanghai, Nanjing, and Guiyang) is less than 1 km, while our study regions have much more complicated compositions.
-Therefore, the 5 km threshold represents an aggressive lower bound, which aims to account for the larger service radii characteristic of rural and suburban regions while maintaining meaningful spatial clustering in dense urban regions.
-Besides, choosing a relatively large \textit{eps} value addresses a key trade-off: while smaller values would reduce localization accuracy in rural regions, larger values risk merging distinct urban clusters.
-However, this risk can be potentially mitigated because individuals spend most time at home locations, and our weighted-average estimation across telecom stations (based on usage frequency) ensures that wrongly-included stations receive low weights in the final home estimation.
-
 
 \subsection{Temporal Filtering}\label{sec:temporal_filtering}
 After the procedure of spatial clustering, we can zoom out the level of spatial analysis from locations to clusters so the issues arising from the load sharing mechanism are now resolved. Therefore, we define the new notations for both subsets of CDRs and timestamps based on $C^\text{night}_i$, which previously defined while considering $B^\text{night}_i$.
@@ -236,8 +214,8 @@ $$
 $$
 \end{definition}
 
-The second stage of the residential place estimation is to apply the temporal filtering trick, aiming at obtaining home clusters from a set of nighttime clusters, which contains a user's home locations.
-Furthermore, the purpose is to keep those clusters that are temporal representative, and the first home cluster is intuitively assigned to the one that serve calls on the most number of days, which we name as the measure of "temporal size".
+The second stage of the home location estimation is to apply the temporal filtering trick, aiming at obtaining home clusters from a set of nighttime clusters, and the home clusters are leveraged to estimate users' home locations.
+Furthermore, the purpose is to keep those clusters that are temporal representative, processing substantial calls, which are evaluated through the measure of "temporal size".
 
 \begin{function}[A Measure of Temporal Size of a Set of Timestamps]\label{def:temporal_size}
 The measure of temporal size of a subset $\tilde{T} \subset T$ of timestamps is defined as a measure  $\mu: 2^T \rightarrow \mathbb{N}$ where
@@ -258,6 +236,20 @@ We define a cluster to be representative if the temporal spans associated with e
 An example can be found in Figure \ref{fig:cluster} where the 0-th cluster (black) doesn't temporally overlap with the 1-st cluster (green) in the lower plot.
 Therefore, each home cluster should correspond to a separate life period where the person lived in a particular location. Moreover, the identified home clusters are temporally sequential and mutually exclusive--when one residential period ends, the next begins, with no overlap between them.
 This somehow defines the temporal clusters and creates a clear timeline of residential history where each home cluster represents a distinct "home era" in chronological order.
+
+
+\begin{figure}[h!]
+\vspace{0.3cm}
+\centering
+\caption{Visualization of Proposed Two-stage Home Locations Estimation}
+
+\includegraphics[scale=0.17]{figures/cluster_res.png}
+
+\vspace{0.1cm}
+\caption*{Notes: The upper plot's x and y axis represent the longitude and latitude, respectively. The lower plot shows the temporal span of each cluster where the x axis represents the timestamp and the y axis represents the cluster index. The point is colored by the cluster index. In this plot, the user are identifed to change the home location within green cluster (cluster index 1) to the black one (cluster index 0).}
+\label{fig:cluster}
+\end{figure}
+
 
 
 Before defining the overlap, we need to define objects associated to two distinct clusters that can be identified to be overlapping with each other.
@@ -282,52 +274,13 @@ Consider two nighttime clusters, $C^{\text{night}}_{i, 1}, C^{\text{night}}_{i, 
 \end{definition}
 
 
-With the definition of overlap, our temporal filtering trick is a sequential process, where we first sort the clusters in $C^{\text{night}}_i$ in descending order by the temporal sizes defined by $\mu(\mathcal{T}^{\text{night}}_{i, k})$ where $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, and then we iteratively select the cluster to be the home cluster that is not temporally overlap with any of the pre-selected home clusters. Note that the first home cluster is the cluster with the largest temporal size. The algorithm is shown in Algorithm \ref{home_cluster} and the complexity analysis is in Appendix A. Note that at the last step of the algorithm, the home clusters' start times of service time intervals are well-defined based on the corresponding nighttime clusters.
-
-
-\begin{algorithm}[h!]
-\renewcommand{\algorithmicrequire}{\textbf{Input:}}
-\renewcommand{\algorithmicensure}{\textbf{Output:}}
-\caption{Home Cluster Estimation}
-\label{home_cluster}
-\begin{algorithmic}[1]
-    \REQUIRE $C^\text{night}_i$
-    \ENSURE $C^\text{home}_i$
-
-    \STATE $\text{candidates} \leftarrow$ sort $C^\text{night}_i$ in descending order by the temporal size
-    \STATE $C^\text{home}_i \leftarrow [\text{candidates}[1]]$
-    \STATE
-
-    \FORALL {$j=2,\cdots,\text{length}(\text{candidates})$}
-        \STATE $\text{isolate} \gets \text{true}$
-        \STATE $\text{candidate} \gets \text{candidates}[j]$
-        \STATE
-
-        \FORALL {$k=1,\cdots,\text{length}(C^\text{home}_i)$}
-            \IF {$\text{candidate}$ temporally overlaps with $C^\text{home}_i[k]$}
-                \STATE $\text{isolate} \gets \text{false}$
-                \STATE \textbf{break}
-            \ENDIF
-        \ENDFOR
-        \STATE
-
-        \IF {$\text{isolate} = \text{true}$ and the temporal size of candidate $> 2$}
-            \STATE insert $\text{candidate}$ into $C^\text{home}_i$
-        \ENDIF
-    \ENDFOR
-    \STATE
-
-    \STATE sort $C^\text{home}_i$ in ascending order by the start time of service time interval
-    \STATE \textbf{return} $C^\text{home}_i$
-\end{algorithmic}
-\end{algorithm}
-
+With the definition of overlap, our temporal filtering trick is a sequential process, where we first sort the clusters in $C^{\text{night}}_i$ in descending order by the temporal sizes defined by $\mu(\mathcal{T}^{\text{night}}_{i, k})$ where $C^{\text{night}}_{i, k} \in C^{\text{night}}_i$, and then we iteratively select the cluster to be the home cluster that is not temporally overlap with any of the pre-selected home clusters.
+The algorithm is shown in Algorithm \ref{home_cluster}. Note that at the last step of the algorithm, the home clusters' start times of service time intervals are well-defined based on the corresponding nighttime clusters.
 
 Given the home clusters, we can define the home locations as the centroids of clusters, computed by the weighted average of the locations of the base stations in the cluster, where the weights are the temporal sizes.
 \cite{isaacman2011identifying} also adopt this weight definition while they applied the clustering algorithm designed by \cite{hartigan1975clustering}.
 They argue that using the number of days instead of the number of calls can reduce the influence of base stations that were only used for a few days but had a burst of activity on those days.
 For example, during a temporary vacation, people might make many phone calls to share their experiences with their contacts.
-
 
 \begin{definition}[A User's Home Location]
 For a user $i \in V$, the $l$-th home location $(r_c)^{\text{home}}_{i, l}$ is defined by the weighted average over locations $\{\text{loc}(b)\}_{b \in C^{\text{home}}_{i, l}}$ of telecom base stations that are contained in the $l$-th home cluster $C^{\text{home}}_{i, l}$ where the weights are defined based on the temporal sizes.
@@ -357,23 +310,6 @@ For a user $i \in V$, the $l$-th home location $(r_c)^{\text{home}}_{i, l}$ is d
 \end{definition}
 
 
-Figure~\ref{fig:cluster} visualizes a user's estimated home locations and demonstrates that our estimation goal is to color geographic points such that points with the same color belong to the same cluster.
-The clusters represent spatial-temporal patterns in user mobility, where each cluster corresponds to a geographically separated residential area with a non-overlapping temporal window.
-
-
-\begin{figure}[h!]
-\vspace{0.3cm}
-\centering
-\caption{Visualization of Proposed Two-Staged Home Locations Estimation}
-
-\includegraphics[scale=0.17]{figures/cluster_res.png}
-
-\vspace{0.1cm}
-\caption*{Notes:  This figure demonstrates one of the phone user's mobility patterns. The upper plot's x and y axis represent the longitude and latitude, respectively. The lower plot shows the temporal span of each cluster where the x axis represents the timestamp and the y axis represents the cluster index. The point is colored by the cluster index.}
-\label{fig:cluster}
-\end{figure}
-
-
 \clearpage\newpage
 \section{Identification of Residential Shift and Its Timing}\label{sec:identification_of_residential_shift}
 Residential shift is identified if a user's home location changes.
@@ -393,110 +329,9 @@ A phone user $i \in V$ is a non-migrant associated with the group $\mathcal{G}_{
 \end{definition}
 
 
-Applying these definitions, we identify 1,274 migrants and 291,465 users who do not shift their residential locations throughout the sample period.
+Applying these definitions, we identify 1,274 migrants and 291,465 users who do not shift their residential locations throughout the sample period. For the detailed explanations on how criterions are set, please refer to the Section~\ref{sec:migrant_criterion}
 We require migrants to have only relocated once because among users who have multiple residential shifts, most of them have only gone through it once, accounting for 99.65\%.
-Besides, targeting these users can provide more pre-treatment periods for each residential shift, thereby making the parallel trend assumption easier to test.
-
-Longer distance migration should be more likely to have substantial impacts on mobility and mobile communication patterns so we restrict our discussions on inter-prefecture migrants. As Table \ref{tab:migration_sample} demonstrates, we don't lose too many migrants by restricting the definition of migrants to those crossing prefectures.
-
-\clearpage\newpage
-\begin{table}[htbp]
-% \vspace{0.2cm}
-\renewcommand{\arraystretch}{1.5}
-\setlength{\tabcolsep}{4mm}{}
-\centering
-\small
-\caption{Statistics of Migrants by the Month of Migration}
-\begin{tabular}{lcccccc} \hline
-& \multicolumn{3}{c}{Count of Migrants} & \multicolumn{3}{c}{Migration Distance} \\
-\cline{2-4} \cline{5-7}
-month & all & inter-pref. & ratio (\%) & all & inter-pref. & ratio (\%) \\ \hline
-Aug. 2013 & 2434 & 2006 & 82.42 & 134.8 & 157.11 & 116.55 \\
-Sep. 2013 & 974 & 797 & 81.83 & 135.82 & 159.25 & 117.25 \\
-Oct. 2013 & 451 & 311 & 68.96 & 119.01 & 158.83 & 133.46 \\
-Nov. 2013 & 363 & 247 & 68.04 & 101.0 & 137.35 & 135.99 \\
-Dec. 2013 & 305 & 231 & 75.74 & 132.15 & 164.7 & 124.63 \\
-Jan. 2014 & 448 & 338 & 75.45 & 128.04 & 160.78 & 125.57 \\
-Feb. 2014 & 594 & 458 & 77.1 & 116.56 & 142.44 & 122.2 \\
-Mar. 2014 & 594 & 443 & 74.58 & 118.48 & 148.91 & 125.68 \\
-Apr. 2014 & 675 & 519 & 76.89 & 129.55 & 160.28 & 123.72 \\
-May 2014 & 1520 & 1222 & 80.39 & 127.37 & 151.29 & 118.78 \\
-\hline
-
-\end{tabular}
-\label{tab:migration_sample}%
-
-\end{table}%
-
-\vspace{-3em}
-\begin{singlespace}
-\begin{footnotesize}
-\noindent Notes: The column all represents the count of migrants and migration distance are computed on the phone users who satisfy the first requirement of migrants. Therefore, they don't necessarily change their home locations to another prefecture. The column, inter-pref., means statistics are computed on the phone users who satisfy the first and second requirement of migrants. Moreover, the unit of distance is in kilometers.
-\end{footnotesize}
-\end{singlespace}
-
-The treatment timing varies across users who have once changed their residential locations, but we select those who migrate in the middle of the sample period, i.e., $g \in \{4,5,6,7\}$.
-For these users, we have higher confidence level to safely classify them as migrants in that the temporal sizes of the two home clusters are comparable.
-For example, if the residential shift takes place in September 2013, then the first cluster's temporal size is about a month while the second cluster's temporal size is very likely to be greater than a month with a maximum of 9 months.
-In this case, the two home clusters are obviously not comparable in terms of the temporal sizes, so we are less confident to classify this user as a migrant because the first cluster may be a short visit, and the first timestamp associated with the second home cluster might be even earlier, outside the sample period.
-We call this kind of issue observation window bias, which results from the pre-determined observation time frame where the accumulation of information for inference is insufficient.
-Referring to Table \ref{tab:migration_sample}, it seems that there are many users relocating in the early and late period of the sample period, highlighting the importance to restrict the definition of migrants to those relocate in the middle of the sample period.
-Besides, restricting migrants to those who relocate in the middle of the sample period doesn't substantially distort the origin-destination distribution, as the KL-divergence is about 0.35, which is calculated by comparing the origin-destination distribution of inter-prefecture migrants who migrate in the middle of the sample period to that of migrants who migrate in all months.
-
-We can define some parameters to rule out users who have incomparable temporal sizes of home clusters, for example, requiring the temporal sizes of the home clusters or even the ratio between them to be greater than thresholds.
-Nonetheless, as aforementioned, it's not necessary to define such parameters.
-We can simply follow the patterns of the data and conduct restrictive sample selection to validate the robustness of the results.
-Moreover, even if these parameters are defined, they are not employed to reduce methodological error—like other existing methods to identify residential shift mentioned in Section~\ref{sec:2_residential_shift_and_internal_migration}.
-Rather, it's a decision on how much we should trust the patterns
-
-% \textbf{Q: What the difference between the complete migrant sample and subsample?}
-
-Table \ref{tab:non_migrant_migrant_comparison} presents the sample statistics of our final selection on migrants, compared to the non-migrant groups.
-We can see that migrants' characteristics differ slightly between the complete migrant sample and the subsample including only those who migrate in the middle of sample period.
-The differences in demographic features compared to non-migrants are larger for the subsample migrants than for the complete migrant sample, while the differences in phone-related characteristics compared to non-migrants are smaller for the subsample migrants.
-
-% \textbf{Q: What the difference between the migrants and non-migrants?}
-
-Examining Panel B more closely, as we define the treatment group for analysis as those who migrate across prefectures during the middle of the sample period.
-Compared to non-migrants, these migrants tend to be younger and have a higher probability of being male, with a lower likelihood of being born in Deyang city.
-Furthermore, they own slightly better phone devices and a higher fraction of them use smartphones.
-Although the imbalance of pre-treatment covariates is significant, the scale of differences seems to be small.
-
-\begin{table}[htbp]
-\vspace{0.3cm}
-\renewcommand{\arraystretch}{1.6}
-\setlength{\tabcolsep}{1mm}{}
-\centering
-\small
-\caption{Balance of Pre-Treatment (Residential Shifts) Covariates}
-
-\begin{tabular}{lcccc} \hline
-Variable & Non-Migrant & Migrant & Difference & p-value \\ \hline
-\textit{Panel A: Inter-Prefecture Migrants, Any} \\
-age & 40.87 & 36.67 & -4.2 & 0.0 \\
-male flag & 0.66 & 0.68 & 0.02 & 0.0001 \\
-born in Deyang flag & 0.82 & 0.65 & -0.17 & 0.0 \\
-(max) phone price & 954.72 & 1059.87 & 105.15 & 0.0 \\
-(max) smartphone flag & 0.65 & 0.77 & 0.12 & 0.0 \\ \hline
-
-\textit{Panel B: Inter-Prefecture Migrants, Middle Period} \\
-age & 40.87 & 35.56 & -5.31 & 0.0 \\
-male flag & 0.66 & 0.71 & 0.05 & 0.0001 \\
-born in Deyang flag & 0.82 & 0.61 & -0.21 & 0.0 \\
-(max) phone price & 954.72 & 1011.0 & 56.28 & 0.0234 \\
-(max) smartphone flag & 0.65 & 0.74 & 0.09 & 0.0 \\ \hline
-
-\end{tabular}
-
-\label{tab:non_migrant_migrant_comparison}%
-\end{table}%
-
-\vspace{-2em}
-\begin{singlespace}
-\begin{footnotesize}
-\noindent Notes: (i) Panel A presents statistics for phone users who meet the first two requirements of the migrant definition outlined in Definition \ref{def:migrants} without restricting the migration timeframe, while Panel B analyzes data based on the complete migrant definition, limiting inter-prefecture migrants to those who migrated between November 2013 and February 2014. (ii) The variables include: male flag, a binary indicator of user gender; born in Deyang flag, a binary variable indicating whether the user was born in Deyang prefecture; and (max) phone price, and (max) smartphone flag, which are time-variant variables constructed using data before November 2013 to examine pre-treatment covariates. (iii) Since phone users may have changed devices or own multiple phone devices between August 2013 and October 2013,(max) phone price represents the highest price among all phones a user owned during this period, and (max) smartphone flag indicates whether a user ever owned a smartphone during this period.
-\end{footnotesize}
-\end{singlespace}
+Besides, longer distance of residential movements should be more likely to have substantial impacts on mobility and mobile communication patterns so we restrict our discussions on inter-prefecture migrants. As Table \ref{tab:migration_sample} demonstrates, we don't lose too many migrants by restricting the definition of migrants to those crossing prefectures.
 
 
 
@@ -514,7 +349,6 @@ A phone user $i \in V$ is a smartphone adopter associated with group $\mathcal{G
 
 This definition rules out phone users who have multiple cellphones, and constantly switch between smartphone and non-smartphone devices.
 As defining migrants, we require the events to happen in the middle of the sample period to confirm the reliability of the adoption event, avoiding the observation window bias.
-Besides, there are also more periods left for us to inspect the ATT dynamics.
 
 \begin{definition}[Non-Smartphone User]
 A phone user $i \in V$ is a non-smartphone user associated with group $\mathcal{G}_{\infty}$ if user $i$ consistently uses non-smartphone devices throughout the sample periods.
@@ -524,68 +358,6 @@ Applying these definitions, we identify 81,949 users who consistently use non-sm
 We reuse the notations: \( \mathcal{G}_g \) and \( \mathcal{G}_{\infty} \) to denote the treated and non-treated cohorts.
 
 
-\begin{figure}[h!]
-\centering
-\caption{Number of Phone Users Upgrading to Smartphones by Month}
-\vspace{0.1cm}
-
-\includegraphics[scale=0.51]{figures/number_of_smartphone_adopters.png}
-
-
-% \caption*{Notes: .}
-\label{fig:number_of_smartphone_changers}
-\end{figure}
-
-The above figure shows the counts of smartphone adopters for each month. Generally, there are few differences across months, except a notable increase in September 2013, owing to the observation window bias.
-
-% \clearpage\newpage
-Table~\ref{tab:non_changer_changer_comparison} shows that smartphone adopters who upgrade during middle periods are largely similar to those upgrading during any month of the sample period, with the exception of owning slightly less expensive devices.
-This pattern may result from observation window bias.
-Panel A includes users who switch to smartphones during early sample periods, but we lack sufficient observation periods to verify their consistent use of non-smartphone devices before adoption.
-
-The definition of "changers" in Panel B of Table~\ref{tab:non_changer_changer_comparison} corresponds to our  formal definition of smartphone adopters presented in Definition~\ref{def:smartphone_adopter}.
-We can see that smartphone adopters are slightly younger, marginally more likely to be born outside Deyang prefecture (by approximately 2\%), and own more expensive non-smartphone phone devices (before adoption) compared to non-smartphone users.
-Besides, the age composition of the two groups shows no significant difference.
-Similar to the situation in residential shifts, the imbalance seems to be not obvious.
-
-% \clearpage\newpage
-\begin{table}[htbp]
-\vspace{0.5cm}
-\renewcommand{\arraystretch}{1.6}
-\setlength{\tabcolsep}{1.1mm}{}
-\centering
-\small
-\caption{Balance of Pre-Treatment (Smartphone Adoption) Covariates}
-\begin{tabular}{lcccc} \hline
-Variable & Non-Changers & Changers & Difference & p-value \\ \hline
-\textit{Panel A: Smartphone Adopters, Any} \\
-age & 44.7 & 41.68 & -3.02 & 0.0 \\
-male flag & 0.66 & 0.65 & 0.0 & 0.5039 \\
-born in Deyang flag & 0.86 & 0.83 & -0.03 & 0.0 \\
-(max) phone price & 409.9 & 706.11 & 296.22 & 0.0 \\ \hline
-
-\textit{Panel B: Smartphone Adopters, Middle Periods} \\
-age & 44.7 & 41.84 & -2.86 & 0.0 \\
-male flag & 0.66 & 0.66 & 0.0 & 0.8563 \\
-born in Deyang flag & 0.86 & 0.83 & -0.02 & 0.0 \\
-(max) phone price & 409.9 & 501.75 & 91.85 & 0.0 \\ \hline
-
-\end{tabular}
-\label{tab:non_changer_changer_comparison}%
-\end{table}%
-
-\vspace{-2em}
-\begin{singlespace}
-\begin{footnotesize}
-\noindent Notes: (i) The Changers refers to the smartphone adopters and non-changers mean non-smartphone users. (ii) The Panel A compares pre-treatment covariates between smartphone adopters (upgrading in any month) and non-smartphone users. Panel B examines the same comparison but restricts smartphone adopters to those upgrading between November 2013 and February 2014. (iii) The pre-treatment covariates are crafted in the same way with Table \ref{tab:non_migrant_migrant_comparison}.
-\end{footnotesize}
-\end{singlespace}
-
-
-
-
-
-\clearpage\newpage
 \section{Construction of Outcome Variables}
 Our outcomes of interest contain two groups: mobile communication and human mobility features.
 For each group, we craft three kinds of features to study the effects of residential shift and smartphone adoption on these outcome variables.
@@ -711,7 +483,7 @@ For instance, count-weighted eccentricity versus temporal-size-weighted eccentri
 
 In the following text, we will operate on the empirical probability vector $\hat{p}_{i, m} \in \mathbb{R}^{\lvert B_{i, m} \rvert}$, where each entry $\hat{p}_{i, m, b}$ corresponds to the empirical probability of base station $b \in B_{i, m}$ and can be computed using either the temporal size approach ($\hat{p}^{\mu}_{i, m, b}$) or the traditional call count approach ($\hat{p}^{T}_{i, m, b}$).
 
-\clearpage\newpage
+% \clearpage\newpage
 \begin{figure}[ht!]
 % \vspace{1cm}
 \centering
@@ -757,7 +529,6 @@ The radius of gyration $(r_g)_{i, m}$ for user $i$ in month $m$ is defined by:
 Notably, it takes the form of a root-mean-square distance, as it's borrowed from physics, and the intuition is that we are thinking of users as orbiting around the center of mass $(r_c)_{i, m}$.
 
 
-\clearpage\newpage
 \begin{definition}[Movement Entropy]
 The movement entropy $me_{i, m}$, where $me$ stands for movement entropy, for user $i$ in month $m$ is defined by:
 \[
@@ -791,14 +562,14 @@ where $\lambda_{i, m, 1}$ is the major eigenvalue of $\hat{\Sigma}_{i, m}$ and $
 \end{definition}
 
 The sample variance-covariance matrix $\hat{\Sigma}_{i, m}$ is constructed in two steps.
-First, compute the demeaned location matrix:
-\[
+First, compute the demeaned location matrix
+\(
 \tilde{L}_{i, m}
 =
 L_{i, m}
 -
 \mathbf{1}\hat{\mu}_{i, m}^{'}
-\]
+\)
 where $\mathbf{1} \in \mathbb{R}^{\lvert B_{i, m} \rvert }$ is a vector of ones and $\hat{\mu}_{i, m}$ is the sample mean, which is equivalent to $(r_c)_{i, m}$.
 Then, the sample variance-covariance matrix is defined by:
 \[
@@ -831,87 +602,11 @@ where $\text{Diag}(\hat{p}_{i, m})$ is the diagonal matrix with the probability 
 
 \clearpage\newpage
 \section{Empirical Strategy}
-In this section, we introduce the concept of potential outcome framework and the average treatment effect on the treated (ATT) to formalize our research question.
-As a straightforward and ideal definition, ATT provides clear guidance on what should be estimated, and it could be obtained through the DiD design.
-We will elaborate on what specific estimation approach we adopt and the corresponding motivations in this section.
-Moreover, the estimation approach comes with various possible setups, and we explain which are the most suitable for us.
-
-% \textbf{Q: What empirical strategy do you use? Why do you use it?}
-
-As we are interested in the effects of residential shifts and smartphone adoption on human mobility patterns and mobile communication behaviors, we formalize our research questions as follows: what are the magnitudes of differences in mobility and communication behaviors for individuals who receive these treatments compared to a counterfactual scenario where they never experienced them?
-The magnitudes of differences are so-called treatment effects, and treatments in this study are either residential shifts or smartphone adoption events. Given that many individuals in our sample receive the treatment, it is natural to focus on average treatment effects rather than individual-level effects.
-Moreover, since our primary interest lies in understanding how these life events specifically impact those who experience them---addressing the counterfactual question "what would have happened if they had not been treated?"---we focus on the treatment effects on the treated specifically as our primary causal parameter of interest.
-
-\clearpage\newpage
-ATT can be formalized as follows. Suppose a treatment occurs in period $t$. ATT is given by:
-\[
-ATT = \mathbb{E}[Y_{i, t} - Y_{i, t}(\infty) | D_i = 1]
-\]
-where \( D_i \) is a binary variable indicating whether an individual \( i \) is treated, $Y_{i, t}$ is the observed outcome in period $t$, and $Y_{i, t}(\infty)$ is the counterfactual untreated outcome. Examining how ATT evolves over time provides an additional dimension for analysis, and given these motivations, DiD with the design of multiple periods (also known as the event study) is an ideal econometric approach.
-
-% \textbf{For some of those who are not familiar with DiD, give a brief introduction}
-
-The intuition of DiD is that simply comparing treated and untreated units at a single point in time may be misleading because these groups might differ in unobservable ways. Similarly, comparing the same units before and after treatment might confound the treatment effect with general time trends that would have occurred regardless of treatment.
-DiD solves this problem by using a "double comparison." Suppose the treatment occurs in time period \( t \), and first, it compares the change in outcomes for the treated group over time:
-\[
-\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
-\]
-Second, it compares this change to the change observed in a control group over the same period:
-\[
-\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
--
-\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 0]
-\]
-Besides, what makes the DiD design prevalent in empirical study is that it has good theoretical implication in that if we assume parallel trends in counterfactual untreated outcomes:
-\[
-\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 1]
--
-\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 0],
-\]
-then the double comparison can recover ATT:
-\begin{align*}
-&\underbrace{
-    \mathbb{E}[Y_{i, t} - Y_{i, t}(\infty) | D_i = 1]
-}_{
-    ATT
-}
-\\
-&
-=
-\mathbb{E}[
-    Y_{i, t}
-    \mid D_i = 1
-]
-\\
-&\quad\quad
--
-\underbrace{
-    (
-    \mathbb{E}[Y_{i, t-1}(\infty) \mid D_i = 1]
-    +
-    \mathbb{E}[Y_{i, t}(\infty)
-        - Y_{i, t-1}(\infty) \mid D_i = 1]
-    )
-}_{
-    =\mathbb{E}[Y_{i, t}(\infty) \mid D_i = 1]
-}
-\\
-&=
-\mathbb{E}[Y_{i, t} - Y_{i, t-1}(\infty) \mid D_i = 1]
--
-\underbrace{\mathbb{E}[Y_{i, t}(\infty) - Y_{i, t-1}(\infty) \mid D_i = 0]}_{\text{due to parallel trends}}
-\\
-&=
-\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 1]
--
-\mathbb{E}[Y_{i, t} - Y_{i, t-1} \mid D_i = 0].
-\end{align*}
-Note that observed outcomes are equivalent to counterfactual untreated outcomes for all untreated units in both period $t-1$ and $t$, and the equivalence also holds for treated units at period $t-1$.
-
-The above example represents the canonical \( 2 \times 2 \) DiD design, which involves exactly two groups and two time periods.
+\nameref{sec:appendix_preliminary_did} has a brief introduction on the canonical \( 2 \times 2 \) DiD design, which involves exactly two groups and two time periods.
 To examine treatment effect dynamics over multiple periods, we generalize the double comparison approach by selecting a baseline reference period---which corresponds to \( t-1 \) in the $2 \times 2$ DiD case---and then applying the DiD methodology to estimate treatment effects for each subsequent period relative to this reference point.
 DiD with multiple periods is also called event study, and we use these terms interchangeably.
-Conventionally, practitioners will utilize the two-way fixed effects specification to facilitate the ATT estimation in each period. Furthermore, the canonical \( 2 \times 2 \) setup assumes static treatment timing, where all treated units receive treatment simultaneously. However, our empirical setting are different in the sense that treatment units become treated at different periods. This variation in treatment timing introduces additional complexity, and several econometrics tools have proposed to address this issue.
+Conventionally, practitioners will utilize the two-way fixed effects specification to facilitate the estimation of average treatment effect on the treated in each period. Furthermore, the canonical \( 2 \times 2 \) setup assumes static treatment timing, where all treated units receive treatment simultaneously. However, our empirical setting are different in the sense that treatment units become treated at different periods. This variation in treatment timing introduces additional complexity, and several econometrics tools have proposed to address this issue.
+
 
 % \textbf{Put the focus on the staggered DiD and provide a stylized fact by checking the outcomes' evolution paths}
 
@@ -1057,17 +752,17 @@ The parallel trend assumption stated in Definition \ref{def:parallel_trend} is e
 \begin{equation}\label{eq:parallel_trend_general_first}
 \mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid G_{i, g} = 1]
 =
-\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid G_{i, \infty} = 1],
+\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1}(\infty) \mid G_{i, \infty} = 1].
 \end{equation}
-and it can be further simplified to:
-\begin{equation}\label{eq:parallel_trend_general}
-\mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1} \mid G_{i, g} = 1]
-=
-\mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1].
-\end{equation}
+% and it can be further simplified to:
+% \begin{equation}\label{eq:parallel_trend_general}
+% \mathbb{E}[Y_{i, m}(\infty) - Y_{i, g-\delta-1} \mid G_{i, g} = 1]
+% =
+% \mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1].
+% \end{equation}
 Equation \ref{eq:parallel_trend_general_first} can be obtained from Equation \ref{eq:parallel_trend} by adding all parallel trend equality in post-treatment periods and by the end, $Y_{i, g-\delta-1}(\infty)$ appears, which is observable since $Y_{i, g-\delta-1}(\infty) = Y_{i, g-\delta-1}$. As mentioned in \cite{roth2023s}, for the ATT in the longer periods after treatment to be identifiable, a stronger assumption needs to be imposed.
 
-With equation \ref{eq:parallel_trend_general}, $\mathbb{E}[Y_{i, m}(\infty) \mid G_{i, g} = 1]$ becomes identifiable:
+With equation \ref{eq:parallel_trend_general_first}, $\mathbb{E}[Y_{i, m}(\infty) \mid G_{i, g} = 1]$ becomes identifiable:
 \begin{align}
 \mathbb{E}[Y_{i, m}(\infty) \mid G_{i, g} = 1]
 &=
@@ -1096,7 +791,6 @@ With equation \ref{eq:parallel_trend_general}, $\mathbb{E}[Y_{i, m}(\infty) \mid
 \mathbb{E}[Y_{i, m} - Y_{i, g-\delta-1} \mid G_{i, \infty} = 1].
 \end{align}
 
-\clearpage\newpage
 Then, group-time ATT can be derived by:
 \begin{align} \label{eq:att_gt_full}
 ATT(g, m)
@@ -1156,6 +850,7 @@ Therefore, by examining the estimation results in pre-treatment periods, we can 
 
 % \textbf{Q: How to recover the event study from group-time ATT?}
 
+\clearpage\newpage
 After estimating the group-time ATT, we can recover the traditional event study through the following aggregation scheme provided by \cite{callaway2021difference}, which demonstrates the ATT after $e$ month of the treatment:
 \begin{equation}\label{eq:event_aggregation}
 \theta(e) = \sum_{g=4}^7 \mathbb{P}(G_{i, g} = 1) ATT(g, g+e) 1[g+e <= 10]
