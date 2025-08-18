@@ -2,6 +2,13 @@
 
 \chapter{Data and Methods}
 \section{Datasets}
+
+
+We have three datasets: CDRs (see Table~\ref{tab:example_cdr}), coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc.
+Three datasets are provided by China Telecom, one of the three telecommunications service providers in China.
+Call records are located in Sichuan Province, and the majority of them are located in Deyang Prefecture.
+
+
 \begin{table}[htbp]
 % \vspace{0.3cm}
 \renewcommand{\arraystretch}{1.6}
@@ -36,8 +43,7 @@ njo45k8v & 46.0 & 2013-08-31 09:36:03 & 2013-08-31 09:36:49 & 8yro82d5 & njo45k8
 \end{footnotesize}
 \end{singlespace}
 
-We have three datasets: CDRs, coordinates of telecom base stations, and one that contains phone users' profile features, such as age, gender, phone brand, service type, etc.
-Call records are located in Sichuan Province, China, and the majority of them are located in Deyang Prefecture.
+
 By joining call records with coordinate data on cell IDs and then grouping by user phone numbers, we can obtain a set of geographic locations associated to each phone user from August 2013 to May 2014, which serve as the location approximation of users.
 User profile data is uncommonly available due to privacy issues but critical for selecting samples of interest in CDR-based analysis.
 When constructing various mobility and mobile communication features or estimating residential coordinates, we want the samples to be consistently observable throughout the whole sample period, i.e., they don't cancel or register service in the middle of the sample period, to avoid spurious analysis due to too many missing records.
@@ -114,21 +120,23 @@ B^{\text{night}}_i := \{
 
 
 \section{Home Location Estimation}\label{sec:estimation_of_residential_location}
+% (Introduction)
+This section aims at introducing how phone users' home locations are estimated, and Figure~\ref{fig:pipeline_home_location} presents all the steps for completing the task.
+Before directly diving into how our proposed estimation works, we provide a brief preliminary introduction to the issues and limitations of using CDRs to locate user locations, which motivates the use of spatial clustering.
+
+
 \begin{figure}[h!]
 \centering
 \caption{Pipeline for Estimating A Phone User's Home Locations}
 \vspace{0.1cm}
 
-\includegraphics[scale=0.088]{figures/pipeline_home_locations.png}
-
+% \includegraphics[scale=0.088]{figures/pipeline_home_locations.png}
+\includesvg[scale=0.15]{figures/pipeline_home_locations.svg}
 
 % \caption*{Notes: .}
 \label{fig:pipeline_home_location}
 \end{figure}
 
-% (Introduction)
-This section aims at introducing how phone users' home locations are estimated, and Figure~\ref{fig:pipeline_home_location} presents all the steps for completing the task.
-Before directly diving into how our proposed estimation works, we provide a brief preliminary introduction to the issues and limitations of using CDRs to locate user locations, which motivates the use of spatial clustering.
 
 % (Basic terminology and load sharing concept)
 To establish our terminology, we use "call event" to refer to mobile communication established through a single phone call.
@@ -424,7 +432,7 @@ Employing call duration as weights for social ties is not a common practice, and
 \caption{Pipeline of Constructing Contact Distance}
 \vspace{0.1cm}
 
-\includegraphics[scale=0.091]{figures/pipeline_mean_contact_distance.png}
+\includesvg[scale=0.15]{figures/pipeline_contact_distance.svg}
 
 
 % \caption*{Notes: .}

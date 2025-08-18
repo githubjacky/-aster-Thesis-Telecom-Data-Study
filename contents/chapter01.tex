@@ -1,30 +1,32 @@
 % !TeX root = ../main.tex
 \chapter{Introduction}
 We employ call detailed records (CDRs) to study human mobility patterns and mobile communication behavior.
-Individuals move and interact with others on a daily basis, and CDRs record mobility and communication behaviors at nearly the individual level---that is, observation units are phone numbers rather than actual phone users---facilitating flexible aggregations across multiple hierarchies based on practitioners' needs for answering various research questions.
+Individuals move and interact with others on a daily basis, and CDRs record mobility and communication behaviors at the individual level, facilitating flexible aggregations across multiple hierarchies based on practitioners' needs for answering various research questions.
 Macro patterns of mobility and communication behaviors revealed in CDRs can provide significant policy implications across multiple domains.
 For instance, mobility patterns derived from CDRs can inform urban transportation planning by revealing commuting flows (\cite{phithakkitnukoon2012socio}) and peak travel times (\cite{tongsinoot2017exploring}), enabling policymakers to optimize public transit routes and schedules.
 During public health emergencies, CDR mobility data can help design targeted lockdowns by estimating transmission flows (\cite{wesolowski2016connecting}) or identifying high-risk  residential neighborhoods for restrictions while keeping essential services and supply chains operational.
-Additionally, phone usage patterns can identify digital divides and socioeconomic disparities (\cite{onnela2007structure}, \cite{blumenstock2015predicting}) in mobile service usage, helping governments decide where to build better networks and support underserved communities.
+Additionally, phone usage patterns can be utilized to identify digital divides and socioeconomic disparities (\cite{onnela2007structure}, \cite{blumenstock2015predicting}), helping governments decide where to build better networks and support underserved communities.
 
-We summarize mobility and mobile communication behaviors using six features, with each behavior characterized by three features.
+We characterize mobility and mobile communication behaviors, each with three features.
 For mobility, we curate radius of gyration (\cite{gonzalez2008understanding}, \cite{ranjan2012call}, \cite{pappalardo2015returners}), movement entropy (\cite{eagle2010network}, \cite{song2010limits}, \cite{pappalardo2016analytical}) and eccentricity (\cite{yuan2012correlating}, \cite{zhao2019effect}), which seeks to measure the spatial dispersion of travel, the diversity of human movement, and how closely the spatial distribution of locations resembles an ellipse, respectively.
 To characterize mobile communication patterns, we construct total call duration, contact entropy (\cite{eagle2010network}, \cite{pappalardo2016analytical}), and contact distance, which quantify the differentials in relationship intensities across contacts, the diversity of mobile interactions, and the spatial reach of social interactions, respectively.
 
-While we did not invent these features, we improved them by incorporating the load sharing mechanism that is prevalent in the telecommunication industry, containing two components: load balancing (\cite{ayesha2019user}) and handover (\cite{marquez2011overview}).
+We enhanced the conventional measurements of these features by incorporating a load sharing mechanism prevalent in the telecommunication industry, which comprises two components: load balancing (\cite{ayesha2019user}) and handover (\cite{marquez2011overview}).
 Two issues arise with the load sharing mechanism.
 First, the telecom base station handling a call event may not always be the closest one to the user (\cite{yuan2012correlating}).
 % That is, even if a user initiates or receives calls at the same location, such as at home, the telecom base station serving the call may vary.
 Second, a single call communication can generate multiple call records due to the change of telecom base station processing that call.
 Ignoring the load sharing mechanism can introduce biases when inferring users' significant locations based on the staying frequency and the intensities of social ties characterized by mobile communication.
 Therefore, we make methodological contributions by proposing that the randomness of mobile interactions should be modeled using relative call duration rather than the number of calls, and that the randomness of location stays should be modeled using the relative number of days a particular base station handles calls rather than the total number of call events it processes.
-Besides, we also apply DBSCAN, a machine learning clustering algorithm, to mitigate localization errors (\cite{ayesha2019user}), thereby improving the robustness of home location estimation.
+Besides, we also apply DBSCAN (\cite{ester1996density}), a machine learning clustering algorithm, to mitigate localization errors (\cite{ayesha2019user}), thereby improving the robustness of home location estimation.
 
 CDRs are already heavily utilized in human mobility research (\cite{gonzalez2008understanding}, \cite{song2010limits}, \cite{wesolowski2016connecting}) and social network analysis (\cite{onnela2007structure}, \cite{cho2011friendship}, \cite{referral_effect_2023aer}).
 However, the majority of research focuses on modeling statistical properties of these behavioral features or examining correlations between social networks and mobility.
-We delve into a novel research topic that examines micro-level interactions instead of inspecting correlations between macro patterns while still providing aggregate implications. Specifically, we identify significant treatments that substantially influence mobility and communication behaviors, followed by treatment effect identification that examines how effects on behavioral features unfold over time through a difference-in-differences (DiD) design with multiple periods and variation in treatment timing.
+% We delve into a novel research topic that examines micro-level interactions instead of inspecting correlations between macro patterns while still providing aggregate implications. Specifically, we identify significant treatments that substantially influence mobility and communication behaviors, followed by treatment effect identification that examines how effects on behavioral features unfold over time through a difference-in-differences (DiD) design with multiple periods and variation in treatment timing.
+We delve into a novel research topic that first derives large-scale significant events from telecommunication data and subsequently inspects how effects of events on mobility and mobile communication behaviors unfold over time through a difference-in-differences (DiD) design with multiple periods and variation in treatment timing.
 
-The two treatments are residential shifts and smartphone adoption, and the treatment effect dynamics are estimated through an approach proposed by \cite{callaway2021difference}, which is robust to heterogeneous effects over time and across treatment-timing groups.
+The two derived events include residential shifts and smartphone adoption, and in the context of DiD, they can also be referred to as "treatments," which is the standard terminology in causal inference research for any event or intervention being analyzed, not limited to medical or policy contexts.
+Therefore, their effects can also be called treatment effects, and the treatment effect dynamics are estimated through an approach proposed by \cite{callaway2021difference}, which is robust to heterogeneous effects over time and across treatment-timing groups.
 We found that there is a temporary surge in total call duration and contact distance during the month of relocation, arising from migrants' attempts to contact geographically distant social connections.
 Moreover, during this same period, migrants engage in more diversified social interactions, however, following the completion of relocation, migrants tend to spend less time on mobile communication with less diversified interactions.
 On the other hand, radius of gyration substantially increases contemporaneously with the completion of residential relocation, while the effect quickly fades in the following months.
@@ -39,5 +41,5 @@ Mobile technology updates contain network infrastructure upgrades (2G to 3G to 4
 
 The remaining content is structured as follows. Chapter two provides a literature review on internal migration and estimating home locations and identifying residential shifts through CDRs.
 Chapter three introduces our data sources, how we identify residential shifts and smartphone adoption, and how various behavioral features are constructed.
-Chapter four explains how we assure the existence of anticipation and numerous intuitions from the estimation results.
+Chapter four explains numerous intuitions of the estimation results.
 Finally, Chapter five delves into the summary, limitations, and future work of this study.
