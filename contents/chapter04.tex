@@ -1,17 +1,7 @@
 % !TeX root = ../main.tex
 
 \chapter{Results}\label{results}
-\section{Outcomes of Interest}
-Although we can construct the mobile communication network features based on two directions of mobile communication---incoming and outgoing---we will focus on the outgoing direction as the variation in outgoing-based features may be more sensitive to the factors directly linked to the treated units themselves.
-Moreover, through observing Figures in \nameref{appendix_event_centered_trends}, where various outcomes' paths during the whole sample period are plotted, we can see that the evolution patterns typically don't have dramatical differences between outgoing and incoming communication.
-Therefore, when discussing the treatment effects of both residential shift and smartphone adoption, we will consider only the outgoing-based mobile communication features.
-For mobility features, although we propose a new weighting scheme to address the issue of spurious importance of telecom base stations for phone users, arising from the load sharing mechanism, it seems that mobility features' differences between two construction methods based on distinct weighting schemes are subtle (see \nameref{appendix_event_centered_trends}).
-Hence, we will adopt our proposed weighting scheme based on the concept of temporal size to compute the mobility features.
-All in all, outcomes consists of two groups: mobility features and mobile communication network features, and there are three outcomes in each group.
-The total of six outcomes focuses on capturing different aspects of human's mobility and mobile communication behavior.
-
-\section{Residential Shifts}\label{main_res_residential_shift}
-In the current and next section, we are going to analyze the estimation results of ATT with the delicately determined anticipation parameter (see \nameref{sec:anticipation}) and the assumption of unconditional PTA.
+We are going to analyze the estimation results of ATT with the delicately determined anticipation parameter (see \nameref{sec:anticipation}) and the assumption of unconditional PTA.
 To understand the magnitudes of the estimated effects, we will naively employ the mean outcome of the control group in September 2013 as the baseline for the context of residential shifts, while for smartphone adoption, the baseline will be that of October 2013.
 The confidence interval is constructed based on the 95\% significance level. We first analyze heterogeneous treatment effects across time periods.
 Specifically, we will approach with a hierarchical manner starting from the discussion of static versus time-variant treatment effects.
@@ -21,7 +11,8 @@ For the time-variant one, we can characterize it to be either transient or smoot
 A transient treatment effect over time represents an effect that instantly bounces back and forth to the baseline, while smoothly decaying is the other case, where the effect gradually fades away.
 Then, we can discuss the heterogeneous effect across treatment-timing groups by inspecting whether only few groups exhibit distinct patterns.
 
-
+\clearpage\newpage
+\section{Residential Shifts}\label{main_res_residential_shift}
 \begin{figure}[h!]
 \centering
 \caption{Aggregated Event Study of Residential Shifts}
@@ -73,8 +64,9 @@ Movement entropy and eccentricity evolve in an extreme pattern where migrants in
 This is characterized by a dramatic shift from 0.32 above the entropy baseline of 0.67 (a 47\% increase) and 0.32 above the eccentricity baseline of 0.82 (a 39\% increase) during relocation month, to -0.06 (9\% below baseline) and -0.08 (10\% below baseline) respectively by the third month post-relocation. The intuition is that when moving to a new environment, a migrant might be actively exploring but have limited knowledge, resulting in exploration along a fixed axis. As time passes, exploration patterns settle down, and they mainly visit a few places located in various directions, creating a more balanced and predictable spatial distribution.
 
 % In conclusion, residential shifts produce distinct anticipation effects between communication and mobility domains, with mobility patterns showing more pronounced responses than communication behaviors.
-Both groups of features seem to be continuously evolving to negative states. To better understand the evolving paths of various features across treatment-timing groups, please refer to \nameref{complete_group_time_att_dynamics}.
+% Both groups of features seem to be continuously evolving to negative states. To better understand the evolving paths of various features across treatment-timing groups, please refer to \nameref{complete_group_time_att_dynamics}.
 
+% \clearpage\newpage
 \section{Smartphone Adoption}
 \begin{figure}[h!]
 \centering

@@ -390,7 +390,7 @@ A call record $r \in R$ where $r = (i, j, t, b)$ for some $i, j \in V, t \in T$ 
 \end{definition}
 
 Note that the mobile communication network is a kind of directed network---i.e., for example, a user $i$ calls $j$ and $j$ calls $i$ are considered as two edges, whereas this would be considered as a single edge in an undirected graph. Besides, the edges are weighted by the underlying call duration (in minutes). Since mobile communication is directed, we can naturally build relevant features based on distinct communication directions.
-To avoid redundantly defining the same features for both incoming and outgoing calls, we will illustrate the feature definitions using outgoing calls as examples.
+However, we will focus on the outgoing direction as the variation in outgoing-based features may be more sensitive to the factors directly linked to the treated units themselves.
 
 After constructing the mobile communication network by month, directional call duration for a user \( i \in V \) in a given month \( m \in \mathcal{M} \) is computed by separately aggregating incoming and outgoing calls' duration.
 Contact entropy is constructed based on the Shannon entropy normalized by the logarithm of the number of contacts for a user $i$ in a given month $m$.
@@ -569,44 +569,45 @@ ecc_{i, m}
 where $\lambda_{i, m, 1}$ is the major eigenvalue of $\hat{\Sigma}_{i, m}$ and $\lambda_{i, m, 2}$ is the minor one.
 \end{definition}
 
-The sample variance-covariance matrix $\hat{\Sigma}_{i, m}$ is constructed in two steps.
-First, compute the demeaned location matrix
-\(
-\tilde{L}_{i, m}
-=
-L_{i, m}
--
-\mathbf{1}\hat{\mu}_{i, m}^{'}
-\)
-where $\mathbf{1} \in \mathbb{R}^{\lvert B_{i, m} \rvert }$ is a vector of ones and $\hat{\mu}_{i, m}$ is the sample mean, which is equivalent to $(r_c)_{i, m}$.
-Then, the sample variance-covariance matrix is defined by:
-\[
-\hat{\Sigma}_{i, m}
-=
-\kappa_{i, m} (
-    \tilde{L}_{i, m}'
-    \text{Diag}(\hat{p}_{i, m})
-    \tilde{L}_{i, m}
-)
-\]
-where $\text{Diag}(\hat{p}_{i, m})$ is the diagonal matrix with the probability weights $\hat{p}_{i, m}$ on its diagonal, and $\kappa_{i, m}$ is the bias-correction factor, where
-\[
-\kappa_{i, m} =
-\begin{cases}
-\frac{
-\sum_{b \in B_{i, m}} \mu(T_{i, m, b})
-}{
-\left( \sum_{b \in B_{i, m}} \mu(T_{i, m, b}) \right) - 1
-} & \text{if } \hat{p}_{i, m, b} = \hat{p}^{\mu}_{i, m, b}, \\[0.5em]
-\frac{
-\sum_{b \in B_{i, m}} |T_{i, m, b}|
-}{
-\left( \sum_{b \in B_{i, m}} |T_{i, m, b}| \right) - 1
-} & \text{otherwise}.
-\end{cases}
-\]
+% The sample variance-covariance matrix $\hat{\Sigma}_{i, m}$ is constructed in two steps.
+% First, compute the demeaned location matrix
+% \(
+% \tilde{L}_{i, m}
+% =
+% L_{i, m}
+% -
+% \mathbf{1}\hat{\mu}_{i, m}^{'}
+% \)
+% where $\mathbf{1} \in \mathbb{R}^{\lvert B_{i, m} \rvert }$ is a vector of ones and $\hat{\mu}_{i, m}$ is the sample mean, which is equivalent to $(r_c)_{i, m}$.
+% Then, the sample variance-covariance matrix is defined by:
+% \[
+% \hat{\Sigma}_{i, m}
+% =
+% \kappa_{i, m} (
+%     \tilde{L}_{i, m}'
+%     \text{Diag}(\hat{p}_{i, m})
+%     \tilde{L}_{i, m}
+% )
+% \]
+% where $\text{Diag}(\hat{p}_{i, m})$ is the diagonal matrix with the probability weights $\hat{p}_{i, m}$ on its diagonal, and $\kappa_{i, m}$ is the bias-correction factor, where
+% \[
+% \kappa_{i, m} =
+% \begin{cases}
+% \frac{
+% \sum_{b \in B_{i, m}} \mu(T_{i, m, b})
+% }{
+% \left( \sum_{b \in B_{i, m}} \mu(T_{i, m, b}) \right) - 1
+% } & \text{if } \hat{p}_{i, m, b} = \hat{p}^{\mu}_{i, m, b}, \\[0.5em]
+% \frac{
+% \sum_{b \in B_{i, m}} |T_{i, m, b}|
+% }{
+% \left( \sum_{b \in B_{i, m}} |T_{i, m, b}| \right) - 1
+% } & \text{otherwise}.
+% \end{cases}
+% \]
 
-
+Although we propose a new weighting scheme to address the issue of spurious importance of telecom base stations for phone users, arising from the load sharing mechanism, it seems that mobility features' differences between two construction methods based on distinct weighting schemes are subtle (see \nameref{appendix_event_centered_trends}).
+Hence, we will adopt our proposed weighting scheme based on the concept of temporal size to compute the mobility features.
 
 \clearpage\newpage
 \section{Empirical Strategy}
