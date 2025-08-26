@@ -1,9 +1,11 @@
 % !TeX root = ../main.tex
 
 \chapter{Results}\label{results}
-We are going to analyze the estimation results of ATT with the delicately determined anticipation parameter (see \nameref{sec:anticipation}) and the assumption of unconditional PTA.
+The analysis of this section reports ATT estimation results with the rigorously determined anticipation parameter (see~\nameref{sec:anticipation}) under the assumption of unconditional PTA.
 To understand the magnitudes of the estimated effects, we will naively employ the mean outcome of the control group in September 2013 as the baseline for the context of residential shifts, while for smartphone adoption, the baseline will be that of October 2013.
-The confidence interval is constructed based on the 95\% significance level. We first analyze heterogeneous treatment effects across time periods.
+The confidence interval is constructed based on the 95\% significance level.
+
+We first analyze heterogeneous treatment effects across time periods.
 Specifically, we will approach with a hierarchical manner starting from the discussion of static versus time-variant treatment effects.
 The static treatment effect means the outcome is persistently shifted without fading back to the baseline level.
 In such situation, attribution includes upward or downward shift.
@@ -11,7 +13,12 @@ For the time-variant one, we can characterize it to be either transient or smoot
 A transient treatment effect over time represents an effect that instantly bounces back and forth to the baseline, while smoothly decaying is the other case, where the effect gradually fades away.
 Then, we can discuss the heterogeneous effect across treatment-timing groups by inspecting whether only few groups exhibit distinct patterns.
 
-\clearpage\newpage
+Regarding the test of PTA in pre-treatment periods, we can observe that in all figures in \nameref{appendix_event_centered_trends}, the treated group's re-centered mean outcome trajectories highly overlap with those of the control group in the pre-treatment periods.
+However, exceptions occur in specific treatment-timing cohorts for certain outcomes, raising some concerns about the plausibility of the PTA. Therefore, more rigorous test can be found in the estimation results in pre-treatment periods, demonstrated in the event study plots with confidence intervals.
+
+Lastly, in this section, we only report the aggregate event study plots over treatment-timing cohorts. For the exact estimated coefficients, please refer to~\nameref{complete_event_study_callaway}, and for event study plots specific to different treatment timing cohorts, please check the section:~\nameref{complete_group_time_att_dynamics}.
+
+
 \section{Residential Shifts}\label{main_res_residential_shift}
 \begin{figure}[h!]
 \centering
@@ -66,7 +73,7 @@ This is characterized by a dramatic shift from 0.32 above the entropy baseline o
 % In conclusion, residential shifts produce distinct anticipation effects between communication and mobility domains, with mobility patterns showing more pronounced responses than communication behaviors.
 % Both groups of features seem to be continuously evolving to negative states. To better understand the evolving paths of various features across treatment-timing groups, please refer to \nameref{complete_group_time_att_dynamics}.
 
-% \clearpage\newpage
+\clearpage\newpage
 \section{Smartphone Adoption}
 \begin{figure}[h!]
 \centering

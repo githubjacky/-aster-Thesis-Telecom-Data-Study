@@ -847,19 +847,12 @@ Note that statistical inference relies on the bootstrap procedure for standard e
 It is important to note that PTA is extremely crucial for identification, as the ATT becomes unidentifiable without it. This raises the question whether there exists a method to test this assumption.
 Typically, the assumption's plausibility is evaluated in the pre-treatment periods in an event study design.
 As in pre-treatment periods, the potential outcome of the never-treated $Y_{i, m}(\infty)$ is observable for all user $i$, and if the PTA holds in the pre-treatment periods, it might be relatively reasonable to claim that the parallel trend might also hold in post-treatment periods.
-
-That's the reason why we plot the treated group's trajectories of mean outcomes centered at the reference period $g-\delta-1$, along with those of the control group.
-% If in the pre-treatment periods, the treated group's trajectory highly overlaps with the control group's trajectory, it will be reasonable to claim that the parallel trend assumption holds in the pre-treatment periods.
-In all figures in \nameref{appendix_event_centered_trends}, we can see that the treated group's re-centered mean outcomes' trajectories highly overlaps with those associated to the control group's trajectory in the pre-treatment periods.
-However, exceptions occur in specific treatment-timing cohorts for certain outcomes, raising some concerns about the plausibility of the PTA.
-
 Moreover, given that the treatment is not confounded, and anticipation effects are correctly accounted for, if PTA holds, the estimated ATT in pre-treatment periods should be statistically insignificant.
 The intuition is that the treatment shouldn't take effects during pre-treatment periods and under PTA, treated units' outcome changes should be identical to the comparison group's changes over the same periods, yielding insignificant ATT estimation.
-Therefore, by examining the estimation results in pre-treatment periods, we can assess whether the PTA holds during the pre-treatment periods.
+Therefore, by examining the estimation results in pre-treatment periods, we can assess whether the PTA holds.
 
 % \textbf{Q: How to recover the event study from group-time ATT?}
 
-\clearpage\newpage
 After estimating the group-time ATT, we can recover the traditional event study through the following aggregation scheme provided by \cite{callaway2021difference}, which demonstrates the ATT after $e$ month of the treatment:
 \begin{equation}\label{eq:event_aggregation}
 \theta(e) = \sum_{g=4}^7 \mathbb{P}(G_{i, g} = 1) ATT(g, g+e) 1[g+e <= 10]
